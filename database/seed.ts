@@ -1,60 +1,86 @@
-import { database } from '../index';
+import { getRealm } from './index';
+import { v4 as uuidv4 } from 'uuid';
 
 export const seedDatabase = async () => {
-  const categoriesCollection = database.get('categories');
-  const cutsCollection = database.get('cuts');
+  const realm = await getRealm();
 
-  const existingCategories = await categoriesCollection.query().fetch();
-  if (existingCategories.length > 0) return; // already seeded
+  const existingCategories = realm.Object('Category');
+  if (existingCategories.length > 0) return;
 
-  await database.write(async () => {
+  const existingCuts = realm.Object('Cut');
+  if (existingCuts.length > 0) return;
+
+  const existingColors = realm.Object('Color');
+  if (existingColors.length > 0) return;
+
+  const existingTextiles = realm.Object('Textile');
+  if (existingTextiles.length > 0) return;
+
+  const existingOccasions = realm.Object('Occasion');
+  if (existingOccasions.length > 0) return;
+
+  realm.write(() => {
 
   // Categories ==============================================================
-    const longSleevesCategory = await categoriesCollection.create(cat => {
-      cat.category_name = 'Long-sleeves' ;
+    const longSleevesCategory = realm.create('Category', {
+      id: uuidv4(),
+      category_name: 'Long-sleeves',
+      cuts: [],
     });
 
-    const shortSleevesCategory = await categoriesCollection.create(cat => {
-      cat.category_name = 'Short-sleeves';
+    const shortSleevesCategory = realm.create('Category', {
+      id: uuidv4(),
+      category_name: 'Short-sleeves',
+      cuts: [],
     });
 
-    const bottomsCategory = await categoriesCollection.create(cat => {
-      cat.category_name = 'Bottoms';
+    const bottomsCategory = realm.create('Category', {
+      id: uuidv4(),
+      category_name: 'Bottoms',
+      cuts: [],
     });
 
-    const dressesCategory = await categoriesCollection.create(cat => {
-      cat.category_name = 'Dresses';
+    const dressesCategory = realm.create('Category', {
+      id: uuidv4(),
+      category_name: 'Dresses',
+      cuts: [],
     });
 
   // Cuts ====================================================================
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Slim Fit';
-      cut._raw.category_id = longSleevesCategory.id;
+    realm.create('Cut', {
+      id: uuidv4(),
+      cut_name: 'Slim-Fit',
+      category: longSleevesCategory,
     });
 
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Oversized';
-      cut._raw.category_id = longSleevesCategory.id;
+    realm.create('Cut', {
+      id: uuidv4().
+      cut_name: 'Oversized',
+      category: longSleevesCategory,
     });
 
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Slim Fit';
-      cut._raw.category_id = shortSleevesCategory.id;
+    realm.create('Cut', {
+      id: uuidv4(),
+      cut_name: 'Slim Fit',
+      category: shortSleevesCategory,
     });
 
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Oversized';
-      cut._raw.category_id = shortSleevesCategory.id;
+    realm.create('Cut', {
+      id: uuidv4(),
+      cut_name: 'Oversized',
+      category: shortSleevesCategory,
     });
 
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Regular';
-      cut._raw.category_id = bottomsCategory.id;
+    realm.create('Cut', {
+      id: uuidv4(),
+      cut_name: 'Regular',
+      category: bottomsCategory,
     });
 
-    await cutsCollection.create(cut => {
-      cut.cut_name = 'Wide';
-      cut._raw.category_id = bottomsCategory.id;
+    realm.create('Cut', {#
+      id: uuidv4(),
+      cut_name: 'Wide',
+      category: bottomsCategory,
     });
   });
 };
