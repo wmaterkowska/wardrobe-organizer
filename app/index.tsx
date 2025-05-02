@@ -1,27 +1,15 @@
 import { Text, View } from "react-native";
 import { Platform } from "react-native";
-import { Database } from '@nozbe/watermelondb'
-import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 
-import schema from '../model/schema'
-import migrations from '../model/migrations'
-
-const adapter = new SQLiteAdapter({
-    schema,
-    migrations,
-    dbName: 'wardrobe',
-    jsi: true,
-    onSetUpError: error => {
-        "Database failed to load"
-    },
-})
-
-const database = new Database({
-    adapter,
-    modelClasses: [Item, Category, Color, Cut, Textile, Occasion],
-})
+import { database } from '../database'
+import { seedDatabase } from '../database/seed'
 
 export default function Index() {
+
+  useEffect(() => {
+    seedDatabase();
+  }, []);
+
   return (
     <View
       style={{

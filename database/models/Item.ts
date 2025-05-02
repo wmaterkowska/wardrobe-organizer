@@ -7,8 +7,13 @@ export default class Item extends Model {
 
   @field('name') name!: string;
   @field('image_uri') imageUri!: string;
-  @field('comfort') createdAt!: number;
 
-  // Relation: Item has many Colors
+  @relation('categories', 'category_id') category!: Category;
+
+  // Relation, e.g.: Item has many Colors
   @children('colors') colors!: Color[];
+  @children('textiles') textiles!: Textile[];
+  @children('occasions') occasions!: Occasion[];
+
+  @children('item_cuts') cutLinks!: ItemCut[];
 }

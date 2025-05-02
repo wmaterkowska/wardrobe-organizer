@@ -8,5 +8,5 @@ export default class Cut extends Model {
   @field('cut_name') name!: string;
 
   // Relation: belongs to Item
-  @relation('items', 'item_id') item!: Item;
+  @relation('categories', 'category_id') category!: Category;
 }
