@@ -1,5 +1,5 @@
 import Realm from 'realm';
-import * from './schema';
+import { ItemSchema, CategorySchema, CutSchema, ColorSchema, TextileSchema, OccasionSchema } from './schema';
 
 export const getRealm = async () => {
   return await Realm.open({
