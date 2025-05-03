@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 export const seedDatabase = async () => {
   const realm = await getRealm();
 
+  const existingItems = realm.Object('Item');
+  if (existingItems.length > 0 ) return;
+
   const existingCategories = realm.Object('Category');
   if (existingCategories.length > 0) return;
 
@@ -20,6 +23,15 @@ export const seedDatabase = async () => {
   if (existingOccasions.length > 0) return;
 
   realm.write(() => {
+
+  // Items ===================================================================
+//     const exampleItem = realm.create('Item', {
+//       id: uuidv4(),
+//       item_name: 'kimono',
+//       image_uri: '',
+//       category: '',
+//       cuts: [],
+//     });
 
   // Categories ==============================================================
     const longSleevesCategory = realm.create('Category', {
