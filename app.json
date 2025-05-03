@@ -35,26 +35,7 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite",
-      [
-        "@morrowdigital/watermelondb-expo-plugin",
-        {
-          "excludeSimArch": true
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.6.10",
-            "packagingOptions": {
-              "pickFirst": [
-                "**/libc++_shared.so"
-              ]
-            }
-          }
-        }
-      ]
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true

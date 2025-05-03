@@ -54,7 +54,7 @@ export const seedDatabase = async () => {
     });
 
     realm.create('Cut', {
-      id: uuidv4().
+      id: uuidv4(),
       cut_name: 'Oversized',
       category: longSleevesCategory,
     });
@@ -77,7 +77,7 @@ export const seedDatabase = async () => {
       category: bottomsCategory,
     });
 
-    realm.create('Cut', {#
+    realm.create('Cut', {
       id: uuidv4(),
       cut_name: 'Wide',
       category: bottomsCategory,

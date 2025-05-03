@@ -1,6 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeView } from '../views/HomeView';
+import HomeView from '../views/HomeView';
 // import CreateItemView from '../views/CreateItemView';
 // import WardrobeView from '../views/WardrobeView';
 
@@ -10,7 +10,7 @@ export type RootStackParamList = {
 //   Wardrobe: undefined;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   return (
