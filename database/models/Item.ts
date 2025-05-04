@@ -1,12 +1,14 @@
 import { ObjectSchema } from 'realm';
 import { Realm } from '@realm/react';
 
+import { Color } from './Color';
+
 export class Item extends Realm.Object {
   id!: string;
-  item_name!: string;
+  item_name?: string;
   image_uri?: string;
 //   category?: Realm.Object & { category_name: string };
-//   colors!: Realm.List<Realm.Object>;
+   colors: Realm.List<Color>;
 //   textiles!: Realm.List<Realm.Object>;
 //   comfort?: number;
 //   occasions!: Realm.List<Realm.Object>;
@@ -17,10 +19,10 @@ export class Item extends Realm.Object {
     primaryKey: 'id',
     properties: {
       id: 'string',
-      item_name: 'string',
+      item_name: 'string?',
       image_uri: 'string?',
 //       category: 'Category?',
-//       colors: 'Color[]',
+      colors: 'Color[]',
 //       textiles: 'Textile[]',
 //       comfort: 'int?',
 //       occasions: 'Occasion[]',

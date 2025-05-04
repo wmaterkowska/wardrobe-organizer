@@ -4,7 +4,7 @@ import { PaperProvider } from 'react-native-paper'
 import { useRealm } from '@realm/react'
 import { useEffect } from 'react'
 
-import { seedDatabase } from '../database/seed'
+import { seedDatabaseWithItem, seedDatabaseWithProperties } from '../database/seed'
 import { Item } from '../database/models/Item'
 
 export default function Index() {
@@ -14,7 +14,12 @@ export default function Index() {
   useEffect(()=> {
     const existingItems = realm.objects(Item);
     if (existingItems.length === 0 ) {
-      seedDatabase(realm);
+      // seedDatabaseWithProperties(realm);
+      const properties = seedDatabaseWithProperties(realm);
+      console.log(properties);
+      if (properties) {
+        seedDatabaseWithItem(realm, properties);
+      }
     }
   }, [realm]);
 

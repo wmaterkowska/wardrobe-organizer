@@ -2,30 +2,15 @@ import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
 import Realm from 'realm';
+
 import { Item } from './models/Item';
+import { Color } from './models/Color';
 
-export function seedDatabase (realm: Realm) {
-
-//
-//   const existingCategories = realm.Object('Category');
-//   if (existingCategories.length > 0) return;
-//
-//   const existingCuts = realm.Object('Cut');
-//   if (existingCuts.length > 0) return;
-//
-//   const existingColors = realm.Object('Color');
-//   if (existingColors.length > 0) return;
-//
-//   const existingTextiles = realm.Object('Textile');
-//   if (existingTextiles.length > 0) return;
-//
-//   const existingOccasions = realm.Object('Occasion');
-//   if (existingOccasions.length > 0) return;
+export const seedDatabaseWithItem = (realm: Realm, properties: {gold: Color}) => {
 
   const asset = Asset.fromModule(require('../assets/images/IMG_20250503_200847.jpg'));
   // await asset.downloadAsync();
   const imageUri = asset.localUri || asset.uri;
-
 
   realm.write(() => {
 
@@ -35,7 +20,7 @@ export function seedDatabase (realm: Realm) {
       item_name: 'kimono',
       image_uri: imageUri,
 //       category: dressesCategory,
-//       colors: [gold],
+      colors: [properties.gold],
 //       textiles: [silk],
 //       comfort: 4,
 //       occasions: [everyday],
@@ -47,7 +32,20 @@ export function seedDatabase (realm: Realm) {
 //       item: exampleItem,
 //       cut: longCut,
 //     });
+}
 
+export const seedDatabaseWithProperties = (realm: Realm) => {
+
+  if (realm.objects('Color').length > 0) return {};
+
+  const seededColors: {
+    black?: Color;
+    gold?: Color;
+    red?: Color;
+    blue?: Color;
+  } = {}
+
+  realm.write(() => {
 //   // Categories ==============================================================
 //     const longSleevesCategory = realm.create('Category', {
 //       id: new Realm.BSON.UUID().toHexString(),
@@ -116,19 +114,31 @@ export function seedDatabase (realm: Realm) {
 //       category: dressesCategory,
 //     });
 //
-//   // Colors ================================================================
-//   const black = realm.create('Color', {
-//     id: new Realm.BSON.UUID().toHexString(),
-//     name: 'Black',
-//     rgb_code: 'rgb(0,0,0)'
-//   });
-//
-//   const gold = realm.create('Color', {
-//     id: new Realm.BSON.UUID().toHexString(),
-//     name: 'Gold',
-//     rgb_code: 'rgb(255,215,0)'
-//   });
-//
+  // Colors ================================================================
+  seededColors.black = realm.create('Color', {
+    id: new Realm.BSON.UUID().toHexString(),
+    color_name: 'Black',
+    color_code: '#000000'
+  });
+
+  seededColors.gold = realm.create('Color', {
+    id: new Realm.BSON.UUID().toHexString(),
+    color_name: 'Gold',
+    color_code: '#FFD700'
+  });
+
+  seededColors.red = realm.create('Color', {
+    id: new Realm.BSON.UUID().toHexString(),
+    color_name: 'Red',
+    color_code: '#FF0000',
+  });
+
+  seededColors.blue = realm.create('Color', {
+    id: new Realm.BSON.UUID().toHexString(),
+    color_name: 'Blue',
+    color_code: '#0000FF',
+  });
+
 //   // Textiles ==============================================================
 //   const silk = realm.create('Textile',{
 //     id: new Realm.BSON.UUID().toHexString(),
@@ -141,8 +151,8 @@ export function seedDatabase (realm: Realm) {
 //     name: 'Everyday',
 //   });
 //
-//   });
+  });
 
   console.log('Database seeded')
-
+  return seededColors;
 }

@@ -22,13 +22,13 @@ export default function ItemCard({ item }: Props) {
                   <Text variant="titleMedium">{item.item_name}</Text>
                   ) : null}
 
-            {/* }{item.colors?.length ? (
+            {item.colors?.length ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 4 }}>
                   {item.colors.map((color, i) => (
-                    <Chip key={i} style={{ marginRight: 4, marginTop: 4 }}>{color.name}</Chip>
+                    <Chip key={i} style={{ marginRight: 4, marginTop: 4, backgroundColor: color.color_code }}>{color.color_name}</Chip>
                     ))}
                   </View>
-            ) : null} */}
+            ) : null}
             </Card.Content>
         </Card>
     );
