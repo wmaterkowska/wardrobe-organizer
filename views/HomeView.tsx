@@ -1,4 +1,3 @@
-import React from 'react';
 import { View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -24,7 +23,7 @@ export default function HomeView({ navigation }: Props) {
 
       <Button
         mode="outlined"
-        onPress={() => {}}
+        onPress={() => navigation.navigate('Wardrobe')}
       >
         View Wardrobe
       </Button>

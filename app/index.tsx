@@ -1,20 +1,23 @@
-import { Text, View } from "react-native";
-import { Platform } from "react-native";
-
 import RootNavigator from '../navigation/RootNavigator'
 import { PaperProvider } from 'react-native-paper'
-import { NavigationContainer } from '@react-navigation/native'
 
-import { database } from '../database'
+import { useRealm } from '@realm/react'
+import { useEffect } from 'react'
+
 import { seedDatabase } from '../database/seed'
-
-import React, { useEffect } from 'react'
+import { Item } from '../database/models/Item'
 
 export default function Index() {
 
-  useEffect(() => {
-    seedDatabase();
-  }, []);
+  const realm = useRealm();
+
+  useEffect(()=> {
+    const existingItems = realm.objects(Item);
+    if (existingItems.length === 0 ) {
+      seedDatabase(realm);
+    }
+  }, [realm]);
+
 
   return (
     <PaperProvider>

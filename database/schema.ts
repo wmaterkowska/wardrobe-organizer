@@ -1,3 +1,4 @@
+import { Item } from './models/Item'
 
 export const ItemSchema: Realm.ObjectSchema = {
     name: 'Item',
@@ -7,15 +8,15 @@ export const ItemSchema: Realm.ObjectSchema = {
         item_name: 'string',
         image_uri: 'string?',
         category: 'Category?',
-        colors: 'Color[]?',
+        colors: 'Color[]',
         cuts: {
             type: 'linkingObjects',
             objectType: 'ItemCut',
             property: 'item',
         },
-        textiles: 'Textile[]?',
+        textiles: 'Textile[]',
         comfort: 'number?',
-        occasions: 'Occasion[]?',
+        occasions: 'Occasion[]',
     },
 };
 
@@ -49,7 +50,7 @@ export const ItemCutSchema: Realm.ObjectSchema = {
     primaryKey: 'id',
     properties: {
         id: 'string',
-        item: 'Item',
+        item: Item,
         cut: 'Cut'
     },
 };
