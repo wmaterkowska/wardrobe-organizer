@@ -29,6 +29,23 @@ export default function ItemCard({ item }: Props) {
                     ))}
                   </View>
             ) : null}
+            {item.textiles?.length ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 4 }}>
+                  {item.textiles.map((textile, i) => (
+                    <Chip key={i} style={{ marginRight: 4, marginTop: 4 }}>{textile.textile_name}</Chip>
+                    ))}
+                  </View>
+            ) : null}
+            {item.comfort ? (
+              <Text>{item.comfort}</Text>
+            ): null}
+            {item.occasions?.length ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 4 }}>
+                  {item.occasions.map((occasion, i) => (
+                    <Chip key={i} style={{ marginRight: 4, marginTop: 4 }}>{occasion.occasion_name}</Chip>
+                    ))}
+                  </View>
+            ) : null}
             </Card.Content>
         </Card>
     );

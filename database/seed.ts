@@ -5,25 +5,25 @@ import Realm from 'realm';
 
 import { Item } from './models/Item';
 import { Color } from './models/Color';
+import { Textile } from './models/Textile';
+import { Occasion } from './models/Occasion';
 
-export const seedDatabaseWithItem = (realm: Realm, properties: {gold: Color}) => {
+export const seedDatabaseWithItem = (realm: Realm, properties: {colors: Color[], textiles: Textile[], occasions: Occasion[] }) => {
 
   const asset = Asset.fromModule(require('../assets/images/IMG_20250503_200847.jpg'));
-  // await asset.downloadAsync();
   const imageUri = asset.localUri || asset.uri;
 
   realm.write(() => {
 
-  // Items ===================================================================
     realm.create('Item', {
       id: new Realm.BSON.UUID().toHexString(),
       item_name: 'kimono',
       image_uri: imageUri,
 //       category: dressesCategory,
-      colors: [properties.gold],
-//       textiles: [silk],
-//       comfort: 4,
-//       occasions: [everyday],
+      colors: [properties.colors.find(c => c.color_name === 'Gold')],
+      textiles: [properties.textiles.find(t => t.textile_name === 'Silk')],
+      comfort: 4,
+      occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday')],
     });
   });
 
@@ -36,16 +36,86 @@ export const seedDatabaseWithItem = (realm: Realm, properties: {gold: Color}) =>
 
 export const seedDatabaseWithProperties = (realm: Realm) => {
 
-  if (realm.objects('Color').length > 0) return {};
+  const categoriesToSeed = [
 
-  const seededColors: {
-    black?: Color;
-    gold?: Color;
-    red?: Color;
-    blue?: Color;
-  } = {}
+  ];
+
+  const colorsToSeed = [
+    { name: 'Black', color_code: '#000000' },
+    { name: 'Red', color_code: '#FF0000' },
+    { name: 'Blue', color_code: '#0000FF' },
+    { name: 'Gold', color_code: '#FFD700' },
+  ];
+
+  const textilesToSeed = [
+    'Cotton',
+    'Linen',
+    'Silk',
+    'Wool',
+    'Leather',
+    'Viscose',
+    'Polyester',
+  ];
+
+  const occasionsToSeed = [
+    'Everyday',
+    'Work',
+    'Sport',
+    'Wedding',
+    'Date',
+  ];
+
+  let categories: Realm.Object<Category>[] = [];
+  let colors: Realm.Object<Color>[] = [];
+  let textiles: Realm.Object<Textile>[] = [];
+  let occasions: Realm.Object<Occasion>[] = [];
 
   realm.write(() => {
+    if (realm.objects('Color').length === 0) {
+      colors = colorsToSeed.map(c =>
+        realm.create('Color', {
+          id: new Realm.BSON.UUID().toHexString(),
+          color_name: c.name,
+          color_code: c.color_code,
+        })
+      );
+    } else {
+      colors = Array.from(realm.objects('Color'));
+    }
+
+    if (realm.objects('Textile').length === 0) {
+      textiles = textilesToSeed.map(name =>
+        realm.create('Textile', {
+          id: new Realm.BSON.UUID().toHexString(),
+          textile_name: name,
+        })
+      );
+    } else {
+      textiles = Array.from(realm.objects('Textile'));
+    }
+
+    if (realm.objects('Occasion').length === 0) {
+      occasions = occasionsToSeed.map(name =>
+        realm.create('Occasion', {
+          id: new Realm.BSON.UUID().toHexString(),
+          occasion_name: name,
+        })
+      );
+    } else {
+      occasions = Array.from(realm.objects('Occasion'));
+    }
+
+  });
+
+  return {
+    colors,
+    textiles,
+    occasions,
+    // add other properties like categories, cuts, etc.
+  };
+
+}
+
 //   // Categories ==============================================================
 //     const longSleevesCategory = realm.create('Category', {
 //       id: new Realm.BSON.UUID().toHexString(),
@@ -113,46 +183,3 @@ export const seedDatabaseWithProperties = (realm: Realm) => {
 //       cut_name: 'Long',
 //       category: dressesCategory,
 //     });
-//
-  // Colors ================================================================
-  seededColors.black = realm.create('Color', {
-    id: new Realm.BSON.UUID().toHexString(),
-    color_name: 'Black',
-    color_code: '#000000'
-  });
-
-  seededColors.gold = realm.create('Color', {
-    id: new Realm.BSON.UUID().toHexString(),
-    color_name: 'Gold',
-    color_code: '#FFD700'
-  });
-
-  seededColors.red = realm.create('Color', {
-    id: new Realm.BSON.UUID().toHexString(),
-    color_name: 'Red',
-    color_code: '#FF0000',
-  });
-
-  seededColors.blue = realm.create('Color', {
-    id: new Realm.BSON.UUID().toHexString(),
-    color_name: 'Blue',
-    color_code: '#0000FF',
-  });
-
-//   // Textiles ==============================================================
-//   const silk = realm.create('Textile',{
-//     id: new Realm.BSON.UUID().toHexString(),
-//     name: 'Silk',
-//   });
-//
-//   // Occasions =============================================================
-//   const everyday = realm.create('Occasion', {
-//     id: new Realm.BSON.UUID().toHexString(),
-//     name: 'Everyday',
-//   });
-//
-  });
-
-  console.log('Database seeded')
-  return seededColors;
-}

@@ -2,6 +2,8 @@ import { ObjectSchema } from 'realm';
 import { Realm } from '@realm/react';
 
 import { Color } from './Color';
+import { Textile } from './Textile'
+import { Occasion } from './Occasion';
 
 export class Item extends Realm.Object {
   id!: string;
@@ -9,10 +11,10 @@ export class Item extends Realm.Object {
   image_uri?: string;
 //   category?: Realm.Object & { category_name: string };
    colors: Realm.List<Color>;
-//   textiles!: Realm.List<Realm.Object>;
-//   comfort?: number;
-//   occasions!: Realm.List<Realm.Object>;
 //   cuts!: Realm.List<Realm.Object>; // via linkingObjects
+  textiles: Realm.List<Textile>;
+  comfort?: number;
+  occasions: Realm.List<Occasion>;
 
   static schema: ObjectSchema = {
     name: 'Item',
@@ -23,14 +25,15 @@ export class Item extends Realm.Object {
       image_uri: 'string?',
 //       category: 'Category?',
       colors: 'Color[]',
-//       textiles: 'Textile[]',
-//       comfort: 'int?',
-//       occasions: 'Occasion[]',
 //       cuts: {
 //         type: 'linkingObjects',
 //         objectType: 'ItemCut',
 //         property: 'item',
 //       },
+      textiles: 'Textile[]',
+      comfort: 'int?',
+      occasions: 'Occasion[]',
+
     },
   };
 
