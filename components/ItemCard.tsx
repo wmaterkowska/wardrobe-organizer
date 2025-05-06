@@ -8,7 +8,7 @@ export default function ItemCard({ item, onPress }: { item: Item; onPress: () =>
 
     return (
       <TouchableOpacity onPress={onPress}>
-        <Card style={{ marginBottom: 16 }}>
+        <Card mode='elevated' style={{ marginBottom: 16 }}>
             {item.image_uri ? (
               <Card.Cover
                 source={{ uri: item.image_uri }}
