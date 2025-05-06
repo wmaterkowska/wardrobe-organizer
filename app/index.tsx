@@ -1,3 +1,4 @@
+import React from 'react';
 import RootNavigator from '../navigation/RootNavigator'
 import { PaperProvider } from 'react-native-paper'
 
