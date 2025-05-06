@@ -24,7 +24,7 @@ export default function HomeView({ navigation }: Props) {
 
       <Button
         mode="outlined"
-        onPress={() => {}}
+        onPress={() => navigation.navigate('Wardrobe')}
       >
         View Wardrobe
       </Button>
