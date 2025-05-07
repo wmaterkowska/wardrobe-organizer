@@ -88,25 +88,19 @@ const customColorsDark = {
   },
   "surfaceDisabled": "rgba(225, 227, 228, 0.12)",
   "onSurfaceDisabled": "rgba(225, 227, 228, 0.38)",
-  "backdrop": "rgba(41, 50, 53, 0.4)"
+  "backdrop": "rgba(41, 50, 53, 0.4)",
 }
 
 
 
 export const lightTheme = {
   ...MD3LightTheme,
-  colors: {
-    ...MD3LightTheme.colors,
-    ...customColorsLight,
-  },
+  colors: customColorsLight,
 };
 
 export const darkTheme = {
   ...MD3DarkTheme,
-  colors: {
-    ...MD3DarkTheme.colors,
-    ...customColorsDark,
-  },
+  colors: customColorsDark,
 };
 
 export const navigationThemes = adaptNavigationTheme({

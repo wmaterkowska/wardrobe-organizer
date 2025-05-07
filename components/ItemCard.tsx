@@ -31,7 +31,7 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
             {item.image_uri ? (
               <Card.Cover
                 source={{ uri: item.image_uri }}
-                style={[styles.image, {height: imageHeight}]}
+                style={{height: imageHeight}}
                 resizeMode="contain"
                 />
               ) : null}
@@ -52,10 +52,6 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    borderRadius: 15,
-  },
   itemContainer: {
     width: "100%",
     padding: 4,

@@ -19,6 +19,8 @@ export default function WardrobeView({ navigation }: Props) {
   const items = useQuery(Item);
   console.log('items', items);
 
+  const zoom = (numColumns == 1) ? 1 : numColumns-1;
+
   if (!items.length) {
     return (
       <View>
@@ -41,7 +43,7 @@ export default function WardrobeView({ navigation }: Props) {
                     itemId: i.id,
                   })
                 }
-                zoom={numColumns-1}
+                zoom={zoom}
               />
           ))}
         </View>
