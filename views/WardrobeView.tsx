@@ -15,7 +15,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Wardrobe'>;
 
 export default function WardrobeView({ navigation }: Props) {
 
-  const [numColumns, setNumColumns] = useState(3);
+  const [numColumns, setNumColumns] = useState(2);
   const items = useQuery(Item);
   console.log('items', items);
 
@@ -34,12 +34,14 @@ export default function WardrobeView({ navigation }: Props) {
         <View style={styles.wardrobeColumn} key={colIndex}>
           {items.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
               <ItemCard
+                key={i.id}
                 item={i}
                 onPress={() =>
                   navigation.navigate('ItemDetail', {
                     itemId: i.id,
                   })
                 }
+                zoom={numColumns-1}
               />
           ))}
         </View>
