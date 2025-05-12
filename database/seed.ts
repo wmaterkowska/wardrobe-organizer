@@ -38,11 +38,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
       item_name: 'kimono',
       image_uri: kimonoUri,
       category: properties.categories.find(c => c.category_name === 'Dresses'),
-      colors: [properties.colors.find(c => c.color_name === 'Gold')],
-      cuts: [properties.cuts.find(c => c.cut_name === 'Long')],
-      textiles: [properties.textiles.find(t => t.textile_name === 'Silk')],
+      colors: properties.colors.filter(c => c.color_name === 'Gold'),
+      cuts: properties.cuts.filter(c => c.cut_name === 'Long'),
+      textiles: properties.textiles.filter(t => t.textile_name === 'Silk'),
       comfort: 4,
-      occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday')],
+      occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
     });
 
     realm.create('Item', {
@@ -50,11 +50,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'body',
         image_uri: bodyUri,
         category: properties.categories.find(c => c.category_name === 'Long-sleeves'),
-        colors: [properties.colors.find(c => c.color_name === 'Brown' || c.color_name === 'Beige')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'Slim-Fit')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Cotton')],
+        colors: properties.colors.filter(c => c.color_name === 'Brown' || c.color_name === 'Beige'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'Slim-Fit'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton'),
         comfort: 4,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
       });
 
     realm.create('Item', {
@@ -62,11 +62,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'dress',
         image_uri: dressUri,
         category: properties.categories.find(c => c.category_name === 'Dresses'),
-        colors: [properties.colors.find(c => c.color_name === 'Black' || c.color_name === 'Gold' || c.color_name === 'Silver')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'A-Line')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Cotton' || t.textile_name === 'Polyester')],
+        colors: properties.colors.filter(c => c.color_name === 'Black' || c.color_name === 'Gold' || c.color_name === 'Silver'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'A-Line'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton' || t.textile_name === 'Polyester'),
         comfort: 3,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Wedding' || o.occasion_name === 'Date')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Wedding' || o.occasion_name === 'Date'),
       });
 
     realm.create('Item', {
@@ -74,11 +74,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'outer',
         image_uri: outerUri,
         category: properties.categories.find(c => c.category_name === 'Outwears'),
-        colors: [properties.colors.find(c => c.color_name === 'Black' || c.color_name === 'White')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'Regular')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Polyester')],
+        colors: properties.colors.filter(c => c.color_name === 'Black' || c.color_name === 'White'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Polyester'),
         comfort: 3,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date'),
       });
 
     realm.create('Item', {
@@ -86,11 +86,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'pants',
         image_uri: pantsUri,
         category: properties.categories.find(c => c.category_name === 'Bottoms'),
-        colors: [properties.colors.find(c => c.color_name === 'Black')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'Regular')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Jeans')],
+        colors: properties.colors.filter(c => c.color_name === 'Black'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Jeans'),
         comfort: 5,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date' || o.occasion_name === 'Work')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date' || o.occasion_name === 'Work'),
       });
 
     realm.create('Item', {
@@ -98,11 +98,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'skirt',
         image_uri: skirtUri,
         category: properties.categories.find(c => c.category_name === 'Bottoms'),
-        colors: [properties.colors.find(c => c.color_name === 'Blue' || c.color_name === 'Pink')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'Long')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Linen')],
+        colors: properties.colors.filter(c => c.color_name === 'Blue' || c.color_name === 'Pink'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'Long'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Linen'),
         comfort: 4,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
       });
 
     realm.create('Item', {
@@ -110,11 +110,11 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         item_name: 'tshirt',
         image_uri: tshirtUri,
         category: properties.categories.find(c => c.category_name === 'Short-sleeves'),
-        colors: [properties.colors.find(c => c.color_name === 'Olive')],
-        cuts: [properties.cuts.find(c => c.cut_name === 'Regular')],
-        textiles: [properties.textiles.find(t => t.textile_name === 'Cotton')],
+        colors: properties.colors.filter(c => c.color_name === 'Olive'),
+        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton'),
         comfort: 5,
-        occasions: [properties.occasions.find(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Work')],
+        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Work'),
       });
 
   });
