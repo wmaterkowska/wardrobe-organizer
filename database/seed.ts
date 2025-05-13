@@ -140,7 +140,7 @@ const colorsToSeed = [
   { name: 'Brown', color_code: '#8B4513' },
   { name: 'Gold', color_code: '#FFD700' },
   { name: 'Beige', color_code: '#F5F5DC' },
-  { name: 'Yellow', color_code: '#FFFF00' }, // Optionally add yellow
+  { name: 'Yellow', color_code: '#FFFF00' },
   { name: 'Olive', color_code: '#808000' },
   { name: 'Green', color_code: '#008000' },
   { name: 'Teal', color_code: '#008080' },
@@ -246,8 +246,6 @@ const cutsToSeed = [
     } else {
       cuts = Array.from(realm.objects('Cut'));
     }
-
-
 
     if (realm.objects('Textile').length === 0) {
       textiles = textilesToSeed.map(name =>

@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from '../navigation/RootNavigator';
 import { PaperProvider } from 'react-native-paper';
+import { WardrobeProvider } from '../context/WardrobeContext';
 import { useColorScheme } from 'react-native';
 import { lightTheme, darkTheme, navigationThemes } from '../theme/paperTheme';
 
@@ -36,7 +37,9 @@ export default function Index() {
 
   return (
     <PaperProvider theme={paperTheme}>
+    <WardrobeProvider>
         <RootNavigator theme={navigationTheme}/>
+    </WardrobeProvider>
     </PaperProvider>
   );
 }
