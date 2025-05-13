@@ -1,5 +1,5 @@
-import React from 'react';
-import { ScrollView, View, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Text, Chip, Card } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { useRealm } from '@realm/react';
@@ -10,14 +10,34 @@ import { Item } from '../database/models/Item';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
+import ColorDot from '../components/ColorDot';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
 export default function ItemDetailView({ route, navigation }: Props) {
 
   const realm = useRealm();
+  const [imageHeight, setImageHeight] = useState(200);
+  const [imageWidth, setImageWidth] = useState(200);
+  const screenWidth = Dimensions.get('window').width - 32;
 
   const { itemId } = route.params;
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
+
+  useEffect(() => {
+    if (!item.image_uri) return;
+    Image.getSize(
+      item.image_uri,
+      (width, height) => {
+        const ratio = height / width;
+        setImageWidth(screenWidth);
+        setImageHeight(screenWidth * ratio);
+      },
+      (error) => {
+        console.warn('Image.getSize failed:', error);
+      }
+    );
+  }, [item.image_uri]);
 
   if (!item) {
     return (
@@ -28,60 +48,70 @@ export default function ItemDetailView({ route, navigation }: Props) {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <Card>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 50, padding: 16}}
+      showsVerticalScrollIndicator={false} >
+      <View>
         {item.image_uri ? (
           <Image
             source={{ uri: item.image_uri }}
-            style={{ width: '100%', height: 200 }}
-            resizeMode="cover"
+            style={{ width: imageWidth, height: imageHeight, }}
           />
         ) : null}
 
-        <Card.Content>
+
           <Text variant="titleLarge">{item.item_name}</Text>
-          <Text variant="bodyMedium" style={{ marginTop: 8 }}>
+          <Text variant="bodyMedium">
             Category: {item.category?.category_name || '—'}
           </Text>
 
           {item.colors?.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 8 }}>
-              {item.colors.map((color, index) => (
-                <Chip key={index} style={{ backgroundColor: color.color_code, marginRight: 6, marginBottom: 6 }}>
-                  {color.name}
-                </Chip>
-              ))}
+            <View style={styles.rowList}>
+            {
+              item.colors.map((color, index) =>
+                             ( <ColorDot key={index} colorCode={color.color_code} size={30} /> ))
+              }
             </View>
-          ) : null}
+            ) : null}
+
+
 
           {item.cuts?.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 8 }}>
+            <View >
               {item.cuts.map((cut, index) => (
-                <Chip key={index} style={{ marginRight: 6, marginBottom: 6 }}>
+                <Chip key={index} >
                   {cut.cut_name}
                 </Chip>
               ))}
             </View>
           ) : null}
+
           {item.textiles?.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 4 }}>
+            <View >
               {item.textiles.map((textile, i) => (
-                <Chip key={i} style={{ marginRight: 4, marginTop: 4 }}>{textile.textile_name}</Chip>
+                <Chip key={i} >{textile.textile_name}</Chip>
               ))}
             </View>
           ) : null}
+
           {item.comfort ? (
-            <Text style={{ marginTop: 8 }}>Comfort: {item.comfort ?? '—'}</Text>
+            <Text >Comfort: {item.comfort ?? '—'}</Text>
           ): null}
           {item.occasions?.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 4 }}>
+            <View >
               {item.occasions.map((occasion, i) => (
-                <Chip key={i} style={{ marginRight: 4, marginTop: 4 }}>{occasion.occasion_name}</Chip>
+                <Chip key={i} >{occasion.occasion_name}</Chip>
               ))}
             </View>
           ) : null}
-        </Card.Content>
-      </Card>
+        </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  rowList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
+})
