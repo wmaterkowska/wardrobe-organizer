@@ -10,7 +10,7 @@ import { Item } from '../database/models/Item';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
-import ColorDot from '../components/ColorDot';
+import ColorList from '../components/ColorList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
@@ -65,16 +65,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
             Category: {item.category?.category_name || '—'}
           </Text>
 
-          {item.colors?.length ? (
-            <View style={styles.rowList}>
-            {
-              item.colors.map((color, index) =>
-                             ( <ColorDot key={index} colorCode={color.color_code} size={30} /> ))
-              }
-            </View>
-            ) : null}
-
-
+          { item.colors ? <ColorList colors={item.colors} /> : null }
 
           {item.cuts?.length ? (
             <View >
@@ -108,10 +99,3 @@ export default function ItemDetailView({ route, navigation }: Props) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  rowList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  }
-})
