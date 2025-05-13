@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 
 import { useQuery } from '@realm/react';
@@ -18,7 +18,8 @@ export default function WardrobeView({ navigation }: Props) {
 
   const { numColumns, setNumColumns } = useWardrobeContext();
   const items = useQuery(Item);
-  console.log('items', items);
+
+  const { bottom } = useSafeAreaInsets();
 
   const zoom = (numColumns == 1) ? 1 : numColumns-1;
 
@@ -31,8 +32,10 @@ export default function WardrobeView({ navigation }: Props) {
   }
 
   return (
-    <View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
         <View style={styles.wardrobeContainer}>
           {Array.from(Array(numColumns)).map((_, colIndex) => (
             <View style={styles.wardrobeColumn} key={colIndex}>

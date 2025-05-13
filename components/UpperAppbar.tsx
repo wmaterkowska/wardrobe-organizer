@@ -6,10 +6,10 @@ import { Appbar, SegmentedButtons, IconButton } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'UpperMenuForWardrobeView'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 50;
 
-export default function UpperAppbarForWardrobeView({ navigation, route, options, back }) {
+export default function UpperAppbar({ navigation, route, options, back }) {
 
   const { viewType, setViewType, numColumns, setNumColumns } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
@@ -27,7 +27,7 @@ export default function UpperAppbarForWardrobeView({ navigation, route, options,
 
   return (
     <Appbar.Header
-      style={[{height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top,},]}
+      style={{ height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top }}
       safeAreaInsets={{ top }}
       elevated={true}
       statusBarHeight={0}

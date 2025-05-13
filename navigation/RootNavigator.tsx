@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView';
 // import CreateItemView from '../views/CreateItemView';
 import WardrobeView from '../views/WardrobeView';
 import ItemDetailView from '../views/ItemDetailView';
-import UpperAppbarForWardrobeView from '../components/UpperAppbarForWardrobeView';
+import UpperAppbar from '../components/UpperAppbar';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,7 +21,7 @@ export default function RootNavigator() {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        header: (props) => <UpperAppbarForWardrobeView {...props}/>
+        header: (props) => <UpperAppbar {...props}/>
       }}>
       <Stack.Screen name="Home" component={HomeView} />
       {/*<Stack.Screen name="Create Item" component={CreateItemView} /> */}
