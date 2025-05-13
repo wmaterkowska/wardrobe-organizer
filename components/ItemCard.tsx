@@ -8,11 +8,10 @@ import { Item } from '../database/models/Item';
 export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress: () => void, zoom: Int }) {
 
   const [imageHeight, setImageHeight] = useState(200);
-  //const [zoomOut, setZoomOut] = useState(1);
   const screenWidth = Dimensions.get('window').width;
+
   useEffect(() => {
     if (!item.image_uri) return;
-
     Image.getSize(
       item.image_uri,
       (width, height) => {
@@ -23,7 +22,7 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [item.image_uri]);
+  }, [item.image_uri, zoom]);
 
     return (
       <TouchableOpacity onPress={onPress} style={styles.itemContainer}>

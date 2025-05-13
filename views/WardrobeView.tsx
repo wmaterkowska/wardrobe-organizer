@@ -4,18 +4,19 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 
 import { useQuery } from '@realm/react';
+import  { WardrobeProvider, useWardrobeContext }  from '../context/WardrobeContext';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 
-import { Item } from '../database/models/Item'
+import { Item } from '../database/models/Item';
 import ItemCard from '../components/ItemCard';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wardrobe'>;
 
 export default function WardrobeView({ navigation }: Props) {
 
-  const [numColumns, setNumColumns] = useState(2);
+  const { numColumns, setNumColumns } = useWardrobeContext();
   const items = useQuery(Item);
   console.log('items', items);
 
@@ -30,26 +31,28 @@ export default function WardrobeView({ navigation }: Props) {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-    <View style={styles.wardrobeContainer}>
-      {Array.from(Array(numColumns)).map((_, colIndex) => (
-        <View style={styles.wardrobeColumn} key={colIndex}>
-          {items.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
-              <ItemCard
-                key={i.id}
-                item={i}
-                onPress={() =>
-                  navigation.navigate('ItemDetail', {
-                    itemId: i.id,
-                  })
-                }
-                zoom={zoom}
-              />
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.wardrobeContainer}>
+          {Array.from(Array(numColumns)).map((_, colIndex) => (
+            <View style={styles.wardrobeColumn} key={colIndex}>
+              {items.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
+                <ItemCard
+                  key={i.id}
+                  item={i}
+                  onPress={() =>
+                    navigation.navigate('ItemDetail', {
+                      itemId: i.id,
+                    })
+                  }
+                  zoom={zoom}
+                />
+              ))}
+            </View>
           ))}
         </View>
-      ))}
+      </ScrollView>
     </View>
-    </ScrollView>
   )
 }
 
