@@ -14,8 +14,8 @@ type Props = {
 export default function PropertyList({ property, propertiesArray }: Props) {
 
   return (
-  <View>
-    <Text>{property}</Text>
+  <View style={styles.listContainer} >
+    <Text variant="bodyLarge" >{property}</Text>
     {propertiesArray ? (
       <View style={styles.listView} >
         {propertiesArray?.map( (property, i) => <PropertyChip key={i} label={property.name} /> )}
@@ -27,6 +27,9 @@ export default function PropertyList({ property, propertiesArray }: Props) {
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    paddingTop: 16,
+  },
   listView: {
     flexDirection: 'row',
     alignItems: 'center',

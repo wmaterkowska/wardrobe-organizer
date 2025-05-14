@@ -12,6 +12,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import ColorList from '../components/ColorList';
 import PropertyList from '../components/PropertyList';
+import CustomComfortSegmentedButton from '../components/CustomComfortSegmentedButton'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
@@ -51,10 +52,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1, paddingBottom: 50, padding: 16}}
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16}}
       showsVerticalScrollIndicator={false} >
       <View>
-
         {item.image_uri ? (
           <Image
             source={{ uri: item.image_uri }}
@@ -62,8 +62,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
           />
         ) : null}
 
-        <Text>{item.item_name}</Text>
-        <Text>category: {item.category?.name || '—'}</Text>
+        <Text variant="headlineLarge">{item.item_name}</Text>
+        <Text variant="bodyMedium">category: {item.category?.name || '—'}</Text>
 
         { item.colors ? <ColorList colors={item.colors} /> : null }
 
@@ -71,7 +71,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <PropertyList key={i} property={property} propertiesArray={item[property]} />
         ) )}
 
-        {item.comfort ? (<Text >comfort: {item.comfort ?? '—'}</Text> ): null}
+        {item.comfort ? (<CustomComfortSegmentedButton value={item.comfort}/> ): null}
 
       </View>
     </ScrollView>
