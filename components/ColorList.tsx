@@ -11,7 +11,7 @@ export default function ColorList({ colors }: { colors: Color[]}) {
       <View style={styles.rowList}>
         {
           colors.map((color, index) =>
-            ( <ColorDot key={index} colorCode={color.color_code} size={30} /> ))
+            ( <ColorDot key={index} colorCode={color.color_code} size={45} /> ))
         }
       </View>
   )
@@ -21,5 +21,7 @@ const styles = StyleSheet.create({
   rowList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: 16,
+    marginBottom: 16,
   }
 })
