@@ -11,8 +11,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 import ColorList from '../components/ColorList';
+import PropertyList from '../components/PropertyList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
+const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
 
 export default function ItemDetailView({ route, navigation }: Props) {
 
@@ -52,6 +54,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 50, padding: 16}}
       showsVerticalScrollIndicator={false} >
       <View>
+
         {item.image_uri ? (
           <Image
             source={{ uri: item.image_uri }}
@@ -59,43 +62,18 @@ export default function ItemDetailView({ route, navigation }: Props) {
           />
         ) : null}
 
+        <Text>{item.item_name}</Text>
+        <Text>category: {item.category?.name || '—'}</Text>
 
-          <Text variant="titleLarge">{item.item_name}</Text>
-          <Text variant="bodyMedium">
-            Category: {item.category?.category_name || '—'}
-          </Text>
+        { item.colors ? <ColorList colors={item.colors} /> : null }
 
-          { item.colors ? <ColorList colors={item.colors} /> : null }
+        { PROPERTIES_ARRAY.map( (property, i) => (
+          <PropertyList key={i} property={property} propertiesArray={item[property]} />
+        ) )}
 
-          {item.cuts?.length ? (
-            <View >
-              {item.cuts.map((cut, index) => (
-                <Chip key={index} >
-                  {cut.cut_name}
-                </Chip>
-              ))}
-            </View>
-          ) : null}
+        {item.comfort ? (<Text >comfort: {item.comfort ?? '—'}</Text> ): null}
 
-          {item.textiles?.length ? (
-            <View >
-              {item.textiles.map((textile, i) => (
-                <Chip key={i} >{textile.textile_name}</Chip>
-              ))}
-            </View>
-          ) : null}
-
-          {item.comfort ? (
-            <Text >Comfort: {item.comfort ?? '—'}</Text>
-          ): null}
-          {item.occasions?.length ? (
-            <View >
-              {item.occasions.map((occasion, i) => (
-                <Chip key={i} >{occasion.occasion_name}</Chip>
-              ))}
-            </View>
-          ) : null}
-        </View>
+      </View>
     </ScrollView>
   );
 }

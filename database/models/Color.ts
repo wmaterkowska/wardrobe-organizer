@@ -3,7 +3,7 @@ import { Realm } from '@realm/react';
 
 export class Color extends Realm.Object {
   id!: string;
-  color_name?: string;
+  name?: string;
   color_code!: string;
 
   static schema: ObjectSchema = {
@@ -11,7 +11,7 @@ export class Color extends Realm.Object {
     primaryKey: 'id',
     properties: {
       id: 'string',
-      color_name: 'string?',
+      name: 'string?',
       color_code: 'string',
     },
   };

@@ -5,7 +5,7 @@ import { Cut } from './Cut';
 
 export class Category extends Realm.Object {
   id!: string;
-  category_name!: string;
+  name!: string;
   cuts: Realm.List<Cut>;
 
   static schema: ObjectSchema = {
@@ -13,7 +13,7 @@ export class Category extends Realm.Object {
     primaryKey: 'id',
     properties: {
       id: 'string',
-      category_name: 'string',
+      name: 'string',
       cuts: 'Cut[]'
     },
   };
