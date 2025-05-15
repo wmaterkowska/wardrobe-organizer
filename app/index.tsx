@@ -26,7 +26,6 @@ export default function Index() {
   useEffect(()=> {
     const existingItems = realm.objects(Item);
     const properties = seedDatabaseWithProperties(realm);
-    console.log(properties);
     if (existingItems.length === 0 ) {
       if (properties) {
         seedDatabaseWithItems(realm, properties);

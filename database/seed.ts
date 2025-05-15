@@ -37,84 +37,84 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
       id: new Realm.BSON.UUID().toHexString(),
       item_name: 'kimono',
       image_uri: kimonoUri,
-      category: properties.categories.find(c => c.category_name === 'Dresses'),
-      colors: properties.colors.filter(c => c.color_name === 'Gold'),
-      cuts: properties.cuts.filter(c => c.cut_name === 'Long'),
-      textiles: properties.textiles.filter(t => t.textile_name === 'Silk'),
+      category: properties.categories.find(c => c.name === 'Dresses'),
+      colors: properties.colors.filter(c => c.name === 'Gold'),
+      cuts: properties.cuts.filter(c => c.name === 'Long'),
+      textiles: properties.textiles.filter(t => t.name === 'Silk'),
       comfort: 4,
-      occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
+      occasions: properties.occasions.filter(o => o.name === 'Everyday'),
     });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'body',
         image_uri: bodyUri,
-        category: properties.categories.find(c => c.category_name === 'Long-sleeves'),
-        colors: properties.colors.filter(c => c.color_name === 'Brown' || c.color_name === 'Beige'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'Slim-Fit'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton'),
+        category: properties.categories.find(c => c.name === 'Long-sleeves'),
+        colors: properties.colors.filter(c => c.name === 'Brown' || c.name === 'Beige'),
+        cuts: properties.cuts.filter(c => c.name === 'Slim-Fit'),
+        textiles: properties.textiles.filter(t => t.name === 'Cotton'),
         comfort: 4,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
+        occasions: properties.occasions.filter(o => o.name === 'Everyday'),
       });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'dress',
         image_uri: dressUri,
-        category: properties.categories.find(c => c.category_name === 'Dresses'),
-        colors: properties.colors.filter(c => c.color_name === 'Black' || c.color_name === 'Gold' || c.color_name === 'Silver'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'A-Line'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton' || t.textile_name === 'Polyester'),
+        category: properties.categories.find(c => c.name === 'Dresses'),
+        colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'Gold' || c.name === 'Silver'),
+        cuts: properties.cuts.filter(c => c.name === 'A-Line'),
+        textiles: properties.textiles.filter(t => t.name === 'Cotton' || t.name === 'Polyester'),
         comfort: 3,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Wedding' || o.occasion_name === 'Date'),
+        occasions: properties.occasions.filter(o => o.name === 'Wedding' || o.name === 'Date'),
       });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'outer',
         image_uri: outerUri,
-        category: properties.categories.find(c => c.category_name === 'Outwears'),
-        colors: properties.colors.filter(c => c.color_name === 'Black' || c.color_name === 'White'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Polyester'),
+        category: properties.categories.find(c => c.name === 'Outwears'),
+        colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'White'),
+        cuts: properties.cuts.filter(c => c.name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.name === 'Polyester'),
         comfort: 3,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date'),
+        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date'),
       });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'pants',
         image_uri: pantsUri,
-        category: properties.categories.find(c => c.category_name === 'Bottoms'),
-        colors: properties.colors.filter(c => c.color_name === 'Black'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Jeans'),
+        category: properties.categories.find(c => c.name === 'Bottoms'),
+        colors: properties.colors.filter(c => c.name === 'Black'),
+        cuts: properties.cuts.filter(c => c.name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.name === 'Jeans'),
         comfort: 5,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Date' || o.occasion_name === 'Work'),
+        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date' || o.name === 'Work'),
       });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'skirt',
         image_uri: skirtUri,
-        category: properties.categories.find(c => c.category_name === 'Bottoms'),
-        colors: properties.colors.filter(c => c.color_name === 'Blue' || c.color_name === 'Pink'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'Long'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Linen'),
+        category: properties.categories.find(c => c.name === 'Bottoms'),
+        colors: properties.colors.filter(c => c.name === 'Blue' || c.name === 'Pink'),
+        cuts: properties.cuts.filter(c => c.name === 'Long'),
+        textiles: properties.textiles.filter(t => t.name === 'Linen'),
         comfort: 4,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday'),
+        occasions: properties.occasions.filter(o => o.name === 'Everyday'),
       });
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'tshirt',
         image_uri: tshirtUri,
-        category: properties.categories.find(c => c.category_name === 'Short-sleeves'),
-        colors: properties.colors.filter(c => c.color_name === 'Olive'),
-        cuts: properties.cuts.filter(c => c.cut_name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.textile_name === 'Cotton'),
+        category: properties.categories.find(c => c.name === 'Short-sleeves'),
+        colors: properties.colors.filter(c => c.name === 'Olive'),
+        cuts: properties.cuts.filter(c => c.name === 'Regular'),
+        textiles: properties.textiles.filter(t => t.name === 'Cotton'),
         comfort: 5,
-        occasions: properties.occasions.filter(o => o.occasion_name === 'Everyday' || o.occasion_name === 'Work'),
+        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Work'),
       });
 
   });
@@ -209,7 +209,7 @@ const cutsToSeed = [
       categoriesToSeed.forEach(cat => {
         const category = realm.create('Category', {
           id: new Realm.BSON.UUID().toHexString(),
-          category_name: cat,
+          name: cat,
           cuts: [],
         });
       categoryMap[cat] = category;
@@ -222,7 +222,7 @@ const cutsToSeed = [
       colors = colorsToSeed.map(c =>
         realm.create('Color', {
           id: new Realm.BSON.UUID().toHexString(),
-          color_name: c.name,
+          name: c.name,
           color_code: c.color_code,
         })
       );
@@ -235,7 +235,7 @@ const cutsToSeed = [
         const linkedCategories = cut.categories.map(catName => categoryMap[catName]);
         const cutObj = realm.create('Cut', {
           id: new Realm.BSON.UUID().toHexString(),
-          cut_name: cut.name,
+          name: cut.name,
           categories: linkedCategories,
         });
         cutMap[cut.name] = cutObj;
@@ -251,7 +251,7 @@ const cutsToSeed = [
       textiles = textilesToSeed.map(name =>
         realm.create('Textile', {
           id: new Realm.BSON.UUID().toHexString(),
-          textile_name: name,
+          name: name,
         })
       );
     } else {
@@ -262,7 +262,7 @@ const cutsToSeed = [
       occasions = occasionsToSeed.map(name =>
         realm.create('Occasion', {
           id: new Realm.BSON.UUID().toHexString(),
-          occasion_name: name,
+          name: name,
         })
       );
     } else {
