@@ -32,11 +32,12 @@ export default function HomeView({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   appName: {
-    textAlign: 'center',
-    marginBottom: 32
+    textAlign: 'left',
+    marginLeft: 52,
   },
   welcome: {
     textAlign: 'left',
     margin: 32,
+    padding: 20,
   }
 })

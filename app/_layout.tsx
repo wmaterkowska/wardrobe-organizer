@@ -12,7 +12,7 @@ export default function RootLayout() {
 
   return (
     <RealmProvider schema={[Item, Category, Color, Cut, Textile, Occasion]}>
-        <Stack />
+        <Stack screenOptions={{headerShown: false}} />
     </RealmProvider>
     )
 }

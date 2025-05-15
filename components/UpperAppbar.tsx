@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
-const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 50;
+const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 

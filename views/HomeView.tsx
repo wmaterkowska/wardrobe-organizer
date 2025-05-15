@@ -16,7 +16,7 @@ export default function HomeView({ navigation }: Props) {
 
   const items = useQuery(Item);
 
-  if (items.length !== 0) {
+  if (items.length === 0) {
     return <WelcomeView />
   }
 
