@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, Icon } from 'react-native-paper';
 
-const COMFORT_LEVELS = [1, 2, 3, 4, 5];
-
 type Props = {
+  property: string;
+  levels: [];
   value?: number;
+  isEditable: boolean;
   onChange?: () => void;
 };
 
-export default function ComfortSegmentedControl({ value, onChange }: Props) {
+export default function CustomSegmentedButton({ property, levels, value, isEditable, onChange }: Props) {
   const [selected, setSelected] = useState<number>(value);
 
   const handleSelect = (val: number) => {
@@ -19,13 +20,13 @@ export default function ComfortSegmentedControl({ value, onChange }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text variant="bodyLarge" style={styles.label}>comfort</Text>
+      <Text variant="bodyLarge" style={styles.label}>{property}</Text>
       <View style={styles.buttonRow}>
-        {COMFORT_LEVELS.map((level) => (
+        {levels.map((level) => (
           <Button
             key={level}
             mode={selected === level ? 'contained' : 'outlined'}
-            // onPress={() => handleSelect(level)}
+            onPress={isEditable ? () => handleSelect(level) : null}
             style={styles.button}
             labelStyle={styles.buttonLabel}
             compact

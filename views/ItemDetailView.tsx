@@ -6,13 +6,14 @@ import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import { Item } from '../database/models/Item';
+import { COMFORT_LEVELS } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 import ColorList from '../components/ColorList';
 import PropertyList from '../components/PropertyList';
-import CustomComfortSegmentedButton from '../components/CustomComfortSegmentedButton'
+import CustomSegmentedButton from '../components/CustomSegmentedButton'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
@@ -71,7 +72,13 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <PropertyList key={i} property={property} propertiesArray={item[property]} />
         ) )}
 
-        {item.comfort ? (<CustomComfortSegmentedButton value={item.comfort}/> ): null}
+        {item.comfort ? (
+          <CustomSegmentedButton
+            property={'comfort'}
+            levels={COMFORT_LEVELS}
+            value={item.comfort}
+            isEditable={false} />
+          ): null}
 
       </View>
     </ScrollView>
