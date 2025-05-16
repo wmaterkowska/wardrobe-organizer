@@ -29,6 +29,8 @@ export default function PropertyChip({
       accessibilityLabel={label}
       accessibilityRole='button'
       style={styles.chip}
+      selected={selected}
+      showSelectedCheck={(selectable && selected) ? true : false}
       >{label}</Chip>
   )
 

@@ -3,6 +3,8 @@ import { Card, Chip } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { resolveAssetSource, Dimensions } from 'react-native';
 
+import ColorList from './ColorList';
+
 import { Item } from '../database/models/Item';
 
 export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress: () => void, zoom: Int }) {
@@ -38,13 +40,7 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
               <Card.Title title={item.item_name}/>
              ) : null}
             {(!item.image_uri && item.colors) ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                {item.colors.map((color, index) => (
-                  <Chip key={index} style={{ backgroundColor: color.color_code}}>
-                    {color.name}
-                  </Chip>)
-                )}
-              </View>) : null}
+              <ColorList colors={item.colors} />) : null}
         </Card>
       </TouchableOpacity>
     );

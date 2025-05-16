@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 type Props = {
   colorCode: string;
@@ -51,7 +51,7 @@ export default function ColorDot({
 
 const styles = StyleSheet.create({
   dot: {
-    marginTop: 4,
+    margin: 2,
   },
   haloContainer: {
     justifyContent: 'center',

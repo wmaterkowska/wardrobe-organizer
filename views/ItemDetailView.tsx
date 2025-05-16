@@ -6,7 +6,7 @@ import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import { Item } from '../database/models/Item';
-import { COMFORT_LEVELS } from '../constants';
+import { COMFORT_LEVELS, PROPERTIES_ARRAY } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
@@ -16,7 +16,6 @@ import PropertyList from '../components/PropertyList';
 import CustomSegmentedButton from '../components/CustomSegmentedButton'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
-const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
 
 export default function ItemDetailView({ route, navigation }: Props) {
 
@@ -69,7 +68,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         { item.colors ? <ColorList colors={item.colors} /> : null }
 
         { PROPERTIES_ARRAY.map( (property, i) => (
-          <PropertyList key={i} property={property} propertiesArray={item[property]} />
+          <PropertyList key={i} title={property} properties={item[property]} />
         ) )}
 
         {item.comfort ? (
