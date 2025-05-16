@@ -1,15 +1,14 @@
-// components/AddItemModal.tsx
 import React from 'react';
 import {
   Modal,
   View,
-  Text,
   StyleSheet,
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
 } from 'react-native';
+import { Text } from 'react-native-paper';
 
 type Props = {
   visible: boolean;
@@ -30,7 +29,7 @@ export default function AddItemModal({ visible, onClose, children }: Props) {
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.header}>
-              <Text style={styles.title} accessibilityRole="header">
+              <Text variant={"displaySmall"} accessibilityRole="header">
                 Add New Item
               </Text>
               <Pressable
@@ -72,10 +71,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
   },
   closeButton: {
     padding: 4,

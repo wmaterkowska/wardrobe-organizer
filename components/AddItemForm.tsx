@@ -13,6 +13,9 @@ import { useQuery } from '@realm/react';
 
 import PropertyList from './PropertyList';
 import ColorList from './ColorList';
+import CustomSegmentedButton from './CustomSegmentedButton';
+
+import { COMFORT_LEVELS } from '../constants';
 
 type Props = {
   onDismiss: () => void;
@@ -31,6 +34,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
+  const [comfort, setComfort] = useState(3);
 
   const handleCategorySelect = (id: string) => {
     setSelectedCategoryId(id);
@@ -60,6 +64,8 @@ export default function AddItemForm({ onDismiss }: Props) {
     );
   };
 
+  const handleComfortSelect = (comfortLevel) => {setComfort(comfortLevel)};
+
   const handleSave = () => {
     if (!itemName) return;
 
@@ -86,6 +92,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         cuts: selectedCuts,
         textiles: selectedTextiles,
         occasions: selectedOccasions,
+        comfort: comfort,
       });
     });
 
@@ -95,6 +102,7 @@ export default function AddItemForm({ onDismiss }: Props) {
     setSelectedCutIds([]);
     setSelectedTextileIds([]);
     setSelectedOccasionIds([]);
+    setComfort(3);
 
   };
 
@@ -149,6 +157,14 @@ export default function AddItemForm({ onDismiss }: Props) {
         selectable={true}
         selectedIds={selectedOccasionIds}
         onToggle={toggleOccasion}
+      />
+
+      <CustomSegmentedButton
+        property={'comfort'}
+        levels={COMFORT_LEVELS}
+        value={comfort}
+        isEditable={true}
+        onChange={handleComfortSelect}
       />
 
       <Button onPress={handleSave} style={styles.saveButton} >Save Piece</Button>
