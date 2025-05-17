@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Realm from 'realm';
 import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { Text, Button } from 'react-native-paper';
@@ -12,6 +12,7 @@ import { Fit } from '../database/models/Fit';
 import { Cut } from '../database/models/Cut';
 import { Textile } from '../database/models/Textile';
 import { Occasion } from '../database/models/Occasion';
+import { FeelIn } from '../database/models/FeelIn';
 import { useQuery } from '@realm/react';
 
 import PropertyList from './PropertyList';
@@ -34,6 +35,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   const cuts = useQuery('Cut');
   const textiles = useQuery('Textile');
   const occasions = useQuery('Occasion');
+  const feels = useQuery('FeelIn');
 
   const [itemName, setItemName] = useState('');
   const [selectedMainId, setSelectedMainId] = useState<string | null>(null);
@@ -42,9 +44,22 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedPatternIds, setSelectedPatternIds] = useState<string[]>([]);
   const [selectedFitIds, setSelectedFitIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
+  const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
   const [comfort, setComfort] = useState(3);
+  const [selectedFeelInIds, setSelectedFeelInIds] = useState<string[]>([]);
+
+  const clothesMainId = mains.find((m) => m.name === 'Clothes').id;
+
+  useEffect(() => {
+    if (selectedCategoryId) {
+      const cutsForCategory = cuts.filtered('ANY categories.id == $0', selectedCategoryId);
+      setFilteredCuts(cutsForCategory);
+    } else {
+     setFilteredCuts([]);
+    }
+  }, [selectedCategoryId, cuts]);
 
   const handleMainCategorySelect = (id: string) => {
     setSelectedMainId(id);
@@ -92,6 +107,12 @@ export default function AddItemForm({ onDismiss }: Props) {
 
   const handleComfortSelect = (comfortLevel) => {setComfort(comfortLevel)};
 
+  const toggleFeelIn = (id: string) => {
+    setSelectedFeelInIds((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+    );
+  };
+
   const handleSave = () => {
     if (!itemName) return;
 
@@ -116,6 +137,9 @@ export default function AddItemForm({ onDismiss }: Props) {
       const selectedOccasions = selectedOccasionIds
         .map((id) => realm.objectForPrimaryKey(Occasion, id))
         .filter(Boolean);
+      const selectedFeels = selectedFeelInIds
+        .map((id) => realm.objectForPrimaryKey(FeelIn, id))
+        .filter(Boolean);
 
       realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
@@ -129,6 +153,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         textiles: selectedTextiles,
         occasions: selectedOccasions,
         comfort: comfort,
+        feel_in: selectedFeels,
       });
     });
 
@@ -142,6 +167,7 @@ export default function AddItemForm({ onDismiss }: Props) {
     setSelectedTextileIds([]);
     setSelectedOccasionIds([]);
     setComfort(3);
+    setSelectedFeelInIds([]);
   };
 
   return (
@@ -176,6 +202,8 @@ export default function AddItemForm({ onDismiss }: Props) {
         singleSelect={true}
       /> ) : null }
 
+      { selectedCategoryId ? (
+      <View>
       <ColorList
         colors={colors}
         selectable={true}
@@ -191,21 +219,26 @@ export default function AddItemForm({ onDismiss }: Props) {
         onToggle={togglePattern}
       />
 
-      <PropertyList
-        title="fit"
-        properties={fits}
-        selectable={true}
-        selectedIds={selectedFitIds}
-        onToggle={toggleFit}
-      />
+      { selectedMainId === clothesMainId ? (
+      <View>
+        <PropertyList
+          title="fit"
+          properties={fits}
+          selectable={true}
+          selectedIds={selectedFitIds}
+          onToggle={toggleFit}
+        />
 
-      <PropertyList
-        title="cut"
-        properties={cuts}
-        selectable={true}
-        selectedIds={selectedCutIds}
-        onToggle={toggleCut}
-      />
+        {selectedCategoryId ? (
+          <PropertyList
+            title="cut"
+            properties={filteredCuts}
+            selectable={true}
+            selectedIds={selectedCutIds}
+            onToggle={toggleCut}
+          />) : null}
+        </View>
+      ) : null}
 
       <PropertyList
         title="textile"
@@ -231,6 +264,14 @@ export default function AddItemForm({ onDismiss }: Props) {
         onChange={handleComfortSelect}
       />
 
+      <PropertyList
+        title="feel_in"
+        properties={feels}
+        selectable={true}
+        selectedIds={selectedFeelInIds}
+        onToggle={toggleFeelIn}
+      />
+      </View> ) : null}
       <Button onPress={handleSave} style={styles.saveButton} >Save Piece</Button>
     </View>
     </ScrollView>

@@ -83,6 +83,10 @@ export default function ItemDetailView({ route, navigation }: Props) {
             isEditable={false} />
           ): null}
 
+        {item.feel_in ? (
+          <PropertyList title={'feel_in'} properties={item.feel_in} />
+        ) : null}
+
       </View>
     </ScrollView>
   );
