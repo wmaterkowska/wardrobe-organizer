@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Realm from 'realm';
 import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Text, Button, SegmentedButtons } from 'react-native-paper';
 import { useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { MainCategory } from '../database/models/MainCategory';
@@ -19,7 +19,7 @@ import PropertyList from './PropertyList';
 import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 
-import { COMFORT_LEVELS } from '../constants';
+import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 
 type Props = {
   onDismiss: () => void;
@@ -38,6 +38,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   const feels = useQuery('FeelIn');
 
   const [itemName, setItemName] = useState('');
+
   const [selectedMainId, setSelectedMainId] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [selectedColorIds, setSelectedColorIds] = useState<string[]>([]);
@@ -49,6 +50,13 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
   const [comfort, setComfort] = useState(3);
   const [selectedFeelInIds, setSelectedFeelInIds] = useState<string[]>([]);
+
+  const [likeMe, setLikeMe] = useState<string | null>(null);
+  const [lookLevel, setLookLevel] = useState<string | null>(null);
+  const [frequency, setFrequency] = useState<string | null>(null);
+  const [price, setPrice] = useState<string | null>(null);
+
+  const [want, setWant] = useState<string | null>(null);
 
   const clothesMainId = mains.find((m) => m.name === 'Clothes').id;
 
@@ -113,6 +121,13 @@ export default function AddItemForm({ onDismiss }: Props) {
     );
   };
 
+  const handleLikeMeSelect = (likeMe) => {setLikeMe(likeMe)};
+  const handleLookLevelSelect = (lookLevel) => {setLookLevel(lookLevel)};
+  const handleFrequencySelect = (frequency) => {setFrequency(frequency)};
+  const handlePriceSelect = (price) => {setPrice(price)};
+
+  const handleWantSelect = (want) => {setWant(want)};
+
   const handleSave = () => {
     if (!itemName) return;
 
@@ -154,6 +169,11 @@ export default function AddItemForm({ onDismiss }: Props) {
         occasions: selectedOccasions,
         comfort: comfort,
         feel_in: selectedFeels,
+        like_me: likeMe,
+        look_level: lookLevel,
+        frequency: frequency,
+        price: price,
+        want: want,
       });
     });
 
@@ -168,6 +188,11 @@ export default function AddItemForm({ onDismiss }: Props) {
     setSelectedOccasionIds([]);
     setComfort(3);
     setSelectedFeelInIds([]);
+    setLikeMe(null);
+    setLookLevel(null);
+    setFrequency(null);
+    setPrice(null);
+    setWant(null);
   };
 
   return (
@@ -271,7 +296,55 @@ export default function AddItemForm({ onDismiss }: Props) {
         selectedIds={selectedFeelInIds}
         onToggle={toggleFeelIn}
       />
+
+      <CustomSegmentedButton
+        property={Questions.like_me}
+        levels={LEVELS.like_me}
+        value={likeMe}
+        isEditable={true}
+        onChange={handleLikeMeSelect}
+      />
+
+      <CustomSegmentedButton
+        property={Questions.look_level}
+        levels={LEVELS.look_level}
+        value={lookLevel}
+        isEditable={true}
+        onChange={handleLookLevelSelect}
+      />
+
+      <CustomSegmentedButton
+        property={Questions.frequency}
+        levels={LEVELS.frequency}
+        value={frequency}
+        isEditable={true}
+        onChange={handleFrequencySelect}
+      />
+
+      <CustomSegmentedButton
+        property={Questions.price}
+        levels={LEVELS.price}
+        value={price}
+        isEditable={true}
+        onChange={handlePriceSelect}
+      />
+
+      <Text variant="bodyLarge">{Want.wantQuestion}</Text>
+      <SegmentedButtons
+        value={want}
+        onValueChange={setWant}
+        buttons={
+          WANT_ARRAY.map((w) => {
+            return {
+              value: w,
+              label: w,
+            };
+          })
+        }
+      />
+
       </View> ) : null}
+
       <Button onPress={handleSave} style={styles.saveButton} >Save Piece</Button>
     </View>
     </ScrollView>
