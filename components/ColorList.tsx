@@ -5,13 +5,42 @@ import { Color } from '../database/models/Color';
 
 import ColorDot from './ColorDot';
 
-export default function ColorList({ colors }: { colors: Color[]}) {
+type Props = {
+  colors: Color[];
+  selectable?: Boolean;
+  selectedIds?: string[];
+  onToggle?: (id: string) => void;
+}
+
+export default function ColorList({
+  colors,
+  selectable = false,
+  selectedIds = [],
+  onToggle, }: { Props }) {
+
+  const handleToggle = (id: string) => {
+    if (!onToggle) return;
+
+    const alreadySelected = selectedIds?.includes(id);
+      onToggle(
+        alreadySelected
+        ? id
+        : id
+      )
+    }
 
   return (
       <View style={styles.rowList}>
         {
           colors.map((color, index) =>
-            ( <ColorDot key={index} colorCode={color.color_code} size={45} /> ))
+            ( <ColorDot
+              key={index}
+              colorCode={color.color_code}
+              size={45}
+              selectable={selectable}
+              selected={selectedIds?.includes(color.id)}
+              onPress={selectable ? () => handleToggle(color.id) : undefined }
+              /> ))
         }
       </View>
   )
