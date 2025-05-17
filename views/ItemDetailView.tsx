@@ -63,7 +63,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
         ) : null}
 
         <Text variant="headlineLarge">{item.item_name}</Text>
-        <Text variant="bodyMedium">category: {item.category?.name || '—'}</Text>
+
+        <View style={styles.category} >
+          <Text variant="bodyMedium">{item.main_category?.name} ></Text>
+          <Text variant="bodyMedium">{item.category?.name || '—'}</Text>
+        </View>
 
         { item.colors ? <ColorList colors={item.colors} /> : null }
 
@@ -83,3 +87,10 @@ export default function ItemDetailView({ route, navigation }: Props) {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  category: {
+    flexDirection: 'row',
+    gap: 5,
+  }
+})

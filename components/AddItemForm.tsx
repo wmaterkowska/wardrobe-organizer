@@ -4,6 +4,7 @@ import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
+import { MainCategory } from '../database/models/MainCategory';
 import { Category } from '../database/models/Category';
 import { Color } from '../database/models/Color';
 import { Cut } from '../database/models/Cut';
@@ -23,18 +24,25 @@ type Props = {
 
 export default function AddItemForm({ onDismiss }: Props) {
   const realm = useRealm();
+  const mains = useQuery('MainCategory');
   const categories = useQuery('Category');
   const colors = useQuery('Color');
   const cuts = useQuery('Cut');
   const textiles = useQuery('Textile');
   const occasions = useQuery('Occasion');
+
   const [itemName, setItemName] = useState('');
+  const [selectedMainId, setSelectedMainId] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [selectedColorIds, setSelectedColorIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
   const [comfort, setComfort] = useState(3);
+
+  const handleMainCategorySelect = (id: string) => {
+    setSelectedMainId(id);
+  }
 
   const handleCategorySelect = (id: string) => {
     setSelectedCategoryId(id);
@@ -70,6 +78,7 @@ export default function AddItemForm({ onDismiss }: Props) {
     if (!itemName) return;
 
     realm.write(() => {
+      const main = realm.objectForPrimaryKey(MainCategory, selectedMainId);
       const category = realm.objectForPrimaryKey(Category, selectedCategoryId);
       const selectedColors = selectedColorIds
         .map((id) => realm.objectForPrimaryKey(Color, id))
@@ -87,6 +96,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: itemName,
+        main_category: main,
         category: category,
         colors: selectedColors,
         cuts: selectedCuts,
@@ -97,13 +107,13 @@ export default function AddItemForm({ onDismiss }: Props) {
     });
 
     setItemName('');
+    setSelectedMainId(null);
     setSelectedCategoryId(null);
     setSelectedColorIds([]);
     setSelectedCutIds([]);
     setSelectedTextileIds([]);
     setSelectedOccasionIds([]);
     setComfort(3);
-
   };
 
   return (
@@ -120,13 +130,23 @@ export default function AddItemForm({ onDismiss }: Props) {
       />
 
       <PropertyList
+        title={'main category'}
+        properties={mains}
+        selectable={true}
+        selectedIds={selectedMainId ? [selectedMainId] : []}
+        onToggle={handleMainCategorySelect}
+        singleSelect={true}
+      />
+
+      {selectedMainId ? (
+      <PropertyList
         title={'category'}
-        properties={categories}
+        properties={categories.filter((c) => c.main_category.id === selectedMainId.toString())}
         selectable={true}
         selectedIds={selectedCategoryId ? [selectedCategoryId] : []}
         onToggle={handleCategorySelect}
         singleSelect={true}
-      />
+      /> ) : null }
 
       <ColorList
         colors={colors}

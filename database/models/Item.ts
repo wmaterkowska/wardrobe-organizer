@@ -1,6 +1,7 @@
 import { ObjectSchema } from 'realm';
 import { Realm } from '@realm/react';
 
+import { MainCategory } from './MainCategory';
 import { Category } from './Category';
 import { Color } from './Color';
 import { Cut } from './Cut';
@@ -11,6 +12,7 @@ export class Item extends Realm.Object {
   id!: string;
   item_name?: string;
   image_uri?: string;
+  main_category?: Realm.Object<MainCategory>;
   category?: Realm.Object<Category>;
   colors?: Realm.List<Color>;
   cuts?: Realm.List<Cut>;
@@ -25,13 +27,13 @@ export class Item extends Realm.Object {
       id: 'string',
       item_name: 'string?',
       image_uri: 'string?',
+      main_category: 'MainCategory?',
       category: 'Category?',
       colors: 'Color[]',
       cuts: 'Cut[]',
       textiles: 'Textile[]',
       comfort: 'int?',
       occasions: 'Occasion[]',
-
     },
   };
 

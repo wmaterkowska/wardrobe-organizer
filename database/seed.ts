@@ -4,11 +4,13 @@ import { Asset } from 'expo-asset';
 import Realm from 'realm';
 
 import { Item } from './models/Item';
+import { MainCategory } from './models/MainCategory';
+import { Category } from './models/Category';
 import { Color } from './models/Color';
 import { Textile } from './models/Textile';
 import { Occasion } from './models/Occasion';
 
-export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Category[], colors: Color[], cuts: Cut[], textiles: Textile[], occasions: Occasion[] }) => {
+export const seedDatabaseWithItems = (realm: Realm, properties: {main: MainCategory, categories: Category[], colors: Color[], cuts: Cut[], textiles: Textile[], occasions: Occasion[] }) => {
 
   const kimono = Asset.fromModule(require('../assets/images/photos/kimono.jpg'));
   const kimonoUri = kimono.localUri || kimono.uri;
@@ -28,8 +30,8 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
   const skirt = Asset.fromModule(require('../assets/images/photos/skirt.jpg'));
   const skirtUri = skirt.localUri || skirt.uri;
 
-  const tshirt = Asset.fromModule(require('../assets/images/photos/tshirt.jpg'));
-  const tshirtUri = tshirt.localUri || tshirt.uri;
+  const tShirt = Asset.fromModule(require('../assets/images/photos/tShirt.jpg'));
+  const tShirtUri = tShirt.localUri || tShirt.uri;
 
   realm.write(() => {
 
@@ -37,6 +39,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
       id: new Realm.BSON.UUID().toHexString(),
       item_name: 'kimono',
       image_uri: kimonoUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
       category: properties.categories.find(c => c.name === 'Dresses'),
       colors: properties.colors.filter(c => c.name === 'Gold'),
       cuts: properties.cuts.filter(c => c.name === 'Long'),
@@ -49,6 +52,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'body',
         image_uri: bodyUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Long-sleeves'),
         colors: properties.colors.filter(c => c.name === 'Brown' || c.name === 'Beige'),
         cuts: properties.cuts.filter(c => c.name === 'Slim-Fit'),
@@ -61,6 +65,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'dress',
         image_uri: dressUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Dresses'),
         colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'Gold' || c.name === 'Silver'),
         cuts: properties.cuts.filter(c => c.name === 'A-Line'),
@@ -73,6 +78,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'outer',
         image_uri: outerUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Outwears'),
         colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'White'),
         cuts: properties.cuts.filter(c => c.name === 'Regular'),
@@ -85,6 +91,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'pants',
         image_uri: pantsUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Bottoms'),
         colors: properties.colors.filter(c => c.name === 'Black'),
         cuts: properties.cuts.filter(c => c.name === 'Regular'),
@@ -97,6 +104,7 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
         id: new Realm.BSON.UUID().toHexString(),
         item_name: 'skirt',
         image_uri: skirtUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Bottoms'),
         colors: properties.colors.filter(c => c.name === 'Blue' || c.name === 'Pink'),
         cuts: properties.cuts.filter(c => c.name === 'Long'),
@@ -107,8 +115,9 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
 
     realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'tshirt',
-        image_uri: tshirtUri,
+        item_name: 'tShirt',
+        image_uri: tShirtUri,
+        main_category: properties.main.find(c => c.name === 'Clothes'),
         category: properties.categories.find(c => c.name === 'Short-sleeves'),
         colors: properties.colors.filter(c => c.name === 'Olive'),
         cuts: properties.cuts.filter(c => c.name === 'Regular'),
@@ -122,13 +131,28 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
 
 export const seedDatabaseWithProperties = (realm: Realm) => {
 
+  const mainCategoriesToSeed = [
+    'Clothes',
+    'Accessories',
+    'Other',
+  ]
+
   const categoriesToSeed = [
-    'Long-sleeves',
-    'Short-sleeves',
-    'Bottoms',
-    'Dresses',
-    'Outwears',
-    'Sport',
+    { name: 'Long-sleeves', main_category: 'Clothes' },
+    { name: 'Short-sleeves', main_category: 'Clothes' },
+    { name: 'Bottoms', main_category: 'Clothes' },
+    { name: 'Dresses', main_category: 'Clothes' },
+    { name: 'Layers', main_category: 'Clothes' },
+    { name: 'Outerwear', main_category: 'Clothes' },
+    { name: 'Shoes', main_category: 'Clothes' },
+    { name: 'Carries', main_category: 'Accessories' },
+    { name: 'Finishers', main_category: 'Accessories' },
+    { name: 'Jewellery', main_category: 'Accessories' },
+    { name: 'Pajamas', main_category: 'Other' },
+    { name: 'Underwear', main_category: 'Other' },
+    { name: 'Loungewear', main_category: 'Other' },
+    { name: 'Sportswear', main_category: 'Other' },
+    { name: 'Swimwear', main_category: 'Other' },
   ];
 
 const colorsToSeed = [
@@ -157,23 +181,22 @@ const colorsToSeed = [
 
 const cutsToSeed = [
   { name: 'Slim-Fit', categories: ['Long-sleeves', 'Short-sleeves', 'Bottoms'] },
-  { name: 'Regular', categories: ['Long-sleeves', 'Short-sleeves', 'Bottoms', 'Outwears'] },
-  { name: 'Oversized', categories: ['Long-sleeves', 'Short-sleeves', 'Outwears'] },
+  { name: 'Regular', categories: ['Long-sleeves', 'Short-sleeves', 'Bottoms', 'Outerwear'] },
+  { name: 'Oversized', categories: ['Long-sleeves', 'Short-sleeves', 'Outerwear'] },
   { name: 'Long', categories: ['Dresses'] },
-  { name: 'Cropped', categories: ['Short-sleeves', 'Long-sleeves', 'Outwears', 'Bottoms'] },
+  { name: 'Cropped', categories: ['Short-sleeves', 'Long-sleeves', 'Outerwear', 'Bottoms'] },
   { name: 'High-Waisted', categories: ['Bottoms'] },
   { name: 'Wide-Leg', categories: ['Bottoms'] },
   { name: 'Tapered', categories: ['Bottoms'] },
   { name: 'A-Line', categories: ['Dresses', 'Bottoms'] },
   { name: 'Bodycon', categories: ['Dresses'] },
   { name: 'Flared', categories: ['Dresses', 'Bottoms'] },
-  { name: 'Boxy', categories: ['Short-sleeves', 'Outwears'] },
+  { name: 'Boxy', categories: ['Short-sleeves', 'Outerwear'] },
   { name: 'Peplum', categories: ['Long-sleeves', 'Dresses'] },
   { name: 'Wrap', categories: ['Dresses', 'Long-sleeves'] },
-  { name: 'Hooded', categories: ['Outwears', 'Long-sleeves'] },
-  { name: 'Double-Breasted', categories: ['Outwears'] },
+  { name: 'Hooded', categories: ['Outerwear', 'Long-sleeves'] },
+  { name: 'Double-Breasted', categories: ['Outerwear'] },
 ];
-
 
   const textilesToSeed = [
     'Cotton',
@@ -195,24 +218,39 @@ const cutsToSeed = [
     'Date',
   ];
 
-  const categoryMap: Record<string, Realm.Object> = {};
-  const cutMap: Record<string, Realm.Object> = {};
+  const categoryMap: Record<string, Realm.Object<Category>> = {};
+  const cutMap: Record<string, Realm.Object<Cut>> = {};
 
+  let main: Realm.Object<MainCategory>;
   let categories: Realm.Object<Category>[] = [];
   let colors: Realm.Object<Color>[] = [];
   let cuts: Realm.Object<Cut>[] = [];
   let textiles: Realm.Object<Textile>[] = [];
   let occasions: Realm.Object<Occasion>[] = [];
 
+
   realm.write(() => {
+    if (realm.objects('MainCategory').length === 0) {
+      main = mainCategoriesToSeed.map(c =>
+        realm.create('MainCategory', {
+          id: new Realm.BSON.UUID().toHexString(),
+          name: c,
+        })
+      );
+    } else {
+      main = Array.from(realm.objects('MainCategory'));
+    }
+
     if (realm.objects('Category').length === 0) {
       categoriesToSeed.forEach(cat => {
+        const linkedMain = main.find(c => c.name === cat.main_category);
         const category = realm.create('Category', {
           id: new Realm.BSON.UUID().toHexString(),
-          name: cat,
+          name: cat.name,
+          main_category: linkedMain,
           cuts: [],
         });
-      categoryMap[cat] = category;
+        categoryMap[cat.name] = category;
       });
     } else {
       categories = Array.from(realm.objects('Category'));
@@ -272,6 +310,7 @@ const cutsToSeed = [
   });
 
   return {
+    main,
     categories: Object.values(categoryMap),
     colors,
     cuts: Object.values(cutMap),
