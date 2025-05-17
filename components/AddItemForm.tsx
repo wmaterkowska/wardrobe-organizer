@@ -7,6 +7,8 @@ import { Item } from '../database/models/Item';
 import { MainCategory } from '../database/models/MainCategory';
 import { Category } from '../database/models/Category';
 import { Color } from '../database/models/Color';
+import { Pattern } from '../database/models/Pattern';
+import { Fit } from '../database/models/Fit';
 import { Cut } from '../database/models/Cut';
 import { Textile } from '../database/models/Textile';
 import { Occasion } from '../database/models/Occasion';
@@ -27,6 +29,8 @@ export default function AddItemForm({ onDismiss }: Props) {
   const mains = useQuery('MainCategory');
   const categories = useQuery('Category');
   const colors = useQuery('Color');
+  const patterns = useQuery('Pattern');
+  const fits = useQuery('Fit');
   const cuts = useQuery('Cut');
   const textiles = useQuery('Textile');
   const occasions = useQuery('Occasion');
@@ -35,6 +39,8 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedMainId, setSelectedMainId] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [selectedColorIds, setSelectedColorIds] = useState<string[]>([]);
+  const [selectedPatternIds, setSelectedPatternIds] = useState<string[]>([]);
+  const [selectedFitIds, setSelectedFitIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
@@ -51,6 +57,18 @@ export default function AddItemForm({ onDismiss }: Props) {
   const toggleColor = (id: string) => {
     setSelectedColorIds((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+    );
+  };
+
+  const togglePattern = (id: string) => {
+    setSelectedPatternIds((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    );
+  };
+
+  const toggleFit = (id: string) => {
+    setSelectedFitIds((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
     );
   };
 
@@ -83,6 +101,12 @@ export default function AddItemForm({ onDismiss }: Props) {
       const selectedColors = selectedColorIds
         .map((id) => realm.objectForPrimaryKey(Color, id))
         .filter(Boolean);
+      const selectedPatterns = selectedPatternIds
+        .map((id) => realm.objectForPrimaryKey(Pattern, id))
+        .filter(Boolean);
+      const selectedFits = selectedFitIds
+        .map((id) => realm.objectForPrimaryKey(Fit, id))
+        .filter(Boolean);
       const selectedCuts = selectedCutIds
         .map((id) => realm.objectForPrimaryKey(Cut, id))
         .filter(Boolean);
@@ -99,6 +123,8 @@ export default function AddItemForm({ onDismiss }: Props) {
         main_category: main,
         category: category,
         colors: selectedColors,
+        patterns: selectedPatterns,
+        fits: selectedFits,
         cuts: selectedCuts,
         textiles: selectedTextiles,
         occasions: selectedOccasions,
@@ -110,6 +136,8 @@ export default function AddItemForm({ onDismiss }: Props) {
     setSelectedMainId(null);
     setSelectedCategoryId(null);
     setSelectedColorIds([]);
+    setSelectedPatternIds([]);
+    setSelectedFitIds([]);
     setSelectedCutIds([]);
     setSelectedTextileIds([]);
     setSelectedOccasionIds([]);
@@ -153,6 +181,22 @@ export default function AddItemForm({ onDismiss }: Props) {
         selectable={true}
         selectedIds={selectedColorIds}
         onToggle={toggleColor}
+      />
+
+      <PropertyList
+        title="patterns"
+        properties={patterns}
+        selectable={true}
+        selectedIds={selectedPatternIds}
+        onToggle={togglePattern}
+      />
+
+      <PropertyList
+        title="fit"
+        properties={fits}
+        selectable={true}
+        selectedIds={selectedFitIds}
+        onToggle={toggleFit}
       />
 
       <PropertyList

@@ -1,4 +1,4 @@
-export const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
+export const PROPERTIES_ARRAY =['patterns', 'fits', 'cuts', 'textiles', 'occasions' ];
 
 export const COMFORT_LEVELS = [1, 2, 3, 4, 5];
 
