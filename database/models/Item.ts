@@ -25,6 +25,11 @@ export class Item extends Realm.Object {
   comfort?: number;
   occasions?: Realm.List<Occasion>;
   feel_in?: Realm.Object<FeelIn>;
+  like_me?: string;
+  look_level?: string;
+  frequency?: string;
+  price?: string;
+  want?: string;
 
   static schema: ObjectSchema = {
     name: 'Item',
@@ -43,6 +48,11 @@ export class Item extends Realm.Object {
       comfort: 'int?',
       occasions: 'Occasion[]',
       feel_in: 'FeelIn[]',
+      like_me: 'string?',
+      look_level: 'string?',
+      frequency: 'string?',
+      price: 'string?',
+      want: 'string?'
     },
   };
 

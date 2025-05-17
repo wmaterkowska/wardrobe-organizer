@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { Text, Chip, Card } from 'react-native-paper';
+import { Text, Chip, Card, Button } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import { Item } from '../database/models/Item';
-import { COMFORT_LEVELS, PROPERTIES_ARRAY } from '../constants';
+import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
@@ -26,6 +26,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   const { itemId } = route.params;
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
+  const questions = [];
 
   useEffect(() => {
     if (!item.image_uri) return;
@@ -87,6 +88,24 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <PropertyList title={'feel_in'} properties={item.feel_in} />
         ) : null}
 
+        {Object.keys(Titles).map((title, i) => (
+          item[title] ? (
+          <View style={styles.questionContainer}>
+            <Text variant="bodyLarge">{Titles[title]}</Text>
+            <Button mode='outlined'>{item[title]}</Button>
+          </View>
+          ) : null )
+        )}
+
+        {item.want ? (
+          <View style={styles.questionContainer}>
+            <Text variant="bodyLarge">{Want.want}</Text>
+            <Button mode='contained'>{item.want}</Button>
+          </View>
+          ) : null
+        }
+
+
       </View>
     </ScrollView>
   );
@@ -96,5 +115,8 @@ const styles = StyleSheet.create({
   category: {
     flexDirection: 'row',
     gap: 5,
+  },
+questionContainer: {
+   marginTop: 16,
   }
 })

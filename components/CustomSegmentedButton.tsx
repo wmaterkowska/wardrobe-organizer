@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Button, Text, Icon } from 'react-native-paper';
 
 type Props = {
-  property: string;
+  property?: string;
   levels: [];
   value?: number;
   isEditable: boolean;
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   button: {
-    width: 48,
+    minWidth: 48,
     borderRadius: 12,
   },
   buttonLabel: {

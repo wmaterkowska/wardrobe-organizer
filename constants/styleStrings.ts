@@ -4,15 +4,15 @@ export const Want = {
 }
 
 export const Questions = {
-  likeQuestion: 'Does this piece feel like you?',
-  lookQuestion: 'How do you feel about the way you look in this?',
-  frequencyQuestion: 'How often do you wear this?',
-  priceQuestion: 'Was it worth the price?',
+  like_me: 'Does this piece feel like you?',
+  look_level: 'How do you feel about the way you look in this?',
+  frequency: 'How often do you wear this?',
+  price: 'Was it worth the price?',
 }
 
 export const Titles = {
-  like: 'Is this really me?',
-  look: 'How do I look in this?',
+  like_me: 'Is this really me?',
+  look_level: 'How do I look in this?',
   frequency: 'Do I reach for this often?',
   price: 'Was it worth the price?',
 }

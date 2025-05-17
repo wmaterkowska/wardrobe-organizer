@@ -64,6 +64,11 @@ export const seedDatabaseWithItems = (
       comfort: 4,
       occasions: properties.occasions.filter(o => o.name === 'Everyday'),
       feel_in: properties.feels.filter(f => f.name === 'Feminine' || f.name === 'Too much'),
+      like_me: 'Not really',
+      look_level: 'Nice',
+      frequency: 'Once in a while',
+      price: 'I\'am fine',
+      want: 'Keep',
     });
 
     realm.create('Item', {
@@ -80,6 +85,11 @@ export const seedDatabaseWithItems = (
       comfort: 4,
       occasions: properties.occasions.filter(o => o.name === 'Everyday'),
       feel_in: properties.feels.filter(f => f.name === 'Relaxed'),
+      like_me: 'It\'s okay',
+      look_level: 'Okay',
+      frequency: 'Now and then',
+      price: 'I\'am fine',
+      want: 'Unsure',
     });
 
     realm.create('Item', {
@@ -96,6 +106,11 @@ export const seedDatabaseWithItems = (
       comfort: 3,
       occasions: properties.occasions.filter(o => o.name === 'Wedding' || o.name === 'Date'),
       feel_in: properties.feels.filter(f => f.name === 'Attractive' || f.name === 'Tight'),
+      like_me: 'I like it',
+      look_level: 'Nice',
+      frequency: 'Once in a while',
+      price: 'Great value',
+      want: 'Keep',
     });
 
     realm.create('Item', {
@@ -112,6 +127,11 @@ export const seedDatabaseWithItems = (
       comfort: 3,
       occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date'),
       feel_in: properties.feels.filter(f => f.name === 'Cute'),
+      like_me: 'I like it',
+      look_level: 'Perfect',
+      frequency: 'Pretty often',
+      price: 'Great value',
+      want: 'Keep',
     });
 
     realm.create('Item', {
@@ -128,6 +148,11 @@ export const seedDatabaseWithItems = (
       comfort: 5,
       occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date' || o.name === 'Work'),
       feel_in: properties.feels.filter(f => f.name === 'Relaxed' || f.name === 'Pretty'),
+      like_me: 'This is me!',
+      look_level: 'Perfect',
+      frequency: 'It\'s a favourite',
+      price: 'Great value',
+      want: 'Keep',
     });
 
     realm.create('Item', {
@@ -144,6 +169,11 @@ export const seedDatabaseWithItems = (
       comfort: 4,
       occasions: properties.occasions.filter(o => o.name === 'Everyday'),
       feel_in: properties.feels.filter(f => f.name === 'Fun'),
+      like_me: 'Not really',
+      look_level: 'Okay',
+      frequency: 'Forgot I had it',
+      price: 'I\'am fine',
+      want: 'Let go',
     });
 
     realm.create('Item', {
@@ -160,6 +190,11 @@ export const seedDatabaseWithItems = (
       comfort: 5,
       occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Work'),
       feel_in: properties.feels.filter(f => f.name === 'Pretty' || f.name === 'Powerful'),
+      like_me: 'This is me!',
+      look_level: 'Perfect',
+      frequency: 'It\'s a favourite',
+      price: 'Great value',
+      want: 'Keep',
     });
 
   });
