@@ -110,7 +110,7 @@ export default function AddItemForm({ onDismiss }: Props) {
     <ScrollView
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 10 }}
       showsVerticalScrollIndicator={false} >
-    <View style={styles.form}>
+    <View style={styles.form} onStartShouldSetResponder={() => true}>
       <Text variant="bodyLarge">item name</Text>
       <TextInput
         style={styles.input}
