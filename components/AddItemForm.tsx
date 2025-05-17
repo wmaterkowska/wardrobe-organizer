@@ -329,7 +329,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         onChange={handlePriceSelect}
       />
 
-      <Text variant="bodyLarge">{Want.wantQuestion}</Text>
+      <Text variant="bodyLarge" style={styles.wantText} >{Want.wantQuestion}</Text>
       <SegmentedButtons
         value={want}
         onValueChange={setWant}
@@ -345,7 +345,7 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       </View> ) : null}
 
-      <Button onPress={handleSave} style={styles.saveButton} >Save Piece</Button>
+      <Button onPress={handleSave} style={styles.saveButton} disabled={!itemName}>Save Piece</Button>
     </View>
     </ScrollView>
   );
@@ -362,7 +362,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
+  wantText: {
+    marginTop: 32,
+  },
   saveButton: {
+    position: 'absolut',
     marginTop: 20,
     padding: 20,
   }
