@@ -10,13 +10,15 @@ type Props = {
   selectable?: Boolean;
   selectedIds?: string[];
   onToggle?: (id: string) => void;
+  size?: int;
 }
 
 export default function ColorList({
   colors,
   selectable = false,
   selectedIds = [],
-  onToggle, }: { Props }) {
+  onToggle,
+  size = 45}: { Props }) {
 
   const handleToggle = (id: string) => {
     if (!onToggle) return;
@@ -36,7 +38,7 @@ export default function ColorList({
             ( <ColorDot
               key={index}
               colorCode={color.color_code}
-              size={45}
+              size={size}
               selectable={selectable}
               selected={selectedIds?.includes(color.id)}
               onPress={selectable ? () => handleToggle(color.id) : undefined }
