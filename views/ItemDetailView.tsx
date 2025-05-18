@@ -90,7 +90,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         {Object.keys(Titles).map((title, i) => (
           item[title] ? (
-          <View style={styles.questionContainer}>
+          <View style={styles.questionContainer} key={i}>
             <Text variant="bodyLarge">{Titles[title]}</Text>
             <Button mode='outlined'>{item[title]}</Button>
           </View>

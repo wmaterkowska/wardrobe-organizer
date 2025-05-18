@@ -8,7 +8,7 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 
 type Props = {
   visible: boolean;
@@ -17,6 +17,9 @@ type Props = {
 };
 
 export default function AddItemModal({ visible, onClose, children }: Props) {
+
+  const theme = useTheme();
+
   return (
     <Modal
       animationType="fade"
@@ -27,7 +30,7 @@ export default function AddItemModal({ visible, onClose, children }: Props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.overlay}>
-          <View style={styles.modalContainer}>
+          <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
             <View style={styles.header}>
               <Text variant={"displaySmall"} accessibilityRole="header">
                 Add New Item
@@ -58,7 +61,6 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   modalContainer: {
-    backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
     elevation: 5,
