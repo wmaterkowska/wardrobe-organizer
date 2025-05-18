@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Realm from 'realm';
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
 import { Text, Button, SegmentedButtons } from 'react-native-paper';
 import { useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
@@ -20,6 +20,7 @@ import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
+import { pickOrCaptureImage } from '../utility/photoUtils'
 
 type Props = {
   onDismiss: () => void;
@@ -37,7 +38,8 @@ export default function AddItemForm({ onDismiss }: Props) {
   const occasions = useQuery('Occasion');
   const feels = useQuery('FeelIn');
 
-  const [itemName, setItemName] = useState('');
+  const [itemName, setItemName] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   const [selectedMainId, setSelectedMainId] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
@@ -68,6 +70,13 @@ export default function AddItemForm({ onDismiss }: Props) {
      setFilteredCuts([]);
     }
   }, [selectedCategoryId, cuts]);
+
+  const handlePickImage = async () => {
+    const uri = await pickOrCaptureImage();
+    if (uri) {
+      setImageUri(uri);
+    }
+  }
 
   const handleMainCategorySelect = (id: string) => {
     setSelectedMainId(id);
@@ -129,36 +138,37 @@ export default function AddItemForm({ onDismiss }: Props) {
   const handleWantSelect = (want) => {setWant(want)};
 
   const handleSave = () => {
-    if (!itemName) return;
+    if (!itemName && !imageUri) return;
 
     realm.write(() => {
-      const main = realm.objectForPrimaryKey(MainCategory, selectedMainId);
-      const category = realm.objectForPrimaryKey(Category, selectedCategoryId);
-      const selectedColors = selectedColorIds
+      const main = selectedMainId ? realm.objectForPrimaryKey(MainCategory, selectedMainId) : null;
+      const category = selectedCategoryId ? realm.objectForPrimaryKey(Category, selectedCategoryId) : null;
+      const selectedColors = selectedColorIds ? selectedColorIds
         .map((id) => realm.objectForPrimaryKey(Color, id))
-        .filter(Boolean);
-      const selectedPatterns = selectedPatternIds
+        .filter(Boolean) : null;
+      const selectedPatterns = selectedPatternIds ? selectedPatternIds
         .map((id) => realm.objectForPrimaryKey(Pattern, id))
-        .filter(Boolean);
-      const selectedFits = selectedFitIds
+        .filter(Boolean) : null;
+      const selectedFits = selectedFitIds ? selectedFitIds
         .map((id) => realm.objectForPrimaryKey(Fit, id))
-        .filter(Boolean);
-      const selectedCuts = selectedCutIds
+        .filter(Boolean) : null;
+      const selectedCuts = selectedCutIds ? selectedCutIds
         .map((id) => realm.objectForPrimaryKey(Cut, id))
-        .filter(Boolean);
-      const selectedTextiles = selectedTextileIds
+        .filter(Boolean) : null;
+      const selectedTextiles = selectedTextileIds ? selectedTextileIds
         .map((id) => realm.objectForPrimaryKey(Textile, id))
-        .filter(Boolean);
-      const selectedOccasions = selectedOccasionIds
+        .filter(Boolean) : null;
+      const selectedOccasions = selectedOccasionIds ? selectedOccasionIds
         .map((id) => realm.objectForPrimaryKey(Occasion, id))
-        .filter(Boolean);
-      const selectedFeels = selectedFeelInIds
+        .filter(Boolean) : null;
+      const selectedFeels = selectedFeelInIds ? selectedFeelInIds
         .map((id) => realm.objectForPrimaryKey(FeelIn, id))
-        .filter(Boolean);
+        .filter(Boolean) : null;
 
       realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
         item_name: itemName,
+        image_uri: imageUri,
         main_category: main,
         category: category,
         colors: selectedColors,
@@ -177,7 +187,8 @@ export default function AddItemForm({ onDismiss }: Props) {
       });
     });
 
-    setItemName('');
+    setItemName(null);
+    setImageUri(null);
     setSelectedMainId(null);
     setSelectedCategoryId(null);
     setSelectedColorIds([]);
@@ -200,6 +211,15 @@ export default function AddItemForm({ onDismiss }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 10 }}
       showsVerticalScrollIndicator={false} >
     <View style={styles.form} onStartShouldSetResponder={() => true}>
+
+      <Button onPress={handlePickImage}>Add Photo</Button>
+      {imageUri && (
+        <Image
+          source={{ uri: imageUri }}
+          style={{ width: 200, height: 200, borderRadius: 10, marginTop: 10 }}
+        />
+      )}
+
       <Text variant="bodyLarge">item name</Text>
       <TextInput
         style={styles.input}
@@ -208,6 +228,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         onChangeText={setItemName}
       />
 
+      { itemName || imageUri ? (
       <PropertyList
         title={'main category'}
         properties={mains}
@@ -215,7 +236,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         selectedIds={selectedMainId ? [selectedMainId] : []}
         onToggle={handleMainCategorySelect}
         singleSelect={true}
-      />
+      /> ) : null }
 
       {selectedMainId ? (
       <PropertyList
@@ -345,7 +366,10 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       </View> ) : null}
 
-      <Button onPress={handleSave} style={styles.saveButton} disabled={!itemName}>Save Piece</Button>
+      <Button
+        onPress={handleSave}
+        style={styles.saveButton}
+        disabled={!itemName && !imageUri} >Save Piece</Button>
     </View>
     </ScrollView>
   );
