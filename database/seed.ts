@@ -4,11 +4,28 @@ import { Asset } from 'expo-asset';
 import Realm from 'realm';
 
 import { Item } from './models/Item';
+import { MainCategory } from './models/MainCategory';
+import { Category } from './models/Category';
 import { Color } from './models/Color';
+import { Pattern } from './models/Pattern';
+import { Fit } from './models/Fit';
+import { Cut } from './models/Cut';
 import { Textile } from './models/Textile';
 import { Occasion } from './models/Occasion';
+import { FeelIn } from './models/FeelIn';
 
-export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Category[], colors: Color[], cuts: Cut[], textiles: Textile[], occasions: Occasion[] }) => {
+export const seedDatabaseWithItems = (
+  realm: Realm,
+  properties: {
+    main: MainCategory,
+    categories: Category[],
+    colors: Color[],
+    patterns: Pattern[],
+    fits: Fit[],
+    cuts: Cut[],
+    textiles: Textile[],
+    occasions: Occasion[],
+    feels: FeelIn[], }) => {
 
   const kimono = Asset.fromModule(require('../assets/images/photos/kimono.jpg'));
   const kimonoUri = kimono.localUri || kimono.uri;
@@ -28,8 +45,8 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
   const skirt = Asset.fromModule(require('../assets/images/photos/skirt.jpg'));
   const skirtUri = skirt.localUri || skirt.uri;
 
-  const tshirt = Asset.fromModule(require('../assets/images/photos/tshirt.jpg'));
-  const tshirtUri = tshirt.localUri || tshirt.uri;
+  const tShirt = Asset.fromModule(require('../assets/images/photos/tShirt.jpg'));
+  const tShirtUri = tShirt.localUri || tShirt.uri;
 
   realm.write(() => {
 
@@ -37,98 +54,176 @@ export const seedDatabaseWithItems = (realm: Realm, properties: {categories: Cat
       id: new Realm.BSON.UUID().toHexString(),
       item_name: 'kimono',
       image_uri: kimonoUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
       category: properties.categories.find(c => c.name === 'Dresses'),
       colors: properties.colors.filter(c => c.name === 'Gold'),
-      cuts: properties.cuts.filter(c => c.name === 'Long'),
+      patterns: properties.patterns.filter(p => p.name === 'Floral' || p.name === 'Solid'),
+      fits: properties.fits.filter(f => f.name === 'Regular'),
+      cuts: properties.cuts.filter(c => c.name === 'Long' || c.name === 'Long Sleeves' || c.name === 'V-Neck'),
       textiles: properties.textiles.filter(t => t.name === 'Silk'),
       comfort: 4,
       occasions: properties.occasions.filter(o => o.name === 'Everyday'),
+      feel_in: properties.feels.filter(f => f.name === 'Feminine' || f.name === 'Too much'),
+      like_me: 'Not really',
+      look_level: 'Nice',
+      frequency: 'Once in a while',
+      price: 'I\'am fine',
+      want: 'Keep',
     });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'body',
-        image_uri: bodyUri,
-        category: properties.categories.find(c => c.name === 'Long-sleeves'),
-        colors: properties.colors.filter(c => c.name === 'Brown' || c.name === 'Beige'),
-        cuts: properties.cuts.filter(c => c.name === 'Slim-Fit'),
-        textiles: properties.textiles.filter(t => t.name === 'Cotton'),
-        comfort: 4,
-        occasions: properties.occasions.filter(o => o.name === 'Everyday'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'body',
+      image_uri: bodyUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Long-sleeves'),
+      colors: properties.colors.filter(c => c.name === 'Brown' || c.name === 'Beige'),
+      patterns: properties.patterns.filter(p => p.name === 'Solid'),
+      fits: properties.fits.filter(f => f.name === 'Fitted'),
+      cuts: properties.cuts.filter(c => c.name === 'Long-Sleeves' || c.name === 'Crew Neck'),
+      textiles: properties.textiles.filter(t => t.name === 'Cotton'),
+      comfort: 4,
+      occasions: properties.occasions.filter(o => o.name === 'Everyday'),
+      feel_in: properties.feels.filter(f => f.name === 'Relaxed'),
+      like_me: 'It\'s okay',
+      look_level: 'Okay',
+      frequency: 'Now and then',
+      price: 'I\'am fine',
+      want: 'Unsure',
+    });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'dress',
-        image_uri: dressUri,
-        category: properties.categories.find(c => c.name === 'Dresses'),
-        colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'Gold' || c.name === 'Silver'),
-        cuts: properties.cuts.filter(c => c.name === 'A-Line'),
-        textiles: properties.textiles.filter(t => t.name === 'Cotton' || t.name === 'Polyester'),
-        comfort: 3,
-        occasions: properties.occasions.filter(o => o.name === 'Wedding' || o.name === 'Date'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'dress',
+      image_uri: dressUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Dresses'),
+      colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'Gold' || c.name === 'Silver'),
+      patterns: properties.patterns.filter(p => p.name === 'Floral' || p.name === 'Textured'),
+      fits: properties.fits.filter(f => f.name === 'Regular'),
+      cuts: properties.cuts.filter(c => c.name === 'A-Line' || c.name === 'V-Neck' || c.name === 'Knee-Length'),
+      textiles: properties.textiles.filter(t => t.name === 'Cotton' || t.name === 'Polyester'),
+      comfort: 3,
+      occasions: properties.occasions.filter(o => o.name === 'Wedding' || o.name === 'Date'),
+      feel_in: properties.feels.filter(f => f.name === 'Attractive' || f.name === 'Tight'),
+      like_me: 'I like it',
+      look_level: 'Nice',
+      frequency: 'Once in a while',
+      price: 'Great value',
+      want: 'Keep',
+    });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'outer',
-        image_uri: outerUri,
-        category: properties.categories.find(c => c.name === 'Outwears'),
-        colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'White'),
-        cuts: properties.cuts.filter(c => c.name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.name === 'Polyester'),
-        comfort: 3,
-        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'outer',
+      image_uri: outerUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Layers'),
+      colors: properties.colors.filter(c => c.name === 'Black' || c.name === 'White'),
+      patterns: properties.patterns.filter(p => p.name === 'Floral'),
+      fits: properties.fits.filter(f => f.name === 'Regular'),
+      cuts: properties.cuts.filter(c => c.name === 'Long-Sleeves' || c.name === 'Double-Breasted'),
+      textiles: properties.textiles.filter(t => t.name === 'Polyester'),
+      comfort: 3,
+      occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date'),
+      feel_in: properties.feels.filter(f => f.name === 'Cute'),
+      like_me: 'I like it',
+      look_level: 'Perfect',
+      frequency: 'Pretty often',
+      price: 'Great value',
+      want: 'Keep',
+    });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'pants',
-        image_uri: pantsUri,
-        category: properties.categories.find(c => c.name === 'Bottoms'),
-        colors: properties.colors.filter(c => c.name === 'Black'),
-        cuts: properties.cuts.filter(c => c.name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.name === 'Jeans'),
-        comfort: 5,
-        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date' || o.name === 'Work'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'pants',
+      image_uri: pantsUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Bottoms'),
+      colors: properties.colors.filter(c => c.name === 'Black'),
+      patterns: properties.patterns.filter(p => p.name === 'Solid'),
+      fits: properties.fits.filter(f => f.name === 'Relaxed'),
+      cuts: properties.cuts.filter(c => c.name === 'High-Waisted' || c.name === 'Long'),
+      textiles: properties.textiles.filter(t => t.name === 'Jeans'),
+      comfort: 5,
+      occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Date' || o.name === 'Work'),
+      feel_in: properties.feels.filter(f => f.name === 'Relaxed' || f.name === 'Pretty'),
+      like_me: 'This is me!',
+      look_level: 'Perfect',
+      frequency: 'It\'s a favourite',
+      price: 'Great value',
+      want: 'Keep',
+    });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'skirt',
-        image_uri: skirtUri,
-        category: properties.categories.find(c => c.name === 'Bottoms'),
-        colors: properties.colors.filter(c => c.name === 'Blue' || c.name === 'Pink'),
-        cuts: properties.cuts.filter(c => c.name === 'Long'),
-        textiles: properties.textiles.filter(t => t.name === 'Linen'),
-        comfort: 4,
-        occasions: properties.occasions.filter(o => o.name === 'Everyday'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'skirt',
+      image_uri: skirtUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Bottoms'),
+      colors: properties.colors.filter(c => c.name === 'Blue' || c.name === 'Pink'),
+      patterns: properties.patterns.filter(p => p.name === 'Floral'),
+      fits: properties.fits.filter(f => f.name === 'Loose'),
+      cuts: properties.cuts.filter(c => c.name === '3/4'),
+      textiles: properties.textiles.filter(t => t.name === 'Linen'),
+      comfort: 4,
+      occasions: properties.occasions.filter(o => o.name === 'Everyday'),
+      feel_in: properties.feels.filter(f => f.name === 'Fun'),
+      like_me: 'Not really',
+      look_level: 'Okay',
+      frequency: 'Forgot I had it',
+      price: 'I\'am fine',
+      want: 'Let go',
+    });
 
     realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: 'tshirt',
-        image_uri: tshirtUri,
-        category: properties.categories.find(c => c.name === 'Short-sleeves'),
-        colors: properties.colors.filter(c => c.name === 'Olive'),
-        cuts: properties.cuts.filter(c => c.name === 'Regular'),
-        textiles: properties.textiles.filter(t => t.name === 'Cotton'),
-        comfort: 5,
-        occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Work'),
-      });
+      id: new Realm.BSON.UUID().toHexString(),
+      item_name: 'tShirt',
+      image_uri: tShirtUri,
+      main_category: properties.main.find(c => c.name === 'Clothes'),
+      category: properties.categories.find(c => c.name === 'Short-Sleeves'),
+      colors: properties.colors.filter(c => c.name === 'Olive'),
+      patterns: properties.patterns.filter(p => p.name === 'Solid'),
+      fits: properties.fits.filter(f => f.name === 'Regular'),
+      cuts: properties.cuts.filter(c => c.name === '3/4' || c.name === 'Crew Neck'),
+      textiles: properties.textiles.filter(t => t.name === 'Cotton'),
+      comfort: 5,
+      occasions: properties.occasions.filter(o => o.name === 'Everyday' || o.name === 'Work'),
+      feel_in: properties.feels.filter(f => f.name === 'Pretty' || f.name === 'Powerful'),
+      like_me: 'This is me!',
+      look_level: 'Perfect',
+      frequency: 'It\'s a favourite',
+      price: 'Great value',
+      want: 'Keep',
+    });
 
   });
 }
 
 export const seedDatabaseWithProperties = (realm: Realm) => {
 
+  const mainCategoriesToSeed = [
+    'Clothes',
+    'Accessories',
+    'Other',
+  ]
+
   const categoriesToSeed = [
-    'Long-sleeves',
-    'Short-sleeves',
-    'Bottoms',
-    'Dresses',
-    'Outwears',
-    'Sport',
+    { name: 'Long-Sleeves', main_category: 'Clothes' },
+    { name: 'Short-Sleeves', main_category: 'Clothes' },
+    { name: 'Bottoms', main_category: 'Clothes' },
+    { name: 'Dresses', main_category: 'Clothes' },
+    { name: 'Layers', main_category: 'Clothes' },
+    { name: 'Outerwear', main_category: 'Clothes' },
+    { name: 'Shoes', main_category: 'Clothes' },
+    { name: 'Carries', main_category: 'Accessories' },
+    { name: 'Finishers', main_category: 'Accessories' },
+    { name: 'Jewellery', main_category: 'Accessories' },
+    { name: 'Pajamas', main_category: 'Other' },
+    { name: 'Underwear', main_category: 'Other' },
+    { name: 'Loungewear', main_category: 'Other' },
+    { name: 'Sportswear', main_category: 'Other' },
+    { name: 'Swimwear', main_category: 'Other' },
   ];
 
 const colorsToSeed = [
@@ -155,34 +250,91 @@ const colorsToSeed = [
   { name: 'White', color_code: '#FFFFFF' },
 ];
 
-const cutsToSeed = [
-  { name: 'Slim-Fit', categories: ['Long-sleeves', 'Short-sleeves', 'Bottoms'] },
-  { name: 'Regular', categories: ['Long-sleeves', 'Short-sleeves', 'Bottoms', 'Outwears'] },
-  { name: 'Oversized', categories: ['Long-sleeves', 'Short-sleeves', 'Outwears'] },
-  { name: 'Long', categories: ['Dresses'] },
-  { name: 'Cropped', categories: ['Short-sleeves', 'Long-sleeves', 'Outwears', 'Bottoms'] },
-  { name: 'High-Waisted', categories: ['Bottoms'] },
-  { name: 'Wide-Leg', categories: ['Bottoms'] },
-  { name: 'Tapered', categories: ['Bottoms'] },
-  { name: 'A-Line', categories: ['Dresses', 'Bottoms'] },
-  { name: 'Bodycon', categories: ['Dresses'] },
-  { name: 'Flared', categories: ['Dresses', 'Bottoms'] },
-  { name: 'Boxy', categories: ['Short-sleeves', 'Outwears'] },
-  { name: 'Peplum', categories: ['Long-sleeves', 'Dresses'] },
-  { name: 'Wrap', categories: ['Dresses', 'Long-sleeves'] },
-  { name: 'Hooded', categories: ['Outwears', 'Long-sleeves'] },
-  { name: 'Double-Breasted', categories: ['Outwears'] },
+const patternsToSeed = [
+  'Solid',
+  'Striped',
+  'Plaid',
+  'Polka Dot',
+  'Animal',
+  'Floral',
+  'Abstract',
+  'Geometric',
+  'Tie-Dye',
+  'Camouflage',
+  'Boho Print',
+  'Textured',
+  'Logos',
 ];
 
+const fitsToSeed = [
+  'Fitted',
+  'Regular',
+  'Relaxed',
+  'Loose',
+  'Boxy',
+  'Oversized',
+  'Skinny',
+  'Slim',
+  'Baggy',
+];
+
+const cutsToSeed = [
+  { name: 'Short', categories: ['Bottoms', 'Dresses','Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Long', categories: ['Bottoms', 'Dresses','Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Normal Length', categories: ['Bottoms', 'Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Short Sleeves', categories: ['Short-Sleeves', 'Dresses', 'Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Long Sleeves', categories: ['Long-Sleeves', 'Dresses', 'Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: '3/4', categories: ['Bottoms', 'Long-Sleeves', 'Dresses', 'Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: '7/8', categories: ['Bottoms', 'Long-Sleeves', 'Dresses', 'Layers', 'Outerwear', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'V-Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Deep V-Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Pajamas', ] },
+  { name: 'Crew Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Square Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Boat Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'High Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Turtle Neck', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', ] },
+  { name: 'Halter', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Off-the-Shoulder', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'One-Shoulder', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Asymmetrical', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Bottoms', 'Loungewear', 'Pajamas', ] },
+  { name: 'Collared', categories: ['Long-Sleeves', 'Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Cropped', categories: ['Long-Sleeves', 'Short-Sleeves', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Flared', categories: ['Long-Sleeves', 'Short-Sleeves', 'Bottoms', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Puffed Sleeve', categories: ['Short-Sleeves', 'Long-Sleeves', 'Dresses', ] },
+  { name: 'Bell Sleeves', categories: ['Short-Sleeves', 'Long-Sleeves', 'Dresses', 'Pajamas', ] },
+  { name: 'Wide Straps', categories: ['Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Thin Straps', categories: ['Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Strapless', categories: ['Short-Sleeves', 'Dresses', 'Loungewear', 'Pajamas', ] },
+  { name: 'Crisscross', categories: ['Short-Sleeves', 'Dresses', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Mini', categories: ['Dresses', 'Bottoms', ] },
+  { name: 'Midi', categories: ['Dresses', 'Bottoms', ] },
+  { name: 'Maxi', categories: ['Dresses', 'Bottoms', ] },
+  { name: 'Knee-Length', categories: ['Dresses', 'Bottoms', ] },
+  { name: 'A-Line', categories: ['Dresses', ] },
+  { name: 'Wrap', categories: ['Dresses', 'Bottoms', 'Loungewear', ] },
+  { name: 'High-Waisted', categories: ['Bottoms', 'Sportswear', 'Loungewear', ] },
+  { name: 'Low-Rise', categories: ['Bottoms', 'Sportswear', 'Loungewear', ] },
+  { name: 'Wide-Leg', categories: ['Bottoms', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Straight-Leg', categories: ['Bottoms', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Cargo', categories: ['Bottoms', 'Sportswear', 'Loungewear', ] },
+  { name: 'Jogger', categories: ['Bottoms', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Chinos', categories: ['Bottoms', ] },
+  { name: 'Leggings', categories: ['Bottoms', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Harem', categories: ['Bottoms', 'Sportswear', 'Loungewear', 'Pajamas', ] },
+  { name: 'Hooded', categories: ['Layers', 'Long-Sleeves', 'Outerwear', 'Sportswear', 'Loungewear', ] },
+  { name: 'Double-Breasted', categories: ['Layers', 'Outerwear', ] },
+];
 
   const textilesToSeed = [
     'Cotton',
     'Linen',
     'Silk',
     'Wool',
+    'Cashmere',
     'Jeans',
     'Leather',
     'Viscose',
+    'Modal',
     'Polyester',
     'Acrylic',
   ];
@@ -195,24 +347,74 @@ const cutsToSeed = [
     'Date',
   ];
 
-  const categoryMap: Record<string, Realm.Object> = {};
-  const cutMap: Record<string, Realm.Object> = {};
+  const feelsToSeed = [
+    'Confident',
+    'Cool',
+    'Feminine',
+    'Masculine',
+    'Cute',
+    'Pretty',
+    'Attractive',
+    'Youthful',
+    'Fun',
+    'Relaxed',
+    'Soft',
+    'Sporty',
+    'Elegant',
+    'Polished',
+    'Old',
+    'Outdated',
+    'Not Welcoming',
+    'Ugly',
+    'Business Woman',
+    'Powerful',
+    'Trendy',
+    'Stylish',
+    'Stuck Up',
+    'Edgy',
+    'Tomboy',
+    'Fresh',
+    'Comfy',
+    'Too much',
+    'Uncomfortable',
+    'Tight',
+  ];
 
+  const categoryMap: Record<string, Realm.Object<Category>> = {};
+  const cutMap: Record<string, Realm.Object<Cut>> = {};
+
+  let main: Realm.Object<MainCategory>;
   let categories: Realm.Object<Category>[] = [];
   let colors: Realm.Object<Color>[] = [];
+  let patterns: Realm.Object<Pattern>[] = [];
+  let fits: Realm.Object<Fit>[] = [];
   let cuts: Realm.Object<Cut>[] = [];
   let textiles: Realm.Object<Textile>[] = [];
   let occasions: Realm.Object<Occasion>[] = [];
+  let feels: Realm.Object<FeelIn>[] = [];
 
   realm.write(() => {
+    if (realm.objects('MainCategory').length === 0) {
+      main = mainCategoriesToSeed.map(c =>
+        realm.create('MainCategory', {
+          id: new Realm.BSON.UUID().toHexString(),
+          name: c,
+        })
+      );
+    } else {
+      main = Array.from(realm.objects('MainCategory'));
+    }
+
     if (realm.objects('Category').length === 0) {
       categoriesToSeed.forEach(cat => {
+        const linkedMain = main.find(c => c.name === cat.main_category);
         const category = realm.create('Category', {
           id: new Realm.BSON.UUID().toHexString(),
-          name: cat,
+          name: cat.name,
+          main_category: linkedMain,
           cuts: [],
         });
-      categoryMap[cat] = category;
+        categoryMap[cat.name] = category;
       });
     } else {
       categories = Array.from(realm.objects('Category'));
@@ -228,6 +430,28 @@ const cutsToSeed = [
       );
     } else {
       colors = Array.from(realm.objects('Color'));
+    }
+
+    if (realm.objects('Pattern').length === 0) {
+      patterns = patternsToSeed.map(p =>
+        realm.create('Pattern', {
+          id: new Realm.BSON.UUID().toHexString(),
+          name: p,
+        })
+      );
+    } else {
+      patterns = Array.from(realm.objects('Pattern'));
+    }
+
+    if (realm.objects('Fit').length === 0) {
+      fits = fitsToSeed.map(f =>
+        realm.create('Fit', {
+          id: new Realm.BSON.UUID().toHexString(),
+          name: f,
+        })
+      );
+    } else {
+      fits = Array.from(realm.objects('Fit'));
     }
 
     if (realm.objects('Cut').length === 0) {
@@ -269,14 +493,29 @@ const cutsToSeed = [
       occasions = Array.from(realm.objects('Occasion'));
     }
 
+    if (realm.objects('FeelIn').length === 0) {
+      feels = feelsToSeed.map(name =>
+        realm.create('FeelIn', {
+          id: new Realm.BSON.UUID().toHexString(),
+          name: name,
+        })
+      );
+    } else {
+      feels = Array.from(realm.objects('FeelIn'));
+    }
+
   });
 
   return {
+    main,
     categories: Object.values(categoryMap),
     colors,
+    patterns,
+    fits,
     cuts: Object.values(cutMap),
     textiles,
     occasions,
+    feels,
   };
 
 }

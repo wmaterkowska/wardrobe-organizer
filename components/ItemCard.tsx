@@ -40,7 +40,7 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
               <Card.Title title={item.item_name}/>
              ) : null}
             {(!item.image_uri && item.colors) ? (
-              <ColorList colors={item.colors} />) : null}
+              <ColorList colors={item.colors} size={45 /zoom}/>) : null}
         </Card>
       </TouchableOpacity>
     );

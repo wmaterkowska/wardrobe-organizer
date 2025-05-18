@@ -1,10 +1,12 @@
-export const PROPERTIES_ARRAY =['cuts', 'textiles', 'occasions' ];
+export const PROPERTIES_ARRAY =['patterns', 'fits', 'cuts', 'textiles', 'occasions' ];
 
 export const COMFORT_LEVELS = [1, 2, 3, 4, 5];
 
-export const LIKE_LEVELS = ['No way', 'Not really', 'It\'s okay', 'I like it', 'This is me!'];
+export const WANT_ARRAY = ['Keep', 'Let go', 'Unsure'];
 
-export const LOOK_LEVELS = ['Terrible', 'Not great', 'Okay', 'Nice', 'Perfect'];
-
-export const FREQUENCY_LEVELS = ['Forgot I had it', 'Once ina while', 'Now and then', 'Pretty often', 'It\'s a favourite'];
-
+export const  LEVELS = {
+  like_me: ['No way', 'Not really', 'It\'s okay', 'I like it', 'This is me!'],
+  look_level: ['Terrible', 'Not great', 'Okay', 'Nice', 'Perfect'],
+  frequency: ['Forgot I had it', 'Once in a while', 'Now and then', 'Pretty often', 'It\'s a favourite'],
+  price: ['Regret it', 'I\'am fine', 'Great value'],
+}
