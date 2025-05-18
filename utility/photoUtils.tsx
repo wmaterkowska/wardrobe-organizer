@@ -1,3 +1,4 @@
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from 'react-native';
 
@@ -25,7 +26,21 @@ export const pickOrCaptureImage = async (): Promise<string | null> => {
           });
 
           if (!result.canceled && result.assets.length > 0) {
-            resolve(result.assets[0].uri);
+            const image = result.assets[0];
+            const filename = image.uri.split('/').pop();
+            const newPath = FileSystem.documentDirectory + filename;
+
+            try {
+              await FileSystem.moveAsync({
+                from: image.uri,
+                to: newPath,
+              });
+
+            resolve(newPath);
+            } catch (error) {
+              console.error('Error moving file:', error);
+              resolve(null);
+            }
           } else {
             resolve(null);
           }

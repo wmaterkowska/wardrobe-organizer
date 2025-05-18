@@ -141,29 +141,29 @@ export default function AddItemForm({ onDismiss }: Props) {
     if (!itemName && !imageUri) return;
 
     realm.write(() => {
-      const main = realm.objectForPrimaryKey(MainCategory, selectedMainId);
-      const category = realm.objectForPrimaryKey(Category, selectedCategoryId);
-      const selectedColors = selectedColorIds
+      const main = selectedMainId ? realm.objectForPrimaryKey(MainCategory, selectedMainId) : null;
+      const category = selectedCategoryId ? realm.objectForPrimaryKey(Category, selectedCategoryId) : null;
+      const selectedColors = selectedColorIds ? selectedColorIds
         .map((id) => realm.objectForPrimaryKey(Color, id))
-        .filter(Boolean);
-      const selectedPatterns = selectedPatternIds
+        .filter(Boolean) : null;
+      const selectedPatterns = selectedPatternIds ? selectedPatternIds
         .map((id) => realm.objectForPrimaryKey(Pattern, id))
-        .filter(Boolean);
-      const selectedFits = selectedFitIds
+        .filter(Boolean) : null;
+      const selectedFits = selectedFitIds ? selectedFitIds
         .map((id) => realm.objectForPrimaryKey(Fit, id))
-        .filter(Boolean);
-      const selectedCuts = selectedCutIds
+        .filter(Boolean) : null;
+      const selectedCuts = selectedCutIds ? selectedCutIds
         .map((id) => realm.objectForPrimaryKey(Cut, id))
-        .filter(Boolean);
-      const selectedTextiles = selectedTextileIds
+        .filter(Boolean) : null;
+      const selectedTextiles = selectedTextileIds ? selectedTextileIds
         .map((id) => realm.objectForPrimaryKey(Textile, id))
-        .filter(Boolean);
-      const selectedOccasions = selectedOccasionIds
+        .filter(Boolean) : null;
+      const selectedOccasions = selectedOccasionIds ? selectedOccasionIds
         .map((id) => realm.objectForPrimaryKey(Occasion, id))
-        .filter(Boolean);
-      const selectedFeels = selectedFeelInIds
+        .filter(Boolean) : null;
+      const selectedFeels = selectedFeelInIds ? selectedFeelInIds
         .map((id) => realm.objectForPrimaryKey(FeelIn, id))
-        .filter(Boolean);
+        .filter(Boolean) : null;
 
       realm.create('Item', {
         id: new Realm.BSON.UUID().toHexString(),
@@ -186,9 +186,6 @@ export default function AddItemForm({ onDismiss }: Props) {
         want: want,
       });
     });
-
-  console.log('imageUri', imageUri);
-
 
     setItemName(null);
     setImageUri(null);
