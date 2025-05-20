@@ -3,30 +3,48 @@ import Realm from 'realm';
 import { useCallback, useMemo } from 'react';
 import { Color } from '../database/models/Color';
 
-export function useColorManager() {
-  const realm = useRealm();
-  const allColors = useQuery(Color);
+type BaseProperty = {
+  name: string;
+  usage_count?: number;
+  id: string;
+};
 
-  const addOrIncrementColor = useCallback((colorId: string) => {
-    const existing = allColors.filtered('id == $0', colorId)[0];
+export function usePropertyManager<T extends BaseProperty>(
+  schemaName: string,
+  idField: keyof T = 'id' as keyof T
+  ) {
+  const realm = useRealm();
+  const all = useQuery<T>(schemaName);
+
+  const incrementOrCreate = useCallback((propertyId: string) => {
+    const existing = all.filtered('id == $0', propertyId)[0];
 
     realm.write(() => {
       if (existing) {
         existing.usage_count = (existing.usage_count ?? 0) + 1;
       } else {
-        realm.create('Color', {
-          id: new Realm.BSON.UUID().toHexString(),
-          name: color.name,
-          color_code: color.code,
+        realm.create(schemaName, {
+          [idFiled]: new Realm.BSON.UUID().toHexString(),
+          name,
           is_custom: true,
           usage_count: 1,
+          ...extraFields,
         });
       }
     });
-  }, [allColors, realm]);
+  }, [all, realm]);
 
-  const getSortedColors = useCallback((selectedIds: string[] = []) => {
-    return [...allColors]
+  const deleteById = useCallback((id: string) => {
+    const item = all.find((prop) => (prop[idField] as any)?.toString() === id);
+    if (!item) return;
+
+    realm.write(() => {
+      realm.delete(item);
+    });
+  }, [realm, all]);
+
+  const getSorted = useCallback((selectedIds: string[] = []) => {
+    return [...all]
       .sort((a, b) => {
         const aSelected = selectedIds.includes(a.id.toString());
         const bSelected = selectedIds.includes(b.id.toString());
@@ -35,11 +53,12 @@ export function useColorManager() {
 
         return (b.usage_count ?? 0) - (a.usage_count ?? 0);
       });
-  }, [allColors]);
+  }, [all]);
 
   return {
-    allColors,
-    getSortedColors,
-    addOrIncrementColor,
+    allProperties: all,
+    getSorted,
+    incrementOrCreate,
+    deleteById,
   };
 }

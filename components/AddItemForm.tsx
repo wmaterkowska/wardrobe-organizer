@@ -16,7 +16,7 @@ import { Occasion } from '../database/models/Occasion';
 import { FeelIn } from '../database/models/FeelIn';
 
 import { useQuery } from '@realm/react';
-import { useColorManager } from '../hooks/usePropertyManager';
+import { usePropertyManager } from '../hooks/usePropertyManager';
 
 import PropertyList from './PropertyList';
 import ColorList from './ColorList';
@@ -65,7 +65,10 @@ export default function AddItemForm({ onDismiss }: Props) {
 
   const clothesMainId = mains.find((m) => m.name === 'Clothes').id;
 
-  const { getSortedColors, addOrIncrementColor } = useColorManager();
+  const {
+    allProperties: allColors,
+    getSorted: getSortedColors,
+    incrementOrCreate: incrementOrCreateColor } = usePropertyManager<Color>('Color');
   const sortedColors = getSortedColors(colors.map(c => c.id));
 
   useEffect(() => {
@@ -190,7 +193,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       });
     });
 
-    selectedColorIds.forEach(colorId => {addOrIncrementColor(colorId)});
+    selectedColorIds.forEach(colorId => {incrementOrCreateColor(colorId)});
 
     setItemName(null);
     setImageUri(null);
