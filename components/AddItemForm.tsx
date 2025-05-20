@@ -3,6 +3,7 @@ import Realm from 'realm';
 import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
 import { Text, Button, SegmentedButtons } from 'react-native-paper';
 import { useRealm } from '@realm/react';
+
 import { Item } from '../database/models/Item';
 import { MainCategory } from '../database/models/MainCategory';
 import { Category } from '../database/models/Category';
@@ -13,7 +14,9 @@ import { Cut } from '../database/models/Cut';
 import { Textile } from '../database/models/Textile';
 import { Occasion } from '../database/models/Occasion';
 import { FeelIn } from '../database/models/FeelIn';
+
 import { useQuery } from '@realm/react';
+import { useColorManager } from '../hooks/usePropertyManager';
 
 import PropertyList from './PropertyList';
 import ColorList from './ColorList';
@@ -62,6 +65,9 @@ export default function AddItemForm({ onDismiss }: Props) {
 
   const clothesMainId = mains.find((m) => m.name === 'Clothes').id;
 
+  const { getSortedColors, addOrIncrementColor } = useColorManager();
+  const sortedColors = getSortedColors(colors.map(c => c.id));
+
   useEffect(() => {
     if (selectedCategoryId) {
       const cutsForCategory = cuts.filtered('ANY categories.id == $0', selectedCategoryId);
@@ -78,13 +84,9 @@ export default function AddItemForm({ onDismiss }: Props) {
     }
   }
 
-  const handleMainCategorySelect = (id: string) => {
-    setSelectedMainId(id);
-  }
+  const handleMainCategorySelect = (id: string) => {setSelectedMainId(id)};
 
-  const handleCategorySelect = (id: string) => {
-    setSelectedCategoryId(id);
-  };
+  const handleCategorySelect = (id: string) => {setSelectedCategoryId(id)};
 
   const toggleColor = (id: string) => {
     setSelectedColorIds((prev) =>
@@ -137,6 +139,7 @@ export default function AddItemForm({ onDismiss }: Props) {
 
   const handleWantSelect = (want) => {setWant(want)};
 
+
   const handleSave = () => {
     if (!itemName && !imageUri) return;
 
@@ -186,6 +189,8 @@ export default function AddItemForm({ onDismiss }: Props) {
         want: want,
       });
     });
+
+    selectedColorIds.forEach(colorId => {addOrIncrementColor(colorId)});
 
     setItemName(null);
     setImageUri(null);
@@ -251,7 +256,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       { selectedCategoryId ? (
       <View>
       <ColorList
-        colors={colors}
+        colors={sortedColors}
         selectable={true}
         selectedIds={selectedColorIds}
         onToggle={toggleColor}

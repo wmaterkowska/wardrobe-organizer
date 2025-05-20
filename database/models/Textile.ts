@@ -4,8 +4,8 @@ import { Realm } from '@realm/react';
 export class Textile extends Realm.Object {
   id!: string;
   name!: string;
-  isCustom!: boolean;
-  usageCount?: number;
+  is_custom!: boolean;
+  usage_count?: number;
 
   static schema: ObjectSchema = {
     name: 'Textile',
@@ -13,8 +13,8 @@ export class Textile extends Realm.Object {
     properties: {
       id: 'string',
       name: 'string',
-      isCustom!: 'bool',
-      usageCount?: {type: 'int', optional: true, default: 0},
+      is_custom: 'bool',
+      usage_count: {type: 'int', optional: true, default: 0},
     },
   };
 

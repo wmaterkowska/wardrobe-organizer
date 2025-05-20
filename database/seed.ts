@@ -399,8 +399,8 @@ const cutsToSeed = [
         realm.create('MainCategory', {
           id: new Realm.BSON.UUID().toHexString(),
           name: c,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -415,8 +415,8 @@ const cutsToSeed = [
           name: cat.name,
           main_category: linkedMain,
           cuts: [],
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         });
         categoryMap[cat.name] = category;
       });
@@ -430,8 +430,8 @@ const cutsToSeed = [
           id: new Realm.BSON.UUID().toHexString(),
           name: c.name,
           color_code: c.color_code,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -443,8 +443,8 @@ const cutsToSeed = [
         realm.create('Pattern', {
           id: new Realm.BSON.UUID().toHexString(),
           name: p,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -456,8 +456,8 @@ const cutsToSeed = [
         realm.create('Fit', {
           id: new Realm.BSON.UUID().toHexString(),
           name: f,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -471,8 +471,8 @@ const cutsToSeed = [
           id: new Realm.BSON.UUID().toHexString(),
           name: cut.name,
           categories: linkedCategories,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         });
         cutMap[cut.name] = cutObj;
         linkedCategories.forEach(category => {
@@ -488,8 +488,8 @@ const cutsToSeed = [
         realm.create('Textile', {
           id: new Realm.BSON.UUID().toHexString(),
           name: name,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -501,8 +501,8 @@ const cutsToSeed = [
         realm.create('Occasion', {
           id: new Realm.BSON.UUID().toHexString(),
           name: name,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {
@@ -514,8 +514,8 @@ const cutsToSeed = [
         realm.create('FeelIn', {
           id: new Realm.BSON.UUID().toHexString(),
           name: name,
-          isCustom: false,
-          usageCount: 0,
+          is_custom: false,
+          usage_count: 0,
         })
       );
     } else {

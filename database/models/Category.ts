@@ -9,8 +9,8 @@ export class Category extends Realm.Object {
   name!: string;
   main_category: Realm.Object<MainCategory>;
   cuts: Realm.List<Cut>;
-  isCustom!: boolean;
-  usageCount?: number;
+  is_custom!: boolean;
+  usage_count?: number;
 
   static schema: ObjectSchema = {
     name: 'Category',
@@ -20,8 +20,8 @@ export class Category extends Realm.Object {
       name: 'string',
       main_category: 'MainCategory',
       cuts: 'Cut[]',
-      isCustom!: 'bool',
-      usageCount?: {type: 'int', optional: true, default: 0},
+      is_custom: 'bool',
+      usage_count: {type: 'int', optional: true, default: 0},
     },
   };
 
