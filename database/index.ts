@@ -1,0 +1,10 @@
+export { Item } from './models/Item';
+export { MainCategory } from './models/MainCategory';
+export { Category } from './models/Category';
+export { Color } from './models/Color';
+export { Pattern } from './models/Pattern';
+export { Fit } from './models/Fit';
+export { Cut } from './models/Cut';
+export { Textile } from './models/Textile';
+export { Occasion } from './models/Occasion';
+export { FeelIn } from './models/FeelIn';

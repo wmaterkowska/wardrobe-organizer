@@ -33,7 +33,7 @@ export default function AddItemModal({ visible, onClose, children }: Props) {
           <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
             <View style={styles.header}>
               <Text variant={"displaySmall"} accessibilityRole="header">
-                Add New Item
+                Add New Piece
               </Text>
               <Pressable
                 accessibilityRole="button"
