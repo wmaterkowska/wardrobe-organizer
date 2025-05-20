@@ -7,6 +7,8 @@ export class Cut extends Realm.Object {
   id!: string;
   name!: string;
   categories: Realm.List<Category>;
+  isCustom!: boolean;
+  usageCount?: number;
 
   static schema: ObjectSchema = {
     name: 'Cut',
@@ -14,7 +16,9 @@ export class Cut extends Realm.Object {
     properties: {
       id: 'string',
       name: 'string',
-      categories: 'Category[]'
+      categories: 'Category[]',
+      isCustom!: 'bool',
+      usageCount?: {type: 'int', optional: true, default: 0},
     },
   };
 

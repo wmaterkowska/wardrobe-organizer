@@ -7,6 +7,8 @@ export class MainCategory extends Realm.Object {
   id!: string;
   name!: string;
   categories: Realm.List<Category>;
+  isCustom!: boolean;
+  usageCount?: number;
 
   static schema: ObjectSchema = {
     name: 'MainCategory',
@@ -18,7 +20,9 @@ export class MainCategory extends Realm.Object {
         type: 'linkingObjects',
         objectType: 'Category',
         property: 'main_category',
-      }
+      },
+      isCustom!: 'bool',
+      usageCount?: {type: 'int', optional: true, default: 0},
     },
   };
 
