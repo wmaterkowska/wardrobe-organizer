@@ -3,8 +3,10 @@ import React from 'react';
 import Item from '../database/models/Item';
 
 import { View, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, IconButton } from 'react-native-paper';
 import PropertyChip from './PropertyChip';
+
+import { useExpandableList } from '../hooks/useExpandableList';
 
 type Props = {
   title: string;
@@ -22,6 +24,8 @@ export default function PropertyList({
   selectedIds = [],
   onToggle,
   singleSelect = false, }: Props) {
+
+  const { visibleItems, showToggle, toggle, expanded } = useExpandableList(properties, 10);
 
   const handleToggle = (id: string) => {
     if (!onToggle) return;
@@ -42,7 +46,7 @@ export default function PropertyList({
     <Text variant="bodyLarge" >{title}</Text>
     {properties ? (
       <View style={styles.listView} >
-        {properties?.map( (property) => (
+        {visibleItems?.map( (property) => (
           <PropertyChip
             key={property.id}
             label={property.name}
@@ -51,8 +55,10 @@ export default function PropertyList({
             onPress={selectable ? () => handleToggle(property.id) : undefined }
           /> ) )}
       </View>
-      ) : null
-    }
+      ) : null }
+      {showToggle && (
+        <IconButton onPress={toggle} icon={expanded ? 'chevron-up' : 'chevron-down'}/>
+      )}
   </View>
   )
 }

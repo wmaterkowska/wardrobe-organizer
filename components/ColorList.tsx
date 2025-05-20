@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
+import { useExpandableList } from '../hooks/useExpandableList';
 
 import { Color } from '../database/models/Color';
 
@@ -20,6 +23,8 @@ export default function ColorList({
   onToggle,
   size = 45}: { Props }) {
 
+  const { visibleItems, showToggle, toggle, expanded } = useExpandableList(colors, 10);
+
   const handleToggle = (id: string) => {
     if (!onToggle) return;
 
@@ -34,7 +39,7 @@ export default function ColorList({
   return (
       <View style={styles.rowList}>
         {
-          colors.map((color, index) =>
+          visibleItems.map((color, index) =>
             ( <ColorDot
               key={index}
               colorCode={color.color_code}
@@ -44,6 +49,9 @@ export default function ColorList({
               onPress={selectable ? () => handleToggle(color.id) : undefined }
               /> ))
         }
+        {showToggle && (
+          <IconButton onPress={toggle} icon={expanded ? 'chevron-up' : 'chevron-down'}/>
+        )}
       </View>
   )
 }
