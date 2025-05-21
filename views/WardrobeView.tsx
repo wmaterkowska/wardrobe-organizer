@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 
+import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import  { WardrobeProvider, useWardrobeContext }  from '../context/WardrobeContext';
 

@@ -43,7 +43,7 @@ export function usePropertyManager<T extends BaseProperty>(
     });
   }, [realm, all]);
 
-  const getSorted = useCallback((selectedIds: string[] = []) => {
+  const getSorted = useCallback((selectedIds: string[] = []) : Cut[] => {
     return [...all]
       .sort((a, b) => {
         const aSelected = selectedIds.includes(a.id.toString());

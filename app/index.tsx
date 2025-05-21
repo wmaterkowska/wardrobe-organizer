@@ -6,6 +6,7 @@ import { WardrobeProvider } from '../context/WardrobeContext';
 import { useColorScheme } from 'react-native';
 import { lightTheme, darkTheme, navigationThemes } from '../theme/paperTheme';
 
+import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { useEffect } from 'react';
 
