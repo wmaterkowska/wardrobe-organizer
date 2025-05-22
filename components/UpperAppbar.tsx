@@ -11,7 +11,7 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
-  const { viewType, setViewType, numColumns, setNumColumns } = useWardrobeContext();
+  const { viewType, setViewType, numColumns, setNumColumns, isEditMode, setIsEditMode } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
@@ -24,6 +24,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       return 4;
     });
   };
+
+  const toggleEditMode = (prev) => { setIsEditMode(!prev) };
 
   return (
     <Appbar.Header
@@ -51,13 +53,19 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           }
         ]}
         style={styles.segmentedButtons}
-      />) : null}
+      />) : null }
       {route.name === "Wardrobe" && viewType === 'grid' ? (
         <Appbar.Action
           icon="magnify"
           onPress={cycleZoom}
         />
-        ) : null}
+        ) : null }
+      {route.name === "ItemDetail" ? (
+        <Appbar.Action
+          icon="pencil"
+          onPress={toggleEditMode}
+        />
+      ) : null }
     </Appbar.Header>
   )
 }

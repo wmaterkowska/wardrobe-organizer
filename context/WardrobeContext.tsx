@@ -8,6 +8,8 @@ interface WardrobeContextProps {
   setViewType: React.Dispatch<React.SetStateAction<ViewType>>;
   numColumns: NumColumns;
   setNumColumns: React.Dispatch<React.SetStateAction<NumColumns>>;
+  isEditMode: boolean;
+  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
@@ -21,9 +23,17 @@ export const useWardrobeContext = () => {
 export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [numColumns, setNumColumns] = useState<NumColumns>(2);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   return (
-    <WardrobeContext.Provider value={{ viewType, setViewType, numColumns, setNumColumns }}>
+    <WardrobeContext.Provider
+      value={{ viewType,
+        setViewType,
+        numColumns,
+        setNumColumns,
+        isEditMode,
+        setIsEditMode }}
+    >
       {children}
     </WardrobeContext.Provider>
   );

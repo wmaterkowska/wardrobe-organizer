@@ -5,6 +5,8 @@ import { useRoute } from '@react-navigation/native';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
+import  { useWardrobeContext }  from '../context/WardrobeContext';
+
 import { Item } from '../database/models/Item';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
@@ -27,6 +29,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const { itemId } = route.params;
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
   const questions = [];
+
+  const { isEditMode, setIsEditMode } = useWardrobeContext()
 
   useEffect(() => {
     if (!item.image_uri) return;
