@@ -11,7 +11,15 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
-  const { viewType, setViewType, numColumns, setNumColumns, isEditMode, setIsEditMode } = useWardrobeContext();
+  const {
+    viewType,
+    setViewType,
+    numColumns,
+    setNumColumns,
+    isEditMode,
+    setIsEditMode
+    saveChanges
+  } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
@@ -30,7 +38,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     });
   };
 
-  const toggleEditMode = () => { setIsEditMode(!isEditMode) };
+  const toggleEditMode = () => {
+    if (isEditMode) { saveChanges() };
+    setIsEditMode(!isEditMode)
+  }
 
   return (
     <Appbar.Header
@@ -67,7 +78,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ) : null }
       {route.name === "ItemDetail" ? (
         <Appbar.Action
-          icon="pencil"
+          icon={isEditMode ? "check" : "pencil"}
           onPress={toggleEditMode}
         />
       ) : null }

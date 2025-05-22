@@ -7,7 +7,8 @@ import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
-import { pickOrCaptureImage } from '../utility/photoUtils'
+import { pickOrCaptureImage } from '../utility/photoUtils';
+import { updateItemField } from '../utility/itemUpdate';
 
 import { Item } from '../database/models/Item';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
@@ -33,7 +34,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
   const questions = [];
 
-  const { isEditMode, setIsEditMode } = useWardrobeContext();
+  const { isEditMode, setIsEditMode, updateItem } = useWardrobeContext();
   const [isEditable, setIsEditable] = useState(false);
 
   const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
@@ -61,6 +62,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setImageUri(uri);
     }
   }
+
+  useRegisterSave(updateItemField(realm, item, {image_uri: imageUri}));
 
   if (!item) {
     return (

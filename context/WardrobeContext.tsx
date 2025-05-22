@@ -10,6 +10,7 @@ interface WardrobeContextProps {
   setNumColumns: React.Dispatch<React.SetStateAction<NumColumns>>;
   isEditMode: boolean;
   setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  saveChanges: () => void;
 }
 
 const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
@@ -25,6 +26,9 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [numColumns, setNumColumns] = useState<NumColumns>(2);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
+  const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
+  const saveChanges = () => saveCallback();
+
   return (
     <WardrobeContext.Provider
       value={{
@@ -33,9 +37,18 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         numColumns,
         setNumColumns,
         isEditMode,
-        setIsEditMode }}
+        setIsEditMode,
+        saveChanges,
+      }}
     >
       {children}
     </WardrobeContext.Provider>
   );
+};
+
+export const useRegisterSave = (saveFn: () => void) => {
+  const ctx = useEditContext();
+  React.useEffect(() => {
+    ctx && ctx.saveChanges && ctx.saveChanges;
+  }, [saveFn]);
 };
