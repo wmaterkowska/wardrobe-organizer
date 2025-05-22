@@ -47,7 +47,7 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 };
 
 export const useRegisterSave = (saveFn: () => void) => {
-  const ctx = useEditContext();
+  const ctx = useWardrobeContext();
   React.useEffect(() => {
     ctx && ctx.saveChanges && ctx.saveChanges;
   }, [saveFn]);

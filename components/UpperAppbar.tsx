@@ -17,8 +17,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     numColumns,
     setNumColumns,
     isEditMode,
-    setIsEditMode
-    saveChanges
+    setIsEditMode,
+    saveChanges,
   } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();

@@ -6,7 +6,7 @@ import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
-import  { useWardrobeContext }  from '../context/WardrobeContext';
+import  { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
@@ -83,7 +83,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
            Edit all
          </Button> ) : null }
 
-        {item.image_uri ? (
+        {(item.image_uri !== null || isEditMode === true ) ? (
           <ImageSection
             imageUri={imageUri}
             imageHeight={imageHeight}

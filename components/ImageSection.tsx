@@ -28,8 +28,8 @@ export default function ImageSection({imageUri, onAdd, onChange, imageHeight, im
       />
     )}
     { isEditMode ?
-      <Button onPress={onChange} mode='outlined' style={styles.changeButton} >
-        Change Photo
+      <Button onPress={onChange} style={styles.changeButton} >
+        {imageUri ? 'Change Photo' : 'Add Photo'}
       </Button> : null }
   </View>
   );
