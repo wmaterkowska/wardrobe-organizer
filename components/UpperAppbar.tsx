@@ -15,6 +15,11 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
+  const handleBack = () => {
+    setIsEditMode(false);
+    return navigation.goBack();
+  };
+
   const cycleZoom = () => {
     setNumColumns(prev => {
       if (prev === 1) return 2;
@@ -25,7 +30,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     });
   };
 
-  const toggleEditMode = (prev) => { setIsEditMode(!prev) };
+  const toggleEditMode = () => { setIsEditMode(!isEditMode) };
 
   return (
     <Appbar.Header
@@ -35,7 +40,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       statusBarHeight={0}
       >
       {back ?
-        <Appbar.BackAction onPress={navigation.goBack} /> : null}
+        <Appbar.BackAction onPress={handleBack} /> : null}
       <Appbar.Content title={title} style={styles.title}/>
       {route.name === "Wardrobe" ? (
       <SegmentedButtons

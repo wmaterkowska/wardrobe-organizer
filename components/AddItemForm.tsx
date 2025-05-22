@@ -200,7 +200,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       showsVerticalScrollIndicator={false} >
     <View style={styles.form} onStartShouldSetResponder={() => true}>
 
-      <ImageSection imageUri={imageUri} onPress={handlePickImage} />
+      <ImageSection imageUri={imageUri} onAdd={handlePickImage} />
 
       <Text variant="bodyLarge">item name</Text>
       <TextInput

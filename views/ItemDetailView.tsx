@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Text, Chip, Card, Button } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
+import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
+import { pickOrCaptureImage } from '../utility/photoUtils'
 
 import { Item } from '../database/models/Item';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
@@ -15,7 +17,8 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import ColorList from '../components/ColorList';
 import PropertyList from '../components/PropertyList';
-import CustomSegmentedButton from '../components/CustomSegmentedButton'
+import CustomSegmentedButton from '../components/CustomSegmentedButton';
+import ImageSection from '../components/ImageSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
@@ -30,12 +33,17 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
   const questions = [];
 
-  const { isEditMode, setIsEditMode } = useWardrobeContext()
+  const { isEditMode, setIsEditMode } = useWardrobeContext();
+  const [isEditable, setIsEditable] = useState(false);
+
+  const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
+
+  const toggleEditAll = () => {setIsEditable(true)};
 
   useEffect(() => {
-    if (!item.image_uri) return;
+    if (!imageUri) return;
     Image.getSize(
-      item.image_uri,
+      imageUri,
       (width, height) => {
         const ratio = height / width;
         setImageWidth(screenWidth);
@@ -45,7 +53,14 @@ export default function ItemDetailView({ route, navigation }: Props) {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [item.image_uri]);
+  }, [imageUri]);
+
+  const handlePickImage = async () => {
+    const uri = await pickOrCaptureImage();
+    if (uri) {
+      setImageUri(uri);
+    }
+  }
 
   if (!item) {
     return (
@@ -60,12 +75,18 @@ export default function ItemDetailView({ route, navigation }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16}}
       showsVerticalScrollIndicator={false} >
       <View>
+        {isEditMode ? (
+         <Button mode='outlined' onPress={toggleEditAll} style={styles.editAllButton}>
+           Edit all
+         </Button> ) : null }
+
         {item.image_uri ? (
-          <Image
-            source={{ uri: item.image_uri }}
-            style={{ width: imageWidth, height: imageHeight, }}
-          />
-        ) : null}
+          <ImageSection
+            imageUri={imageUri}
+            imageHeight={imageHeight}
+            imageWidth={imageWidth}
+            onChange={handlePickImage}/>
+        ) : null }
 
         <Text variant="headlineLarge">{item.item_name}</Text>
 
@@ -108,8 +129,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
           </View>
           ) : null
         }
-
-
       </View>
     </ScrollView>
   );
@@ -120,7 +139,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
   },
-questionContainer: {
-   marginTop: 16,
+  editAllButton: {
+    marginBottom: 16,
+  },
+  questionContainer: {
+    marginTop: 16,
   }
 })

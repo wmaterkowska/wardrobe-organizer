@@ -27,7 +27,8 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   return (
     <WardrobeContext.Provider
-      value={{ viewType,
+      value={{
+        viewType,
         setViewType,
         numColumns,
         setNumColumns,

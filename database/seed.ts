@@ -76,7 +76,7 @@ export const seedDatabaseWithItems = (
       item_name: 'body',
       image_uri: bodyUri,
       main_category: properties.main.find(c => c.name === 'Clothes'),
-      category: properties.categories.find(c => c.name === 'Long-sleeves'),
+      category: properties.categories.find(c => c.name === 'Long-Sleeves'),
       colors: properties.colors.filter(c => c.name === 'Brown' || c.name === 'Beige'),
       patterns: properties.patterns.filter(p => p.name === 'Solid'),
       fits: properties.fits.filter(f => f.name === 'Fitted'),
