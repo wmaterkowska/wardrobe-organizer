@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Realm from 'realm';
+import { useRealm } from '@realm/react';
 import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
 import { Text, Button, SegmentedButtons } from 'react-native-paper';
-import { useRealm } from '@realm/react';
-import { Item } from '../database/models/Item';
-import { MainCategory } from '../database/models/MainCategory';
-import { Category } from '../database/models/Category';
-import { Color } from '../database/models/Color';
-import { Pattern } from '../database/models/Pattern';
-import { Fit } from '../database/models/Fit';
-import { Cut } from '../database/models/Cut';
-import { Textile } from '../database/models/Textile';
-import { Occasion } from '../database/models/Occasion';
-import { FeelIn } from '../database/models/FeelIn';
-import { useQuery } from '@realm/react';
+
+import { usePropertyManager } from '../hooks/usePropertyManager';
+import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
+import { useItemFormData } from '../hooks/useItemFormData';
+import { saveNewItem } from '../utility/itemSave';
 
 import PropertyList from './PropertyList';
 import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
+import ImageSection from './ImageSection';
+import QuestionSection from './QuestionSection';
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 import { pickOrCaptureImage } from '../utility/photoUtils'
@@ -28,16 +24,9 @@ type Props = {
 
 export default function AddItemForm({ onDismiss }: Props) {
   const realm = useRealm();
-  const mains = useQuery('MainCategory');
-  const categories = useQuery('Category');
-  const colors = useQuery('Color');
-  const patterns = useQuery('Pattern');
-  const fits = useQuery('Fit');
-  const cuts = useQuery('Cut');
-  const textiles = useQuery('Textile');
-  const occasions = useQuery('Occasion');
-  const feels = useQuery('FeelIn');
+  const { mains, categories, colors, patterns, fits, cuts, textiles, occasions, feels } = useItemFormData();
 
+// Set state for all Item properties ===============================================================
   const [itemName, setItemName] = useState<string | null>(null);
   const [imageUri, setImageUri] = useState<string | null>(null);
 
@@ -48,9 +37,10 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedFitIds, setSelectedFitIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
+  const [sortedCuts, setSortedCuts] = useState<Realm.Results<Cut> | Cut[] >([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
-  const [comfort, setComfort] = useState(3);
+  const [comfort, setComfort] = useState<int | null>(null);
   const [selectedFeelInIds, setSelectedFeelInIds] = useState<string[]>([]);
 
   const [likeMe, setLikeMe] = useState<string | null>(null);
@@ -60,132 +50,130 @@ export default function AddItemForm({ onDismiss }: Props) {
 
   const [want, setWant] = useState<string | null>(null);
 
-  const clothesMainId = mains.find((m) => m.name === 'Clothes').id;
+// id for category: Clothes, need for UI ===========================================================
+  const accessoriesMainId = mains.find((m) => m.name === 'Accessories').id;
 
+// use hook for sorting and incrementing/adding properties =========================================
+  const {
+    category: {getSorted: getSortedCategories, incrementOrCreate: incrementOrCreateCategory},
+    color: { getSorted: getSortedColors, incrementOrCreate: incrementOrCreateColor },
+    pattern: { getSorted: getSortedPatterns, incrementOrCreate: incrementOrCreatePattern },
+    fit: { getSorted: getSortedFits, incrementOrCreate: incrementOrCreateFit },
+    cut: { getSorted: getSortedCuts, incrementOrCreate: incrementOrCreateCut },
+    textile: { getSorted: getSortedTextiles, incrementOrCreate: incrementOrCreateTextile },
+    occasion: { getSorted: getSortedOccasions, incrementOrCreate: incrementOrCreateOccasion },
+    feels: { getSorted: getSortedFeelIns, incrementOrCreate: incrementOrCreateFeelIn },
+  } = useAllPropertyManagers();
+
+  const sortedCategories = getSortedCategories(categories.map(c => c.id));
+  const sortedColors = getSortedColors(colors.map(c => c.id));
+  const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
+  const sortedFits = getSortedFits(fits.map(f => f.id));
+//  const sortedCuts = getSortedCuts(cuts.map(c => c.id));
+  const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
+  const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
+  const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
+
+// use Effect to show only cuts connected with choose category =====================================
   useEffect(() => {
     if (selectedCategoryId) {
       const cutsForCategory = cuts.filtered('ANY categories.id == $0', selectedCategoryId);
       setFilteredCuts(cutsForCategory);
+      setSortedCuts(getSortedCuts(cutsForCategory.map(c => c.id)));
     } else {
      setFilteredCuts([]);
+     setSortedCuts([]);
     }
-  }, [selectedCategoryId, cuts]);
 
+  }, [selectedCategoryId, cuts, selectedMainId]);
+
+// handle toggle functions =========================================================================
   const handlePickImage = async () => {
     const uri = await pickOrCaptureImage();
     if (uri) {
       setImageUri(uri);
     }
   }
-
   const handleMainCategorySelect = (id: string) => {
     setSelectedMainId(id);
-  }
-
-  const handleCategorySelect = (id: string) => {
-    setSelectedCategoryId(id);
+    setSelectedCategoryId(null)
   };
-
+  const handleCategorySelect = (id: string) => {setSelectedCategoryId(id)};
   const toggleColor = (id: string) => {
     setSelectedColorIds((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
     );
   };
-
   const togglePattern = (id: string) => {
     setSelectedPatternIds((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
     );
   };
-
   const toggleFit = (id: string) => {
     setSelectedFitIds((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
     );
   };
-
   const toggleCut = (id: string) => {
     setSelectedCutIds((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
     );
   };
-
   const toggleTextile = (id: string) => {
     setSelectedTextileIds((prev) =>
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     );
   };
-
   const toggleOccasion = (id: string) => {
     setSelectedOccasionIds((prev) =>
       prev.includes(id) ? prev.filter((o) => o !== id) : [...prev, id]
     );
   };
-
   const handleComfortSelect = (comfortLevel) => {setComfort(comfortLevel)};
-
   const toggleFeelIn = (id: string) => {
     setSelectedFeelInIds((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
     );
   };
-
   const handleLikeMeSelect = (likeMe) => {setLikeMe(likeMe)};
   const handleLookLevelSelect = (lookLevel) => {setLookLevel(lookLevel)};
   const handleFrequencySelect = (frequency) => {setFrequency(frequency)};
   const handlePriceSelect = (price) => {setPrice(price)};
-
   const handleWantSelect = (want) => {setWant(want)};
 
+// save item to the database =======================================================================
   const handleSave = () => {
     if (!itemName && !imageUri) return;
 
-    realm.write(() => {
-      const main = selectedMainId ? realm.objectForPrimaryKey(MainCategory, selectedMainId) : null;
-      const category = selectedCategoryId ? realm.objectForPrimaryKey(Category, selectedCategoryId) : null;
-      const selectedColors = selectedColorIds ? selectedColorIds
-        .map((id) => realm.objectForPrimaryKey(Color, id))
-        .filter(Boolean) : null;
-      const selectedPatterns = selectedPatternIds ? selectedPatternIds
-        .map((id) => realm.objectForPrimaryKey(Pattern, id))
-        .filter(Boolean) : null;
-      const selectedFits = selectedFitIds ? selectedFitIds
-        .map((id) => realm.objectForPrimaryKey(Fit, id))
-        .filter(Boolean) : null;
-      const selectedCuts = selectedCutIds ? selectedCutIds
-        .map((id) => realm.objectForPrimaryKey(Cut, id))
-        .filter(Boolean) : null;
-      const selectedTextiles = selectedTextileIds ? selectedTextileIds
-        .map((id) => realm.objectForPrimaryKey(Textile, id))
-        .filter(Boolean) : null;
-      const selectedOccasions = selectedOccasionIds ? selectedOccasionIds
-        .map((id) => realm.objectForPrimaryKey(Occasion, id))
-        .filter(Boolean) : null;
-      const selectedFeels = selectedFeelInIds ? selectedFeelInIds
-        .map((id) => realm.objectForPrimaryKey(FeelIn, id))
-        .filter(Boolean) : null;
-
-      realm.create('Item', {
-        id: new Realm.BSON.UUID().toHexString(),
-        item_name: itemName,
-        image_uri: imageUri,
-        main_category: main,
-        category: category,
-        colors: selectedColors,
-        patterns: selectedPatterns,
-        fits: selectedFits,
-        cuts: selectedCuts,
-        textiles: selectedTextiles,
-        occasions: selectedOccasions,
-        comfort: comfort,
-        feel_in: selectedFeels,
-        like_me: likeMe,
-        look_level: lookLevel,
-        frequency: frequency,
-        price: price,
-        want: want,
+    saveNewItem({
+        realm,
+        itemName,
+        imageUri,
+        selectedMainId,
+        selectedCategoryId,
+        selectedColorIds,
+        selectedPatternIds,
+        selectedFitIds,
+        selectedCutIds,
+        selectedTextileIds,
+        selectedOccasionIds,
+        comfort,
+        selectedFeelInIds,
+        likeMe,
+        lookLevel,
+        frequency,
+        price,
+        want,
       });
-    });
+
+    incrementOrCreateCategory(selectedCategoryId);
+    selectedColorIds.forEach(colorId => {incrementOrCreateColor(colorId)});
+    selectedPatternIds.forEach(patternId => {incrementOrCreatePattern(patternId)});
+    selectedFitIds.forEach(fitId => {incrementOrCreateFit(fitId)});
+    selectedCutIds.forEach(cutId => {incrementOrCreateCut(cutId)});
+    selectedTextileIds.forEach(textileId => {incrementOrCreateTextile(textileId)});
+    selectedOccasionIds.forEach(occasionId => {incrementOrCreateOccasion(occasionId)});
+    selectedFeelInIds.forEach(feelInId => {incrementOrCreateFeelIn(feelInId)});
 
     setItemName(null);
     setImageUri(null);
@@ -197,7 +185,7 @@ export default function AddItemForm({ onDismiss }: Props) {
     setSelectedCutIds([]);
     setSelectedTextileIds([]);
     setSelectedOccasionIds([]);
-    setComfort(3);
+    setComfort(null);
     setSelectedFeelInIds([]);
     setLikeMe(null);
     setLookLevel(null);
@@ -212,13 +200,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       showsVerticalScrollIndicator={false} >
     <View style={styles.form} onStartShouldSetResponder={() => true}>
 
-      <Button onPress={handlePickImage}>Add Photo</Button>
-      {imageUri && (
-        <Image
-          source={{ uri: imageUri }}
-          style={{ width: 200, height: 200, borderRadius: 10, marginTop: 10 }}
-        />
-      )}
+      <ImageSection imageUri={imageUri} onPress={handlePickImage} />
 
       <Text variant="bodyLarge">item name</Text>
       <TextInput
@@ -241,7 +223,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       {selectedMainId ? (
       <PropertyList
         title={'category'}
-        properties={categories.filter((c) => c.main_category.id === selectedMainId.toString())}
+        properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
         selectable={true}
         selectedIds={selectedCategoryId ? [selectedCategoryId] : []}
         onToggle={handleCategorySelect}
@@ -251,7 +233,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       { selectedCategoryId ? (
       <View>
       <ColorList
-        colors={colors}
+        colors={sortedColors}
         selectable={true}
         selectedIds={selectedColorIds}
         onToggle={toggleColor}
@@ -259,17 +241,17 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <PropertyList
         title="patterns"
-        properties={patterns}
+        properties={sortedPatterns}
         selectable={true}
         selectedIds={selectedPatternIds}
         onToggle={togglePattern}
       />
 
-      { selectedMainId === clothesMainId ? (
+      { selectedMainId !== accessoriesMainId ? (
       <View>
         <PropertyList
           title="fit"
-          properties={fits}
+          properties={sortedFits}
           selectable={true}
           selectedIds={selectedFitIds}
           onToggle={toggleFit}
@@ -278,7 +260,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         {selectedCategoryId ? (
           <PropertyList
             title="cut"
-            properties={filteredCuts}
+            properties={sortedCuts}
             selectable={true}
             selectedIds={selectedCutIds}
             onToggle={toggleCut}
@@ -288,7 +270,7 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <PropertyList
         title="textile"
-        properties={textiles}
+        properties={sortedTextiles}
         selectable={true}
         selectedIds={selectedTextileIds}
         onToggle={toggleTextile}
@@ -296,7 +278,7 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <PropertyList
         title="occasion"
-        properties={occasions}
+        properties={sortedOccasions}
         selectable={true}
         selectedIds={selectedOccasionIds}
         onToggle={toggleOccasion}
@@ -312,43 +294,22 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <PropertyList
         title="feel_in"
-        properties={feels}
+        properties={sortedFeelIns}
         selectable={true}
         selectedIds={selectedFeelInIds}
         onToggle={toggleFeelIn}
       />
 
-      <CustomSegmentedButton
-        property={Questions.like_me}
-        levels={LEVELS.like_me}
-        value={likeMe}
-        isEditable={true}
-        onChange={handleLikeMeSelect}
-      />
-
-      <CustomSegmentedButton
-        property={Questions.look_level}
-        levels={LEVELS.look_level}
-        value={lookLevel}
-        isEditable={true}
-        onChange={handleLookLevelSelect}
-      />
-
-      <CustomSegmentedButton
-        property={Questions.frequency}
-        levels={LEVELS.frequency}
-        value={frequency}
-        isEditable={true}
-        onChange={handleFrequencySelect}
-      />
-
-      <CustomSegmentedButton
-        property={Questions.price}
-        levels={LEVELS.price}
-        value={price}
-        isEditable={true}
-        onChange={handlePriceSelect}
-      />
+      <QuestionSection
+        likeMe={likeMe}
+        handleLikeMeSelect={handleLikeMeSelect}
+        lookLevel={lookLevel}
+        handleLookLevelSelect={handleLookLevelSelect}
+        frequency={frequency}
+        handleFrequencySelect={handleFrequencySelect}
+        price={price}
+        handlePriceSelect={handlePriceSelect}
+        />
 
       <Text variant="bodyLarge" style={styles.wantText} >{Want.wantQuestion}</Text>
       <SegmentedButtons
