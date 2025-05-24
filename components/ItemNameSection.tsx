@@ -18,7 +18,7 @@ export default function ItemNameSection({itemName, onChange, isEditable, onPress
   <View style={styles.nameContainer}>
     {isEditMode || isEditable ? (
       <View>
-        {!itemName ? ( <Text variant="bodyLarge">item name</Text> ) : null }
+        {!itemName || !isEditMode ? ( <Text variant="bodyLarge">item name</Text> ) : null }
         { isEditable ? (
         <TextInput
           style={styles.input}

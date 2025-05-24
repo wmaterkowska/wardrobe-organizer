@@ -87,7 +87,7 @@ export default function AddItemForm({ onDismiss }: Props) {
      setSortedCuts([]);
     }
 
-  }, [selectedCategoryId, cuts, selectedMainId]);
+  }, [selectedCategoryId, cuts, selectedMainId, itemName]);
 
 // handle toggle functions =========================================================================
   const handlePickImage = async () => {
@@ -204,29 +204,29 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <ItemNameSection isEditable={true} onChange={setItemName} />
+      <ItemNameSection itemName={itemName} isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
         <PropertySection
           title={'main category'}
           properties={mains}
           selectedPropertyIds={[selectedMainId]}
-          selectedPropertyIds={[selectedMainId]}
+          selectedPropertyIds={selectedMainId ? [selectedMainId] : []}
           handleSelect={handleMainCategorySelect}
           isSingleSelect={true}
           isEditable={true}
         /> ) : null }
 
 
-      {selectedMainId ? (
-      <PropertyList
-        title={'category'}
-        properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
-        selectable={true}
-        selectedIds={selectedCategoryId ? [selectedCategoryId] : []}
-        onToggle={handleCategorySelect}
-        singleSelect={true}
-      /> ) : null }
+      { selectedMainId ? (
+        <PropertySection
+          title={'category'}
+          properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
+          selectedPropertyIds={selectedCategoryId ? [selectedCategoryId] : []}
+          handleSelect={handleCategorySelect}
+          isSingleSelect={true}
+          isEditable={true}
+        /> ) : null }
 
 
       { selectedCategoryId ? (

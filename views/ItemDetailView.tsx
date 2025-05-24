@@ -53,7 +53,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [imageUri, main]);
+  }, [imageUri, main, category]);
 
   const { isEditMode, setIsEditMode, saveChanges } = useWardrobeContext();
 
@@ -153,9 +153,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <View style={!isEditMode ? styles.categories : styles.editCategories} >
           <PropertySection
-            title={item?.main_category?.name}
+            title={main?.name}
             properties={mains}
-            selectedPropertyIds={[item?.main_category?.id]}
+            selectedPropertyIds={[main?.id]}
             handleSelect={handleMainCategorySelect}
             isSingleSelect={true}
             isEditable={isMainEditable}
@@ -164,7 +164,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <Text variant="bodyMedium"> > </Text>
           <PropertySection
             title={item?.category?.name}
-            properties={categories}
+            properties={categories.filter((c) => c.main_category.id === main.id)}
             selectedPropertyIds={[item?.category?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}
