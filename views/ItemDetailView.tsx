@@ -6,7 +6,7 @@ import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
-import  { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
+import { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
@@ -20,26 +20,22 @@ import ColorList from '../components/ColorList';
 import PropertyList from '../components/PropertyList';
 import CustomSegmentedButton from '../components/CustomSegmentedButton';
 import ImageSection from '../components/ImageSection';
+import ItemNameSection from '../components/ItemNameSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
 export default function ItemDetailView({ route, navigation }: Props) {
 
   const realm = useRealm();
+  const { itemId } = route.params;
+  const item = realm.objectForPrimaryKey<Item>('Item', itemId);
+
+  const questions = [];
+
+// Find image width and height =====================================================================
   const [imageHeight, setImageHeight] = useState(200);
   const [imageWidth, setImageWidth] = useState(200);
   const screenWidth = Dimensions.get('window').width - 32;
-
-  const { itemId } = route.params;
-  const item = realm.objectForPrimaryKey<Item>('Item', itemId);
-  const questions = [];
-
-  const { isEditMode, setIsEditMode, updateItem } = useWardrobeContext();
-  const [isEditable, setIsEditable] = useState(false);
-
-  const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
-
-  const toggleEditAll = () => {setIsEditable(true)};
 
   useEffect(() => {
     if (!imageUri) return;
@@ -56,15 +52,40 @@ export default function ItemDetailView({ route, navigation }: Props) {
     );
   }, [imageUri]);
 
+  const { isEditMode, setIsEditMode, saveChanges } = useWardrobeContext();
+
+// set state for item detail and edit item detail ==================================================
+  const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
+  const [isImageEditable, setIsImageEditable] = useState(false);
+  const [itemName, setItemName] = useState<string | null>(item.item_name);
+  const [isItemNameEditable, setIsItemNameEditable] = useState(false);
+
+// functions to toggle edit buttons ================================================================
+  const toggleEditAll = () => {
+    setIsImageEditable(!isImageEditable);
+    setIsItemNameEditable(!isItemNameEditable);
+  };
+
   const handlePickImage = async () => {
     const uri = await pickOrCaptureImage();
     if (uri) {
       setImageUri(uri);
     }
-  }
+  };
+
+  const toggleImageEdit = () => {
+    setIsImageEditable(!isImageEditable);
+    if (isImageEditable) { updateItemField(realm, item, {image_uri: imageUri }) };
+  };
+
+  const toggleNameEdit = () => {
+    setIsItemNameEditable(!isItemNameEditable);
+    if (isItemNameEditable) { updateItemField(realm, item, {item_name: itemName }) };
+  };
 
   useRegisterSave(updateItemField(realm, item, {image_uri: imageUri}));
 
+// error when there is no item found ===============================================================
   if (!item) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -79,19 +100,24 @@ export default function ItemDetailView({ route, navigation }: Props) {
       showsVerticalScrollIndicator={false} >
       <View>
         {isEditMode ? (
-         <Button mode='outlined' onPress={toggleEditAll} style={styles.editAllButton}>
-           Edit all
-         </Button> ) : null }
+          <Button mode='outlined' onPress={toggleEditAll} style={styles.editAllButton}>
+            Edit all
+          </Button> ) : null }
 
-        {(item.image_uri !== null || isEditMode === true ) ? (
-          <ImageSection
-            imageUri={imageUri}
-            imageHeight={imageHeight}
-            imageWidth={imageWidth}
-            onChange={handlePickImage}/>
-        ) : null }
+        <ImageSection
+          imageUri={imageUri}
+          imageHeight={imageHeight}
+          imageWidth={imageWidth}
+          isEditable={isImageEditable}
+          onChange={handlePickImage}
+          onPressEditIcon={toggleImageEdit}
+        />
 
-        <Text variant="headlineLarge">{item.item_name}</Text>
+        <ItemNameSection
+          itemName={itemName}
+          isEditable={isItemNameEditable}
+          onPressEditIcon={toggleNameEdit}
+        />
 
         <View style={styles.category} >
           <Text variant="bodyMedium">{item.main_category?.name} ></Text>

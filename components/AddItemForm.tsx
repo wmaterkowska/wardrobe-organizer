@@ -13,6 +13,7 @@ import PropertyList from './PropertyList';
 import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 import ImageSection from './ImageSection';
+import ItemNameSection from './ItemNameSection';
 import QuestionSection from './QuestionSection';
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
@@ -166,7 +167,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         want,
       });
 
-    incrementOrCreateCategory(selectedCategoryId);
+    if (selectedCategoryId) { incrementOrCreateCategory(selectedCategoryId) };
     selectedColorIds.forEach(colorId => {incrementOrCreateColor(colorId)});
     selectedPatternIds.forEach(patternId => {incrementOrCreatePattern(patternId)});
     selectedFitIds.forEach(fitId => {incrementOrCreateFit(fitId)});
@@ -200,15 +201,9 @@ export default function AddItemForm({ onDismiss }: Props) {
       showsVerticalScrollIndicator={false} >
     <View style={styles.form} onStartShouldSetResponder={() => true}>
 
-      <ImageSection imageUri={imageUri} onAdd={handlePickImage} />
+      <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <Text variant="bodyLarge">item name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="e.g., Jacket"
-        value={itemName}
-        onChangeText={setItemName}
-      />
+      <ItemNameSection isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
       <PropertyList
