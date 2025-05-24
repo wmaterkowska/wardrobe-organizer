@@ -15,6 +15,7 @@ import CustomSegmentedButton from './CustomSegmentedButton';
 import ImageSection from './ImageSection';
 import ItemNameSection from './ItemNameSection';
 import PropertySection from './PropertySection';
+import ColorSection from './ColorSection';
 import QuestionSection from './QuestionSection';
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
@@ -71,7 +72,6 @@ export default function AddItemForm({ onDismiss }: Props) {
   const sortedColors = getSortedColors(colors.map(c => c.id));
   const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
   const sortedFits = getSortedFits(fits.map(f => f.id));
-//  const sortedCuts = getSortedCuts(cuts.map(c => c.id));
   const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
@@ -231,11 +231,12 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       { selectedCategoryId ? (
       <View>
-      <ColorList
+
+      <ColorSection
         colors={sortedColors}
-        selectable={true}
-        selectedIds={selectedColorIds}
-        onToggle={toggleColor}
+        selectedColorIds={selectedColorIds}
+        handleSelect={toggleColor}
+        isEditable={true}
       />
 
       <PropertyList

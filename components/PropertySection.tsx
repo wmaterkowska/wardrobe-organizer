@@ -4,7 +4,7 @@ import { Text, IconButton } from 'react-native-paper';
 import PropertyList from './PropertyList';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
-import Item from '../database/models/Item';
+import { Item } from '../database/index';
 
 type Props = {
   title?: string;
@@ -23,7 +23,7 @@ export default function PropertySection({
   handleSelect,
   isSingleSelect = false,
   isEditable,
-  onPressEditIcon, }: Props) {
+  onPressEditIcon, } : Props) {
 
   const { isEditMode } = useWardrobeContext();
 

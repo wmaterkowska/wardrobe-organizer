@@ -11,7 +11,7 @@ import { useItemFormData } from '../hooks/useItemFormData';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
-import { Item, MainCategory } from '../database/models/Item';
+import { Item, MainCategory } from '../database/index';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -23,6 +23,7 @@ import CustomSegmentedButton from '../components/CustomSegmentedButton';
 import ImageSection from '../components/ImageSection';
 import ItemNameSection from '../components/ItemNameSection';
 import PropertySection from '../components/PropertySection';
+import ColorSection from '../components/ColorSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
@@ -66,6 +67,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isMainEditable, setIsMainEditable] = useState(false);
   const [category, setCategory] = useState<Category | null>(item.category);
   const [isCategoryEditable, setIsCategoryEditable] = useState(false);
+  const [itemColors, setItemColors] = useState<Color[]>(item.colors);
+  const [isColorsEditable, setIsColorsEditable] = useState(false);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
@@ -107,6 +110,17 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const handleCategorySelect = (id: string) => {
     const categoryFromId = categories.find(c => c.id === id);
     setCategory(categoryFromId);
+  };
+
+  const toggleColorEdit = () => {
+    setIsColorsEditable(!isColorsEditable);
+    if (isColorsEditable) { updateItemField(realm, item, {colors: itemColors})};
+  }
+  const handleColorSelect = (id: string) => {
+    const colorFromId = colors.find((c) => c.id === id);
+    setItemColors((prev) =>
+      prev.includes(colorFromId) ? prev.filter((c) => c !== colorFromId) : [...prev, colorFromId]
+      );
   };
 
   useRegisterSave(updateItemField(realm, item, {
@@ -173,7 +187,15 @@ export default function ItemDetailView({ route, navigation }: Props) {
           />
         </View>
 
-        { item.colors ? <ColorList colors={item.colors} /> : null }
+        { item.colors ?
+        <ColorSection
+          colors={isColorsEditable ? colors : item.colors}
+          selectedColorIds={itemColors.map((c) => c.id)}
+          handleSelect={handleColorSelect}
+          isEditable={isColorsEditable}
+          onPressEditIcon={toggleColorEdit}
+        /> : null }
+
 
         { PROPERTIES_ARRAY.map( (property, i) => (
           <PropertyList key={i} title={property} properties={item[property]} />
