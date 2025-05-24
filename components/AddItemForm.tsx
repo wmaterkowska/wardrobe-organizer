@@ -14,6 +14,7 @@ import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 import ImageSection from './ImageSection';
 import ItemNameSection from './ItemNameSection';
+import PropertySection from './PropertySection';
 import QuestionSection from './QuestionSection';
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
@@ -206,14 +207,16 @@ export default function AddItemForm({ onDismiss }: Props) {
       <ItemNameSection isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
-      <PropertyList
-        title={'main category'}
-        properties={mains}
-        selectable={true}
-        selectedIds={selectedMainId ? [selectedMainId] : []}
-        onToggle={handleMainCategorySelect}
-        singleSelect={true}
-      /> ) : null }
+        <PropertySection
+          title={'main category'}
+          properties={mains}
+          selectedPropertyIds={[selectedMainId]}
+          selectedPropertyIds={[selectedMainId]}
+          handleSelect={handleMainCategorySelect}
+          isSingleSelect={true}
+          isEditable={true}
+        /> ) : null }
+
 
       {selectedMainId ? (
       <PropertyList
@@ -224,6 +227,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         onToggle={handleCategorySelect}
         singleSelect={true}
       /> ) : null }
+
 
       { selectedCategoryId ? (
       <View>

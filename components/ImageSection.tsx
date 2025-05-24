@@ -36,7 +36,7 @@ export default function ImageSection({
         style={{ width: imageWidth ?? 200, height: imageHeight ?? 200, borderRadius: 10 }}
       />
     )}
-    { isEditMode && isEditable ?
+    { isEditable ?
       <Button onPress={onChange} style={styles.changeButton} >
         {imageUri ? 'Change Photo' : 'Add Photo'}
       </Button> : null }

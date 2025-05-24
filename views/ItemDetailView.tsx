@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { Text, Chip, Card, Button } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { BSON } from 'realm';
 
 import { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
+import { useItemFormData } from '../hooks/useItemFormData';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
-import { Item } from '../database/models/Item';
+import { Item, MainCategory } from '../database/models/Item';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -21,12 +22,14 @@ import PropertyList from '../components/PropertyList';
 import CustomSegmentedButton from '../components/CustomSegmentedButton';
 import ImageSection from '../components/ImageSection';
 import ItemNameSection from '../components/ItemNameSection';
+import PropertySection from '../components/PropertySection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
 export default function ItemDetailView({ route, navigation }: Props) {
 
   const realm = useRealm();
+  const { mains, categories, colors, patterns, fits, cuts, textiles, occasions, feels } = useItemFormData();
   const { itemId } = route.params;
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
 
@@ -50,7 +53,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [imageUri]);
+  }, [imageUri, main]);
 
   const { isEditMode, setIsEditMode, saveChanges } = useWardrobeContext();
 
@@ -59,13 +62,23 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isImageEditable, setIsImageEditable] = useState(false);
   const [itemName, setItemName] = useState<string | null>(item.item_name);
   const [isItemNameEditable, setIsItemNameEditable] = useState(false);
+  const [main, setMain] = useState< MainCategory | null>(item.main_category);
+  const [isMainEditable, setIsMainEditable] = useState(false);
+  const [category, setCategory] = useState<Category | null>(item.category);
+  const [isCategoryEditable, setIsCategoryEditable] = useState(false);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
     setIsImageEditable(!isImageEditable);
     setIsItemNameEditable(!isItemNameEditable);
+    setIsMainEditable(!isMainEditable);
+    setIsCategoryEditable(!isCategoryEditable);
   };
 
+  const toggleImageEdit = () => {
+    setIsImageEditable(!isImageEditable);
+    if (isImageEditable) { updateItemField(realm, item, {image_uri: imageUri }) };
+  };
   const handlePickImage = async () => {
     const uri = await pickOrCaptureImage();
     if (uri) {
@@ -73,17 +86,35 @@ export default function ItemDetailView({ route, navigation }: Props) {
     }
   };
 
-  const toggleImageEdit = () => {
-    setIsImageEditable(!isImageEditable);
-    if (isImageEditable) { updateItemField(realm, item, {image_uri: imageUri }) };
-  };
-
   const toggleNameEdit = () => {
     setIsItemNameEditable(!isItemNameEditable);
     if (isItemNameEditable) { updateItemField(realm, item, {item_name: itemName }) };
   };
 
-  useRegisterSave(updateItemField(realm, item, {image_uri: imageUri}));
+  const toggleMainEdit = () => {
+    setIsMainEditable(!isMainEditable);
+    if (isMainEditable) { updateItemField(realm, item, {main_category: main})};
+  };
+  const handleMainCategorySelect = (id: string) => {
+    const mainFromId = mains.find(m => m.id === id);
+    setMain(mainFromId);
+  };
+
+  const toggleCategoryEdit = () => {
+    setIsCategoryEditable(!isCategoryEditable);
+    if (isCategoryEditable) { updateItemField(realm, item, {category: category})};
+  }
+  const handleCategorySelect = (id: string) => {
+    const categoryFromId = categories.find(c => c.id === id);
+    setCategory(categoryFromId);
+  };
+
+  useRegisterSave(updateItemField(realm, item, {
+    image_uri: imageUri,
+    item_name: itemName,
+    main_category: main,
+    category: category,
+  }));
 
 // error when there is no item found ===============================================================
   if (!item) {
@@ -117,11 +148,29 @@ export default function ItemDetailView({ route, navigation }: Props) {
           itemName={itemName}
           isEditable={isItemNameEditable}
           onPressEditIcon={toggleNameEdit}
+          onChange={setItemName}
         />
 
-        <View style={styles.category} >
-          <Text variant="bodyMedium">{item.main_category?.name} ></Text>
-          <Text variant="bodyMedium">{item.category?.name || '—'}</Text>
+        <View style={!isEditMode ? styles.categories : styles.editCategories} >
+          <PropertySection
+            title={item?.main_category?.name}
+            properties={mains}
+            selectedPropertyIds={[item?.main_category?.id]}
+            handleSelect={handleMainCategorySelect}
+            isSingleSelect={true}
+            isEditable={isMainEditable}
+            onPressEditIcon={toggleMainEdit}
+          />
+          <Text variant="bodyMedium"> > </Text>
+          <PropertySection
+            title={item?.category?.name}
+            properties={categories}
+            selectedPropertyIds={[item?.category?.id]}
+            handleSelect={handleCategorySelect}
+            isSingleSelect={true}
+            isEditable={isCategoryEditable}
+            onPressEditIcon={toggleCategoryEdit}
+          />
         </View>
 
         { item.colors ? <ColorList colors={item.colors} /> : null }
@@ -164,9 +213,12 @@ export default function ItemDetailView({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  category: {
+  categories: {
     flexDirection: 'row',
     gap: 5,
+  },
+  editCategories: {
+    flexDirection: 'column',
   },
   editAllButton: {
     marginBottom: 16,
