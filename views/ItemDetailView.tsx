@@ -69,6 +69,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isCategoryEditable, setIsCategoryEditable] = useState(false);
   const [itemColors, setItemColors] = useState<Color[]>(item.colors);
   const [isColorsEditable, setIsColorsEditable] = useState(false);
+  const [itemPatterns, setItemPatterns] = useState<Pattern[]>(item.patterns);
+  const [isPatternsEditable, setIsPatternsEditable] = useState(false);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
@@ -76,6 +78,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsItemNameEditable(!isItemNameEditable);
     setIsMainEditable(!isMainEditable);
     setIsCategoryEditable(!isCategoryEditable);
+    setIsColorsEditable(!isColorsEditable);
+    setIsPatternsEditable(!isPatternsEditable);
   };
 
   const toggleImageEdit = () => {
@@ -106,7 +110,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const toggleCategoryEdit = () => {
     setIsCategoryEditable(!isCategoryEditable);
     if (isCategoryEditable) { updateItemField(realm, item, {category: category})};
-  }
+  };
   const handleCategorySelect = (id: string) => {
     const categoryFromId = categories.find(c => c.id === id);
     setCategory(categoryFromId);
@@ -115,11 +119,22 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const toggleColorEdit = () => {
     setIsColorsEditable(!isColorsEditable);
     if (isColorsEditable) { updateItemField(realm, item, {colors: itemColors})};
-  }
+  };
   const handleColorSelect = (id: string) => {
     const colorFromId = colors.find((c) => c.id === id);
     setItemColors((prev) =>
       prev.includes(colorFromId) ? prev.filter((c) => c !== colorFromId) : [...prev, colorFromId]
+      );
+  };
+
+  const togglePatternEdit = () => {
+    setIsPatternsEditable(!isPatternsEditable);
+    if (isPatternsEditable) { updateItemField(realm, item, {patterns: itemPatterns})};
+  };
+  const handlePatternSelect = (id: string) => {
+    const patternFromId = patterns.find((p) => p.id === id);
+    setItemPatterns((prev) =>
+      prev.includes(patternFromId) ? prev.filter((p) => p !== patternFromId) : [...prev, patternFromId]
       );
   };
 
@@ -128,6 +143,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
     item_name: itemName,
     main_category: main,
     category: category,
+    colors: itemColors,
+    patterns: itemPatterns,
   }));
 
 // error when there is no item found ===============================================================
@@ -167,7 +184,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <View style={!isEditMode ? styles.categories : styles.editCategories} >
           <PropertySection
-            title={main?.name}
+            title='main category'
+            propertyName={main?.name}
             properties={mains}
             selectedPropertyIds={[main?.id]}
             handleSelect={handleMainCategorySelect}
@@ -175,10 +193,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
             isEditable={isMainEditable}
             onPressEditIcon={toggleMainEdit}
           />
-          <Text variant="bodyMedium"> > </Text>
+          {main ? <Text variant="bodyMedium"> > </Text> : null}
           <PropertySection
-            title={item?.category?.name}
-            properties={categories.filter((c) => c.main_category.id === main.id)}
+            title='category'
+            propertyName={item?.category?.name}
+            properties={categories?.filter((c) => c.main_category?.id === main?.id)}
             selectedPropertyIds={[item?.category?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}
@@ -188,13 +207,23 @@ export default function ItemDetailView({ route, navigation }: Props) {
         </View>
 
         { item.colors ?
-        <ColorSection
-          colors={isColorsEditable ? colors : item.colors}
-          selectedColorIds={itemColors.map((c) => c.id)}
-          handleSelect={handleColorSelect}
-          isEditable={isColorsEditable}
-          onPressEditIcon={toggleColorEdit}
-        /> : null }
+          <ColorSection
+            colors={isColorsEditable ? colors : item.colors}
+            selectedColorIds={itemColors.map((c) => c.id)}
+            handleSelect={handleColorSelect}
+            isEditable={isColorsEditable}
+            onPressEditIcon={toggleColorEdit}
+          /> : null }
+
+        <PropertySection
+          title='patterns'
+          properties={isPatternsEditable ? patterns : item.patterns}
+          selectedPropertyIds={isPatternsEditable ? itemPatterns.map((p) => p.id) : []}
+          handleSelect={handlePatternSelect}
+          isEditable={isPatternsEditable}
+          onPressEditIcon={togglePatternEdit}
+        />
+
 
 
         { PROPERTIES_ARRAY.map( (property, i) => (

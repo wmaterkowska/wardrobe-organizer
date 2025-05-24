@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet } from 'react-native';
-import { Button, IconButton } from 'react-native-paper';
+import { Button, IconButton, Text } from 'react-native-paper';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
 
@@ -26,6 +26,7 @@ export default function ImageSection({
 
   return (
   <View style={styles.imageContainer}>
+    { (isEditMode && !imageUri) ? (<Text>photo</Text>) : null}
     { isEditable  && imageWidth == undefined ?
       <Button onPress={onAdd} mode='outlined' style={styles.addButton} >
         Add Photo

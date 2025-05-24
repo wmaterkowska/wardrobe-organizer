@@ -239,12 +239,12 @@ export default function AddItemForm({ onDismiss }: Props) {
         isEditable={true}
       />
 
-      <PropertyList
+      <PropertySection
         title="patterns"
         properties={sortedPatterns}
-        selectable={true}
-        selectedIds={selectedPatternIds}
-        onToggle={togglePattern}
+        selectedPropertyIds={selectedPatternIds}
+        handleSelect={togglePattern}
+        isEditable={true}
       />
 
       { selectedMainId !== accessoriesMainId ? (

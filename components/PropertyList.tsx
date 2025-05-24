@@ -43,7 +43,7 @@ export default function PropertyList({
 
   return (
   <View style={styles.listContainer} >
-    <Text variant="bodyLarge" >{title}</Text>
+    {title ? (<Text variant="bodyLarge" >{title}</Text>) : null }
     {properties ? (
       <View style={styles.listView} >
         {visibleItems?.map( (property) => (

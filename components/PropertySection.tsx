@@ -8,6 +8,7 @@ import { Item } from '../database/index';
 
 type Props = {
   title?: string;
+  propertyName?: string;
   properties?: [];
   selectedPropertyIds?: [];
   handleSelect?: () => void;
@@ -18,6 +19,7 @@ type Props = {
 
 export default function PropertySection({
   title,
+  propertyName,
   properties,
   selectedPropertyIds,
   handleSelect,
@@ -28,19 +30,18 @@ export default function PropertySection({
   const { isEditMode } = useWardrobeContext();
 
   return (
-    <View style={isEditMode && isEditable ? styles.editPropertyView : styles.propertyView}>
-      {!isEditable ? (
-        <Text variant="bodyMedium">{title}</Text>
-      ) : (
+    <View style={(isEditMode && isEditable) || isSingleSelect ? styles.editPropertyView : styles.propertyView}>
+      {isEditable || !isSingleSelect ? (
         <PropertyList
-          title={isEditMode ? null : title}
+          title={title}
+          propertyName={isEditMode ? null : propertyName}
           properties={properties}
           selectable={true}
           selectedIds={selectedPropertyIds ? selectedPropertyIds : []}
           onToggle={handleSelect}
           singleSelect={isSingleSelect}
         />
-      ) }
+      ) : <Text variant="bodyLarge">{propertyName}</Text> }
       { isEditMode ? (
         <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
       ) : null }
