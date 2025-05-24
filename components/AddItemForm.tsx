@@ -249,17 +249,17 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       { selectedMainId !== accessoriesMainId ? (
       <View>
-        <PropertyList
-          title="fit"
+        <PropertySection
+          title="fits"
           properties={sortedFits}
-          selectable={true}
-          selectedIds={selectedFitIds}
-          onToggle={toggleFit}
+          selectedPropertyIds={selectedFitIds}
+          handleSelect={toggleFit}
+          isEditable={true}
         />
 
         {selectedCategoryId ? (
           <PropertyList
-            title="cut"
+            title="cuts"
             properties={sortedCuts}
             selectable={true}
             selectedIds={selectedCutIds}
@@ -269,7 +269,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       ) : null}
 
       <PropertyList
-        title="textile"
+        title="textiles"
         properties={sortedTextiles}
         selectable={true}
         selectedIds={selectedTextileIds}
@@ -277,7 +277,7 @@ export default function AddItemForm({ onDismiss }: Props) {
       />
 
       <PropertyList
-        title="occasion"
+        title="occasions"
         properties={sortedOccasions}
         selectable={true}
         selectedIds={selectedOccasionIds}

@@ -71,6 +71,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isColorsEditable, setIsColorsEditable] = useState(false);
   const [itemPatterns, setItemPatterns] = useState<Pattern[]>(item.patterns);
   const [isPatternsEditable, setIsPatternsEditable] = useState(false);
+  const [itemFits, setItemFits] = useState<Fit[]>(item.fits);
+  const [isFitsEditable, setIsFitsEditable] = useState(false);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
@@ -80,6 +82,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsCategoryEditable(!isCategoryEditable);
     setIsColorsEditable(!isColorsEditable);
     setIsPatternsEditable(!isPatternsEditable);
+    setIsFitsEditable(!isFitsEditable);
   };
 
   const toggleImageEdit = () => {
@@ -138,6 +141,17 @@ export default function ItemDetailView({ route, navigation }: Props) {
       );
   };
 
+  const toggleFitEdit = () => {
+    setIsFitsEditable(!isFitsEditable);
+    if (isFitsEditable) { updateItemField(realm, item, {fits: itemFits})};
+  };
+  const handleFitSelect = (id: string) => {
+    const fitFromId = fits.find((f) => f.id === id);
+    setItemFits((prev) =>
+      prev.includes(fitFromId) ? prev.filter((f) => f !== fitFromId) : [...prev, fitFromId]
+      );
+  };
+
   useRegisterSave(updateItemField(realm, item, {
     image_uri: imageUri,
     item_name: itemName,
@@ -145,6 +159,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
     category: category,
     colors: itemColors,
     patterns: itemPatterns,
+    fits: itemFits,
   }));
 
 // error when there is no item found ===============================================================
@@ -224,6 +239,14 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={togglePatternEdit}
         />
 
+        <PropertySection
+          title='fits'
+          properties={isFitsEditable ? fits : item.fits}
+          selectedPropertyIds={isFitsEditable ? itemFits.map((f) => f.id) : []}
+          handleSelect={handleFitSelect}
+          isEditable={isFitsEditable}
+          onPressEditIcon={toggleFitEdit}
+        />
 
 
         { PROPERTIES_ARRAY.map( (property, i) => (
