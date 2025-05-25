@@ -40,7 +40,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedFitIds, setSelectedFitIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
-  const [sortedCuts, setSortedCuts] = useState<Realm.Results<Cut> | Cut[] >([]);
+  const [sortedCuts, setSortedCuts] = useState<Realm.Results<Cut> | Cut[]>([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
   const [comfort, setComfort] = useState<int | null>(null);
@@ -76,17 +76,16 @@ export default function AddItemForm({ onDismiss }: Props) {
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
 
-// use Effect to show only cuts connected with choose category =====================================
+// use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
     if (selectedCategoryId) {
-      const cutsForCategory = cuts.filtered('ANY categories.id == $0', selectedCategoryId);
+      setSortedCuts(getSortedCuts(cuts.map(c => c.id)));
+      const cutsForCategory = sortedCuts.filter(cut => cut.categories.some(cat => cat.id === selectedCategoryId));
       setFilteredCuts(cutsForCategory);
-      setSortedCuts(getSortedCuts(cutsForCategory.map(c => c.id)));
     } else {
      setFilteredCuts([]);
      setSortedCuts([]);
     }
-
   }, [selectedCategoryId, cuts, selectedMainId, itemName]);
 
 // handle toggle functions =========================================================================
@@ -231,7 +230,6 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       { selectedCategoryId ? (
       <View>
-
       <ColorSection
         colors={sortedColors}
         selectedColorIds={selectedColorIds}
@@ -260,7 +258,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         {selectedCategoryId ? (
           <PropertyList
             title="cuts"
-            properties={sortedCuts}
+            properties={filteredCuts}
             selectable={true}
             selectedIds={selectedCutIds}
             onToggle={toggleCut}

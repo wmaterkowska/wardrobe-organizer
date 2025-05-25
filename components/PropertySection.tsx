@@ -51,7 +51,7 @@ export default function PropertySection({
 
 const styles = StyleSheet.create({
   propertyView : {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   editPropertyView: {
     flexDirection: 'column',

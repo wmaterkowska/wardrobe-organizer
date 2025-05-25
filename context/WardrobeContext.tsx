@@ -27,7 +27,6 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
-  const saveChanges = () => saveCallback();
 
   return (
     <WardrobeContext.Provider
@@ -38,7 +37,7 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setNumColumns,
         isEditMode,
         setIsEditMode,
-        saveChanges,
+        saveChanges: (fn: () => void) => setSaveCallback(() => fn),
       }}
     >
       {children}
@@ -48,7 +47,10 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
 export const useRegisterSave = (saveFn: () => void) => {
   const ctx = useWardrobeContext();
+
   React.useEffect(() => {
-    ctx && ctx.saveChanges && ctx.saveChanges;
-  }, [saveFn]);
+    if (ctx && ctx.saveChanges) {
+      ctx.saveChanges(saveFn);
+    }
+  }, [saveFn, ctx]);
 };

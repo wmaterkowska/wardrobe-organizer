@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import { BSON } from 'realm';
 
 import { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
 import { useItemFormData } from '../hooks/useItemFormData';
+import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
@@ -73,6 +74,41 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isPatternsEditable, setIsPatternsEditable] = useState(false);
   const [itemFits, setItemFits] = useState<Fit[]>(item.fits);
   const [isFitsEditable, setIsFitsEditable] = useState(false);
+  const [itemCuts, setItemCuts] = useState<Cut[]>(item.cuts);
+  const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
+  const [isCutsEditable, setIsCutsEditable] = useState(false);
+
+// use hook for sorting and incrementing/adding properties =========================================
+  const {
+    category: {getSorted: getSortedCategories, incrementOrCreate: incrementOrCreateCategory},
+    color: { getSorted: getSortedColors, incrementOrCreate: incrementOrCreateColor },
+    pattern: { getSorted: getSortedPatterns, incrementOrCreate: incrementOrCreatePattern },
+    fit: { getSorted: getSortedFits, incrementOrCreate: incrementOrCreateFit },
+    cut: { getSorted: getSortedCuts, incrementOrCreate: incrementOrCreateCut },
+    textile: { getSorted: getSortedTextiles, incrementOrCreate: incrementOrCreateTextile },
+    occasion: { getSorted: getSortedOccasions, incrementOrCreate: incrementOrCreateOccasion },
+    feels: { getSorted: getSortedFeelIns, incrementOrCreate: incrementOrCreateFeelIn },
+  } = useAllPropertyManagers();
+
+  const sortedCategories = getSortedCategories(categories.map(c => c.id));
+  const sortedColors = getSortedColors(colors.map(c => c.id));
+  const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
+  const sortedFits = getSortedFits(fits.map(f => f.id));
+  const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
+  const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
+  const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
+
+// use Effect to show only cuts connected with chosen category =====================================
+  useEffect(() => {
+    if (category) {
+      const sortedCuts = getSortedCuts(cuts.map(c => c.id));
+      const cutsForCategory = sortedCuts.filter(cut => cut.categories.some(cat => cat.id === category.id));
+      setFilteredCuts(cutsForCategory);
+    } else {
+     setFilteredCuts([]);
+     setSortedCuts([]);
+    }
+  }, [category, cuts, itemCuts]);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
@@ -83,6 +119,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsColorsEditable(!isColorsEditable);
     setIsPatternsEditable(!isPatternsEditable);
     setIsFitsEditable(!isFitsEditable);
+    setIsCutsEditable(!isCutsEditable);
   };
 
   const toggleImageEdit = () => {
@@ -126,7 +163,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const handleColorSelect = (id: string) => {
     const colorFromId = colors.find((c) => c.id === id);
     setItemColors((prev) =>
-      prev.includes(colorFromId) ? prev.filter((c) => c !== colorFromId) : [...prev, colorFromId]
+      prev.includes(colorFromId) ? prev.filter((c) => c.id !== colorFromId.id) : [...prev, colorFromId]
       );
   };
 
@@ -152,15 +189,43 @@ export default function ItemDetailView({ route, navigation }: Props) {
       );
   };
 
-  useRegisterSave(updateItemField(realm, item, {
-    image_uri: imageUri,
-    item_name: itemName,
-    main_category: main,
-    category: category,
-    colors: itemColors,
-    patterns: itemPatterns,
-    fits: itemFits,
-  }));
+  const toggleCutEdit = () => {
+    setIsCutsEditable(!isCutsEditable);
+    if (isCutsEditable) { updateItemField(realm, item, {cuts: itemCuts})};
+  };
+  const handleCutSelect = (id: string) => {
+    const cutFromId = cuts.find((c) => c.id === id);
+    setItemCuts((prev) =>
+      prev.includes(cutFromId) ? prev.filter((c) => c !== cutFromId) : [...prev, cutFromId]
+      );
+  };
+
+  const saveFn = useCallback(() => {
+    updateItemField(realm, item, {
+      image_uri: imageUri,
+      item_name: itemName,
+      main_category: main,
+      category: category,
+      colors: itemColors,
+      patterns: itemPatterns,
+      fits: itemFits,
+    })
+  }, []);
+
+  useRegisterSave(saveFn);
+
+  useEffect(() => {
+    if (!isEditMode) {
+      setIsImageEditable(false);
+      setIsItemNameEditable(false);
+      setIsMainEditable(false);
+      setIsCategoryEditable(false);
+      setIsColorsEditable(false);
+      setIsPatternsEditable(false);
+      setIsFitsEditable(false);
+      setIsCutsEditable(false);
+    }
+  }, [isEditMode])
 
 // error when there is no item found ===============================================================
   if (!item) {
@@ -223,8 +288,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         { item.colors ?
           <ColorSection
-            colors={isColorsEditable ? colors : item.colors}
-            selectedColorIds={itemColors.map((c) => c.id)}
+            colors={isColorsEditable && isEditMode ? colors : item.colors}
+            selectedColorIds={isEditMode ? itemColors.map((c) => c.id) : []}
             handleSelect={handleColorSelect}
             isEditable={isColorsEditable}
             onPressEditIcon={toggleColorEdit}
@@ -232,8 +297,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='patterns'
-          properties={isPatternsEditable ? patterns : item.patterns}
-          selectedPropertyIds={isPatternsEditable ? itemPatterns.map((p) => p.id) : []}
+          properties={isPatternsEditable && isEditMode ? patterns : item.patterns}
+          selectedPropertyIds={isPatternsEditable && isEditMode ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
           isEditable={isPatternsEditable}
           onPressEditIcon={togglePatternEdit}
@@ -241,13 +306,21 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='fits'
-          properties={isFitsEditable ? fits : item.fits}
-          selectedPropertyIds={isFitsEditable ? itemFits.map((f) => f.id) : []}
+          properties={isFitsEditable && isEditMode ? fits : item.fits}
+          selectedPropertyIds={isFitsEditable && isEditMode ? itemFits.map((f) => f.id) : []}
           handleSelect={handleFitSelect}
           isEditable={isFitsEditable}
           onPressEditIcon={toggleFitEdit}
         />
 
+        <PropertySection
+          title='cuts'
+          properties={(isCutsEditable && isEditMode) ? filteredCuts : item.cuts}
+          selectedPropertyIds={(isCutsEditable && isEditMode) ? itemCuts.map((c) => c.id) : []}
+          handleSelect={handleCutSelect}
+          isEditable={isCutsEditable}
+          onPressEditIcon={toggleCutEdit}
+        />
 
         { PROPERTIES_ARRAY.map( (property, i) => (
           <PropertyList key={i} title={property} properties={item[property]} />
