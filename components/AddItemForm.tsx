@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
@@ -79,14 +79,15 @@ export default function AddItemForm({ onDismiss }: Props) {
 // use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
     if (selectedCategoryId) {
-      setSortedCuts(getSortedCuts(cuts.map(c => c.id)));
-      const cutsForCategory = sortedCuts.filter(cut => cut.categories.some(cat => cat.id === selectedCategoryId));
-      setFilteredCuts(cutsForCategory);
+      const sorted = getSortedCuts(cuts.map(c => c.id));
+      const filtered = sorted.filter(cut => cut.categories.some(cat => cat.id === selectedCategoryId));
+      setSortedCuts(sorted);
+      setFilteredCuts(filtered);
     } else {
      setFilteredCuts([]);
      setSortedCuts([]);
     }
-  }, [selectedCategoryId, cuts, selectedMainId, itemName]);
+  }, [selectedCategoryId, cuts, getSortedCuts]);
 
 // handle toggle functions =========================================================================
   const handlePickImage = async () => {
@@ -256,30 +257,30 @@ export default function AddItemForm({ onDismiss }: Props) {
         />
 
         {selectedCategoryId ? (
-          <PropertyList
+          <PropertySection
             title="cuts"
             properties={filteredCuts}
-            selectable={true}
-            selectedIds={selectedCutIds}
-            onToggle={toggleCut}
-          />) : null}
+            selectedPropertyIds={selectedCutIds}
+            handleSelect={toggleCut}
+            isEditable={true}
+          /> ): null}
         </View>
       ) : null}
 
-      <PropertyList
+      <PropertySection
         title="textiles"
         properties={sortedTextiles}
-        selectable={true}
-        selectedIds={selectedTextileIds}
-        onToggle={toggleTextile}
+        selectedPropertyIds={selectedTextileIds}
+        handleSelect={toggleTextile}
+        isEditable={true}
       />
 
-      <PropertyList
+      <PropertySection
         title="occasions"
         properties={sortedOccasions}
-        selectable={true}
-        selectedIds={selectedOccasionIds}
-        onToggle={toggleOccasion}
+        selectedPropertyIds={selectedOccasionIds}
+        handleSelect={toggleOccasion}
+        isEditable={true}
       />
 
       <CustomSegmentedButton

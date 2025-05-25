@@ -77,6 +77,10 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [itemCuts, setItemCuts] = useState<Cut[]>(item.cuts);
   const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
   const [isCutsEditable, setIsCutsEditable] = useState(false);
+  const [itemTextiles, setItemTextiles] = useState<Textile[]>(item.textiles);
+  const [isTextilesEditable, setIsTextilesEditable] = useState(false);
+  const [itemOccasions, setItemOccasions] = useState<Occasion[]>(item.occasions);
+  const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -120,6 +124,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsPatternsEditable(!isPatternsEditable);
     setIsFitsEditable(!isFitsEditable);
     setIsCutsEditable(!isCutsEditable);
+    setIsTextilesEditable(!isTextilesEditable);
+    setIsOccasionsEditable(!isOccasionsEditable);
   };
 
   const toggleImageEdit = () => {
@@ -200,6 +206,28 @@ export default function ItemDetailView({ route, navigation }: Props) {
       );
   };
 
+  const toggleTextileEdit = () => {
+    setIsTextilesEditable(!isTextilesEditable);
+    if (isTextilesEditable) { updateItemField(realm, item, {textiles: itemTextiles})};
+  };
+  const handleTextileSelect = (id: string) => {
+    const textileFromId = textiles.find((t) => t.id === id);
+    setItemTextiles((prev) =>
+      prev.includes(textileFromId) ? prev.filter((t) => t !== textileFromId) : [...prev, textileFromId]
+      );
+  };
+
+  const toggleOccasionEdit = () => {
+    setIsOccasionsEditable(!isOccasionsEditable);
+    if (isOccasionsEditable) { updateItemField(realm, item, {occasions: itemOccasions})};
+  };
+  const handleOccasionSelect = (id: string) => {
+    const occasionFromId = occasions.find((o) => o.id === id);
+    setItemOccasions((prev) =>
+      prev.includes(occasionFromId) ? prev.filter((o) => o !== occasionFromId) : [...prev, occasionFromId]
+      );
+  };
+
   const saveFn = useCallback(() => {
     updateItemField(realm, item, {
       image_uri: imageUri,
@@ -209,6 +237,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
       colors: itemColors,
       patterns: itemPatterns,
       fits: itemFits,
+      textiles: itemTextiles,
+      occasions: itemOccasions,
     })
   }, []);
 
@@ -224,6 +254,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setIsPatternsEditable(false);
       setIsFitsEditable(false);
       setIsCutsEditable(false);
+      setIsTextilesEditable(false);
+      setIsOccasionsEditable(false);
     }
   }, [isEditMode])
 
@@ -322,9 +354,23 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleCutEdit}
         />
 
-        { PROPERTIES_ARRAY.map( (property, i) => (
-          <PropertyList key={i} title={property} properties={item[property]} />
-        ) )}
+        <PropertySection
+          title='textiles'
+          properties={(isTextilesEditable && isEditMode) ? textiles : item.textiles}
+          selectedPropertyIds={(isTextilesEditable && isEditMode) ? itemTextiles.map((t) => t.id) : []}
+          handleSelect={handleTextileSelect}
+          isEditable={isTextilesEditable}
+          onPressEditIcon={toggleTextileEdit}
+        />
+
+        <PropertySection
+          title='occasions'
+          properties={(isOccasionsEditable && isEditMode) ? occasions : item.occasions}
+          selectedPropertyIds={(isOccasionsEditable && isEditMode) ? itemOccasions.map((o) => o.id) : []}
+          handleSelect={handleOccasionSelect}
+          isEditable={isOccasionsEditable}
+          onPressEditIcon={toggleOccasionEdit}
+        />
 
         {item.comfort ? (
           <CustomSegmentedButton
