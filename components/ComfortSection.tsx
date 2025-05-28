@@ -9,8 +9,8 @@ import  { useWardrobeContext }  from '../context/WardrobeContext';
 type Props = {
   comfortLevel: int;
   isEditable: boolean;
-  onChange: () => void;
-  onPressEditIcon: () => void;
+  onChange?: () => void;
+  onPressEditIcon?: () => void;
 }
 
 export default function ComfortSection({comfortLevel, isEditable, onChange, onPressEditIcon}: Props) {

@@ -12,7 +12,7 @@ import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
-import { Item, MainCategory } from '../database/index';
+import { Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn } from '../database/index';
 import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -84,6 +84,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
   const [itemComfort, setItemComfort] = useState<int>(item.comfort);
   const [isComfortEditable, setIsComfortEditable] = useState(false);
+  const [itemFeelIn, setItemFeelIn] = useState<FeelIn[]>(item.feel_in);
+  const [isFeelInEditable, setIsFeelInEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -129,6 +131,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsCutsEditable(!isCutsEditable);
     setIsTextilesEditable(!isTextilesEditable);
     setIsOccasionsEditable(!isOccasionsEditable);
+    setIsComfortEditable(!isComfortEditable);
+    setIsFeelInEditable(!isFeelInEditable);
   };
 
   const toggleImageEdit = () => {
@@ -239,6 +243,17 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setItemComfort(comfortLevel)
   };
 
+  const toggleFeelInEdit = () => {
+    setIsFeelInEditable(!isFeelInEditable);
+    if (isFeelInEditable) { updateItemField(realm, item, {feel_in: itemFeelIn})};
+  };
+  const handleFeelInSelect = (id: string) => {
+    const feelInFromId = feels.find((f) => f.id === id);
+    setItemFeelIn((prev) =>
+      prev.includes(feelInFromId) ? prev.filter((f) => f !== feelInFromId) : [...prev, feelInFromId]
+      );
+  };
+
   const saveFn = useCallback(() => {
     updateItemField(realm, item, {
       image_uri: imageUri,
@@ -251,6 +266,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       textiles: itemTextiles,
       occasions: itemOccasions,
       comfort: itemComfort,
+      feel_in: itemFeelIn,
     })
   }, []);
 
@@ -269,6 +285,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setIsTextilesEditable(false);
       setIsOccasionsEditable(false);
       setIsComfortEditable(false);
+      setIsFeelInEditable(false);
     }
   }, [isEditMode])
 
@@ -392,9 +409,14 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleComfortEdit}
         />
 
-        {item.feel_in ? (
-          <PropertyList title={'feel_in'} properties={item.feel_in} />
-        ) : null}
+        <PropertySection
+          title={'feel_in'}
+          properties={(isFeelInEditable && isEditMode) ? feels : item.feel_in}
+          selectedPropertyIds={(isFeelInEditable && isEditMode) ? itemFeelIn.map((f) => f.id) : []}
+          handleSelect={handleFeelInSelect}
+          isEditable={isFeelInEditable}
+          onPressEditIcon={toggleFeelInEdit}
+        />
 
         {Object.keys(Titles).map((title, i) => (
           item[title] ? (

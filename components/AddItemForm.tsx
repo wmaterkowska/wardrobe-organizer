@@ -16,7 +16,9 @@ import ImageSection from './ImageSection';
 import ItemNameSection from './ItemNameSection';
 import PropertySection from './PropertySection';
 import ColorSection from './ColorSection';
+import ComfortSection from './ComfortSection';
 import QuestionSection from './QuestionSection';
+
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 import { pickOrCaptureImage } from '../utility/photoUtils'
@@ -283,20 +285,18 @@ export default function AddItemForm({ onDismiss }: Props) {
         isEditable={true}
       />
 
-      <CustomSegmentedButton
-        property={'comfort'}
-        levels={COMFORT_LEVELS}
+      <ComfortSection
         value={comfort}
         isEditable={true}
         onChange={handleComfortSelect}
       />
 
-      <PropertyList
+      <PropertySection
         title="feel_in"
         properties={sortedFeelIns}
-        selectable={true}
-        selectedIds={selectedFeelInIds}
-        onToggle={toggleFeelIn}
+        selectedPropertyIds={selectedFeelInIds}
+        handleSelect={toggleFeelIn}
+        isEditable={true}
       />
 
       <QuestionSection
