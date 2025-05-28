@@ -17,7 +17,7 @@ import ItemNameSection from './ItemNameSection';
 import PropertySection from './PropertySection';
 import ColorSection from './ColorSection';
 import ComfortSection from './ComfortSection';
-import QuestionSection from './QuestionSection';
+import QuestionsSection from './QuestionsSection';
 
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
@@ -299,7 +299,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         isEditable={true}
       />
 
-      <QuestionSection
+      <QuestionsSection
         likeMe={likeMe}
         handleLikeMeSelect={handleLikeMeSelect}
         lookLevel={lookLevel}

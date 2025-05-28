@@ -26,6 +26,8 @@ import ItemNameSection from '../components/ItemNameSection';
 import PropertySection from '../components/PropertySection';
 import ColorSection from '../components/ColorSection';
 import ComfortSection from '../components/ComfortSection';
+import QuestionSection from '../components/QuestionSection';
+import WantSection from '../components/WantSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
@@ -86,6 +88,16 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isComfortEditable, setIsComfortEditable] = useState(false);
   const [itemFeelIn, setItemFeelIn] = useState<FeelIn[]>(item.feel_in);
   const [isFeelInEditable, setIsFeelInEditable] = useState(false);
+  const [likeMe, setLikeMe] =  useState(item.like_me);
+  const [isLikeMeEditable, setIsLikeMeEditable] = useState(false);
+  const [lookLevel, setLookLevel] = useState(item.look_level);
+  const [isLookLevelEditable, setIsLookLevelEditable] = useState(false);
+  const [frequencyLevel, setFrequencyLevel] = useState(item.frequency);
+  const [isFrequencyEditable, setIsFrequencyEditable] = useState(false);
+  const [priceLevel, setPriceLevel] = useState(item.price);
+  const [isPriceEditable, setIsPriceEditable] = useState(false);
+  const [wantDecision, setWantDecision] = useState(item.want);
+  const [isWantEditable, setIsWantEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -133,6 +145,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
     setIsOccasionsEditable(!isOccasionsEditable);
     setIsComfortEditable(!isComfortEditable);
     setIsFeelInEditable(!isFeelInEditable);
+    setIsLikeMeEditable(!isLikeMeEditable);
+    setIsLookLevelEditable(!isLookLevelEditable);
+    setIsFrequencyEditable(!isFrequencyEditable);
+    setIsPriceEditable(!isPriceEditable);
+    setIsWantEditable(!isWantEditable);
   };
 
   const toggleImageEdit = () => {
@@ -254,6 +271,36 @@ export default function ItemDetailView({ route, navigation }: Props) {
       );
   };
 
+  const toggleLikeMeEdit = () => {
+    setIsLikeMeEditable(!isLikeMeEditable);
+    if (isLikeMeEditable) { updateItemField(realm, item, {like_me: likeMe})};
+  };
+  const handleLikeMeSelect = (likeMeLevel: string) => { setLikeMe(likeMeLevel) };
+
+  const toggleLookLevelEdit = () => {
+    setIsLookLevelEditable(!isLookLevelEditable);
+    if (isLookLevelEditable) { updateItemField(realm, item, {look_level: lookLevel})};
+  };
+  const handleLookLevelSelect = (lookLvl: string) => { setLookLevel(lookLvl) };
+
+  const toggleFrequencyEdit = () => {
+    setIsFrequencyEditable(!isFrequencyEditable);
+    if (isFrequencyEditable) { updateItemField(realm, item, {frequency: frequencyLevel})};
+  };
+  const handleFrequencySelect = (freqLvl: string) => { setFrequencyLevel(freqLvl) };
+
+  const togglePriceEdit = () => {
+    setIsPriceEditable(!isPriceEditable);
+    if (isPriceEditable) { updateItemField(realm, item, {price: priceLevel})};
+  };
+  const handlePriceSelect = (priceLvl: string) => { setPriceLevel(priceLvl) };
+
+  const toggleWantEdit = () => {
+    setIsWantEditable(!isWantEditable);
+    if (isWantEditable) { updateItemField(realm, item, {want: wantDecision})};
+  };
+  const handleWantSelect = (wantDec: string) => { setWantDecision(wantDec) };
+
   const saveFn = useCallback(() => {
     updateItemField(realm, item, {
       image_uri: imageUri,
@@ -267,6 +314,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
       occasions: itemOccasions,
       comfort: itemComfort,
       feel_in: itemFeelIn,
+      like_me: likeMe,
+      look_level: lookLevel,
+      frequency: frequencyLevel,
+      price: priceLevel,
+      want: wantDecision,
     })
   }, []);
 
@@ -286,6 +338,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setIsOccasionsEditable(false);
       setIsComfortEditable(false);
       setIsFeelInEditable(false);
+      setIsLikeMeEditable(false);
+      setIsLookLevelEditable(false);
+      setIsFrequencyEditable(false);
+      setIsPriceEditable(false);
+      setIsWantEditable(false);
     }
   }, [isEditMode])
 
@@ -418,22 +475,45 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleFeelInEdit}
         />
 
-        {Object.keys(Titles).map((title, i) => (
-          item[title] ? (
-          <View style={styles.questionContainer} key={i}>
-            <Text variant="bodyLarge">{Titles[title]}</Text>
-            <Button mode='outlined'>{item[title]}</Button>
-          </View>
-          ) : null )
-        )}
+        <QuestionSection
+          property={'like_me'}
+          value={item.like_me}
+          isEditable={isLikeMeEditable}
+          handleSelect={handleLikeMeSelect}
+          onPressEditIcon={toggleLikeMeEdit}
+        />
 
-        {item.want ? (
-          <View style={styles.questionContainer}>
-            <Text variant="bodyLarge">{Want.want}</Text>
-            <Button mode='contained'>{item.want}</Button>
-          </View>
-          ) : null
-        }
+        <QuestionSection
+          property={'look_level'}
+          value={item.look_level}
+          isEditable={isLookLevelEditable}
+          handleSelect={handleLookLevelSelect}
+          onPressEditIcon={toggleLookLevelEdit}
+        />
+
+        <QuestionSection
+          property={'frequency'}
+          value={item.frequency}
+          isEditable={isFrequencyEditable}
+          handleSelect={handleFrequencySelect}
+          onPressEditIcon={toggleFrequencyEdit}
+        />
+
+        <QuestionSection
+          property={'price'}
+          value={item.price}
+          isEditable={isPriceEditable}
+          handleSelect={handlePriceSelect}
+          onPressEditIcon={togglePriceEdit}
+        />
+
+        <WantSection
+          value={item.want}
+          isEditable={isWantEditable}
+          handleSelect={handleWantSelect}
+          onPressEditIcon={toggleWantEdit}
+        />
+
       </View>
     </ScrollView>
   );

@@ -3,17 +3,16 @@ import { Text, Button, IconButton } from 'react-native-paper';
 import CustomSegmentedButton from './CustomSegmentedButton';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
-import { Questions, Titles, LEVELS } from '../constants/index';
+import { Want, WANT_ARRAY } from '../constants/index';
 
 type Props = {
-  property: string;
   value: string;
   isEditable?: boolean;
   handleSelect?: () => void;
   onPressEditIcon?: () => void;
 }
 
-export default function QuestionSection({property, value, isEditable, handleSelect, onPressEditIcon}: Props) {
+export default function WantSection({ value, isEditable, handleSelect, onPressEditIcon}: Props) {
 
   const { isEditMode } = useWardrobeContext();
 
@@ -21,16 +20,16 @@ export default function QuestionSection({property, value, isEditable, handleSele
   <View>
     {isEditMode && isEditable ? (
       <CustomSegmentedButton
-        property={Questions[property]}
-        levels={LEVELS[property]}
+        property={Want.wantQuestion}
+        levels={WANT_ARRAY}
         value={value}
         isEditable={true}
         onChange={handleSelect}
       />
     ) : (
       <View style={styles.questionContainer}>
-        <Text variant="bodyLarge">{Titles[property]}</Text>
-        <Button mode='outlined'>{value}</Button>
+        <Text variant="bodyLarge">{Want.want}</Text>
+        <Button mode='contained'>{value}</Button>
       </View>
     )}
     { isEditMode ? (
