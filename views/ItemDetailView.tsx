@@ -25,6 +25,7 @@ import ImageSection from '../components/ImageSection';
 import ItemNameSection from '../components/ItemNameSection';
 import PropertySection from '../components/PropertySection';
 import ColorSection from '../components/ColorSection';
+import ComfortSection from '../components/ComfortSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
@@ -55,7 +56,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [imageUri, main, category]);
+  }, [imageUri, main, itemCategory]);
 
   const { isEditMode, setIsEditMode, saveChanges } = useWardrobeContext();
 
@@ -66,7 +67,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isItemNameEditable, setIsItemNameEditable] = useState(false);
   const [main, setMain] = useState< MainCategory | null>(item.main_category);
   const [isMainEditable, setIsMainEditable] = useState(false);
-  const [category, setCategory] = useState<Category | null>(item.category);
+  const [itemCategory, setItemCategory] = useState<Category | null>(item.category);
   const [isCategoryEditable, setIsCategoryEditable] = useState(false);
   const [itemColors, setItemColors] = useState<Color[]>(item.colors);
   const [isColorsEditable, setIsColorsEditable] = useState(false);
@@ -81,6 +82,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [isTextilesEditable, setIsTextilesEditable] = useState(false);
   const [itemOccasions, setItemOccasions] = useState<Occasion[]>(item.occasions);
   const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
+  const [itemComfort, setItemComfort] = useState<int>(item.comfort);
+  const [isComfortEditable, setIsComfortEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -104,15 +107,15 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
 // use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
-    if (category) {
+    if (itemCategory) {
       const sortedCuts = getSortedCuts(cuts.map(c => c.id));
-      const cutsForCategory = sortedCuts.filter(cut => cut.categories.some(cat => cat.id === category.id));
+      const cutsForCategory = sortedCuts.filter(cut => cut.categories.some(cat => cat.id === itemCategory.id));
       setFilteredCuts(cutsForCategory);
     } else {
      setFilteredCuts([]);
      setSortedCuts([]);
     }
-  }, [category, cuts, itemCuts]);
+  }, [itemCategory, cuts, itemCuts]);
 
 // functions to toggle edit buttons ================================================================
   const toggleEditAll = () => {
@@ -155,11 +158,11 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   const toggleCategoryEdit = () => {
     setIsCategoryEditable(!isCategoryEditable);
-    if (isCategoryEditable) { updateItemField(realm, item, {category: category})};
+    if (isCategoryEditable) { updateItemField(realm, item, {category: itemCategory})};
   };
   const handleCategorySelect = (id: string) => {
     const categoryFromId = categories.find(c => c.id === id);
-    setCategory(categoryFromId);
+    setItemCategory(categoryFromId);
   };
 
   const toggleColorEdit = () => {
@@ -228,17 +231,26 @@ export default function ItemDetailView({ route, navigation }: Props) {
       );
   };
 
+  const toggleComfortEdit = () => {
+    setIsComfortEditable(!isComfortEditable);
+    if (isComfortEditable) { updateItemField(realm, item, {comfort: itemComfort})};
+  };
+  const handleComfortSelect = (comfortLevel: int) => {
+    setItemComfort(comfortLevel)
+  };
+
   const saveFn = useCallback(() => {
     updateItemField(realm, item, {
       image_uri: imageUri,
       item_name: itemName,
       main_category: main,
-      category: category,
+      category: itemCategory,
       colors: itemColors,
       patterns: itemPatterns,
       fits: itemFits,
       textiles: itemTextiles,
       occasions: itemOccasions,
+      comfort: itemComfort,
     })
   }, []);
 
@@ -256,6 +268,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setIsCutsEditable(false);
       setIsTextilesEditable(false);
       setIsOccasionsEditable(false);
+      setIsComfortEditable(false);
     }
   }, [isEditMode])
 
@@ -372,13 +385,12 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleOccasionEdit}
         />
 
-        {item.comfort ? (
-          <CustomSegmentedButton
-            property={'comfort'}
-            levels={COMFORT_LEVELS}
-            value={item.comfort}
-            isEditable={false} />
-          ): null}
+        <ComfortSection
+          comfortLevel={item.comfort}
+          isEditable={isComfortEditable}
+          onChange={handleComfortSelect}
+          onPressEditIcon={toggleComfortEdit}
+        />
 
         {item.feel_in ? (
           <PropertyList title={'feel_in'} properties={item.feel_in} />
