@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import { useRoute } from '@react-navigation/native';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
-import { BSON } from 'realm';
 
 import { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
 import { useItemFormData } from '../hooks/useItemFormData';
@@ -13,14 +11,11 @@ import { pickOrCaptureImage } from '../utility/photoUtils';
 import { updateItemField } from '../utility/itemUpdate';
 
 import { Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn } from '../database/index';
-import { COMFORT_LEVELS, PROPERTIES_ARRAY, Titles, Want } from '../constants';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
-import ColorList from '../components/ColorList';
-import PropertyList from '../components/PropertyList';
-import CustomSegmentedButton from '../components/CustomSegmentedButton';
+import EditAllButtonSection from'../components/EditAllButtonSection';
 import ImageSection from '../components/ImageSection';
 import ItemNameSection from '../components/ItemNameSection';
 import PropertySection from '../components/PropertySection';
@@ -131,27 +126,52 @@ export default function ItemDetailView({ route, navigation }: Props) {
     }
   }, [itemCategory, cuts, itemCuts]);
 
-// functions to toggle edit buttons ================================================================
+// functions to toggle edit all button =============================================================
+  const [isEditAll, setIsEditAll] = useState(false);
   const toggleEditAll = () => {
-    setIsImageEditable(!isImageEditable);
-    setIsItemNameEditable(!isItemNameEditable);
-    setIsMainEditable(!isMainEditable);
-    setIsCategoryEditable(!isCategoryEditable);
-    setIsColorsEditable(!isColorsEditable);
-    setIsPatternsEditable(!isPatternsEditable);
-    setIsFitsEditable(!isFitsEditable);
-    setIsCutsEditable(!isCutsEditable);
-    setIsTextilesEditable(!isTextilesEditable);
-    setIsOccasionsEditable(!isOccasionsEditable);
-    setIsComfortEditable(!isComfortEditable);
-    setIsFeelInEditable(!isFeelInEditable);
-    setIsLikeMeEditable(!isLikeMeEditable);
-    setIsLookLevelEditable(!isLookLevelEditable);
-    setIsFrequencyEditable(!isFrequencyEditable);
-    setIsPriceEditable(!isPriceEditable);
-    setIsWantEditable(!isWantEditable);
-  };
+    setIsEditAll(!isEditAll);
+  }
+  useEffect(() => {
+    if (isEditAll) {
+      setIsImageEditable(true);
+      setIsItemNameEditable(true);
+      setIsMainEditable(true);
+      setIsCategoryEditable(true);
+      setIsColorsEditable(true);
+      setIsPatternsEditable(true);
+      setIsFitsEditable(true);
+      setIsCutsEditable(true);
+      setIsTextilesEditable(true);
+      setIsOccasionsEditable(true);
+      setIsComfortEditable(true);
+      setIsFeelInEditable(true);
+      setIsLikeMeEditable(true);
+      setIsLookLevelEditable(true);
+      setIsFrequencyEditable(true);
+      setIsPriceEditable(true);
+      setIsWantEditable(true);
+    } else {
+      setIsImageEditable(false);
+      setIsItemNameEditable(false);
+      setIsMainEditable(false);
+      setIsCategoryEditable(false);
+      setIsColorsEditable(false);
+      setIsPatternsEditable(false);
+      setIsFitsEditable(false);
+      setIsCutsEditable(false);
+      setIsTextilesEditable(false);
+      setIsOccasionsEditable(false);
+      setIsComfortEditable(false);
+      setIsFeelInEditable(false);
+      setIsLikeMeEditable(false);
+      setIsLookLevelEditable(false);
+      setIsFrequencyEditable(false);
+      setIsPriceEditable(false);
+      setIsWantEditable(false);
+    }
+  }, [isEditAll]);
 
+// functions to handle property sections ===========================================================
   const toggleImageEdit = () => {
     setIsImageEditable(!isImageEditable);
     if (isImageEditable) { updateItemField(realm, item, {image_uri: imageUri }) };
@@ -301,6 +321,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleWantSelect = (wantDec: string) => { setWantDecision(wantDec) };
 
+// save to database function =======================================================================
   const saveFn = useCallback(() => {
     updateItemField(realm, item, {
       image_uri: imageUri,
@@ -324,6 +345,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   useRegisterSave(saveFn);
 
+// toggle edit mode ================================================================================
   useEffect(() => {
     if (!isEditMode) {
       setIsImageEditable(false);
@@ -344,7 +366,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setIsPriceEditable(false);
       setIsWantEditable(false);
     }
-  }, [isEditMode])
+  }, [isEditMode, isEditAll])
 
 // error when there is no item found ===============================================================
   if (!item) {
@@ -360,10 +382,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16}}
       showsVerticalScrollIndicator={false} >
       <View>
-        {isEditMode ? (
-          <Button mode='outlined' onPress={toggleEditAll} style={styles.editAllButton}>
-            Edit all
-          </Button> ) : null }
+        {isEditMode ? ( <>
+          <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
+        </>) : null }
 
         <ImageSection
           imageUri={imageUri}
@@ -396,7 +417,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <PropertySection
             title='category'
             propertyName={item?.category?.name}
-            properties={categories?.filter((c) => c.main_category?.id === main?.id)}
+            properties={sortedCategories?.filter((c) => c.main_category?.id === main?.id)}
             selectedPropertyIds={[item?.category?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}
@@ -407,7 +428,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         { item.colors ?
           <ColorSection
-            colors={isColorsEditable && isEditMode ? colors : item.colors}
+            colors={isColorsEditable && isEditMode ? sortedColors : item.colors}
             selectedColorIds={isEditMode ? itemColors.map((c) => c.id) : []}
             handleSelect={handleColorSelect}
             isEditable={isColorsEditable}
@@ -416,7 +437,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='patterns'
-          properties={isPatternsEditable && isEditMode ? patterns : item.patterns}
+          properties={isPatternsEditable && isEditMode ? sortedPatterns : item.patterns}
           selectedPropertyIds={isPatternsEditable && isEditMode ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
           isEditable={isPatternsEditable}
@@ -425,7 +446,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='fits'
-          properties={isFitsEditable && isEditMode ? fits : item.fits}
+          properties={isFitsEditable && isEditMode ? sortedFits : item.fits}
           selectedPropertyIds={isFitsEditable && isEditMode ? itemFits.map((f) => f.id) : []}
           handleSelect={handleFitSelect}
           isEditable={isFitsEditable}
@@ -443,7 +464,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='textiles'
-          properties={(isTextilesEditable && isEditMode) ? textiles : item.textiles}
+          properties={(isTextilesEditable && isEditMode) ? sortedTextiles : item.textiles}
           selectedPropertyIds={(isTextilesEditable && isEditMode) ? itemTextiles.map((t) => t.id) : []}
           handleSelect={handleTextileSelect}
           isEditable={isTextilesEditable}
@@ -452,7 +473,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='occasions'
-          properties={(isOccasionsEditable && isEditMode) ? occasions : item.occasions}
+          properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : item.occasions}
           selectedPropertyIds={(isOccasionsEditable && isEditMode) ? itemOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
           isEditable={isOccasionsEditable}
@@ -468,7 +489,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title={'feel_in'}
-          properties={(isFeelInEditable && isEditMode) ? feels : item.feel_in}
+          properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : item.feel_in}
           selectedPropertyIds={(isFeelInEditable && isEditMode) ? itemFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
           isEditable={isFeelInEditable}
