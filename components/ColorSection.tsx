@@ -41,9 +41,9 @@ export default function ColorSection({
 
 const styles = StyleSheet.create({
   colorsView : {
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
   editColorsView: {
     flexDirection: 'column',
-  }
+  },
 });

@@ -402,7 +402,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onChange={setItemName}
         />
 
-        <View style={!isEditMode ? styles.categories : styles.editCategories} >
+        <View style={isEditMode && (isMainEditable || isCategoryEditable) ? styles.editCategories : styles.categories} >
           <PropertySection
             title='main category'
             propertyName={main?.name}
@@ -544,6 +544,7 @@ const styles = StyleSheet.create({
   categories: {
     flexDirection: 'row',
     gap: 5,
+    alignItems: 'center',
   },
   editCategories: {
     flexDirection: 'column',
