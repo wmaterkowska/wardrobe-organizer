@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
@@ -13,7 +13,12 @@ import PropertyList from './PropertyList';
 import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 import ImageSection from './ImageSection';
-import QuestionSection from './QuestionSection';
+import ItemNameSection from './ItemNameSection';
+import PropertySection from './PropertySection';
+import ColorSection from './ColorSection';
+import ComfortSection from './ComfortSection';
+import QuestionsSection from './QuestionsSection';
+
 
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 import { pickOrCaptureImage } from '../utility/photoUtils'
@@ -37,7 +42,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   const [selectedFitIds, setSelectedFitIds] = useState<string[]>([]);
   const [selectedCutIds, setSelectedCutIds] = useState<string[]>([]);
   const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
-  const [sortedCuts, setSortedCuts] = useState<Realm.Results<Cut> | Cut[] >([]);
+  const [sortedCuts, setSortedCuts] = useState<Realm.Results<Cut> | Cut[]>([]);
   const [selectedTextileIds, setSelectedTextileIds] = useState<string[]>([]);
   const [selectedOccasionIds, setSelectedOccasionIds] = useState<string[]>([]);
   const [comfort, setComfort] = useState<int | null>(null);
@@ -69,23 +74,22 @@ export default function AddItemForm({ onDismiss }: Props) {
   const sortedColors = getSortedColors(colors.map(c => c.id));
   const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
   const sortedFits = getSortedFits(fits.map(f => f.id));
-//  const sortedCuts = getSortedCuts(cuts.map(c => c.id));
   const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
 
-// use Effect to show only cuts connected with choose category =====================================
+// use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
     if (selectedCategoryId) {
-      const cutsForCategory = cuts.filtered('ANY categories.id == $0', selectedCategoryId);
-      setFilteredCuts(cutsForCategory);
-      setSortedCuts(getSortedCuts(cutsForCategory.map(c => c.id)));
+      const sorted = getSortedCuts(cuts.map(c => c.id));
+      const filtered = sorted.filter(cut => cut.categories.some(cat => cat.id === selectedCategoryId));
+      setSortedCuts(sorted);
+      setFilteredCuts(filtered);
     } else {
      setFilteredCuts([]);
      setSortedCuts([]);
     }
-
-  }, [selectedCategoryId, cuts, selectedMainId]);
+  }, [selectedCategoryId, cuts, getSortedCuts]);
 
 // handle toggle functions =========================================================================
   const handlePickImage = async () => {
@@ -166,7 +170,7 @@ export default function AddItemForm({ onDismiss }: Props) {
         want,
       });
 
-    incrementOrCreateCategory(selectedCategoryId);
+    if (selectedCategoryId) { incrementOrCreateCategory(selectedCategoryId) };
     selectedColorIds.forEach(colorId => {incrementOrCreateColor(colorId)});
     selectedPatternIds.forEach(patternId => {incrementOrCreatePattern(patternId)});
     selectedFitIds.forEach(fitId => {incrementOrCreateFit(fitId)});
@@ -200,107 +204,102 @@ export default function AddItemForm({ onDismiss }: Props) {
       showsVerticalScrollIndicator={false} >
     <View style={styles.form} onStartShouldSetResponder={() => true}>
 
-      <ImageSection imageUri={imageUri} onPress={handlePickImage} />
+      <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <Text variant="bodyLarge">item name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="e.g., Jacket"
-        value={itemName}
-        onChangeText={setItemName}
-      />
+      <ItemNameSection itemName={itemName} isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
-      <PropertyList
-        title={'main category'}
-        properties={mains}
-        selectable={true}
-        selectedIds={selectedMainId ? [selectedMainId] : []}
-        onToggle={handleMainCategorySelect}
-        singleSelect={true}
-      /> ) : null }
+        <PropertySection
+          title={'main category'}
+          properties={mains}
+          selectedPropertyIds={[selectedMainId]}
+          selectedPropertyIds={selectedMainId ? [selectedMainId] : []}
+          handleSelect={handleMainCategorySelect}
+          isSingleSelect={true}
+          isEditable={true}
+        /> ) : null }
 
-      {selectedMainId ? (
-      <PropertyList
-        title={'category'}
-        properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
-        selectable={true}
-        selectedIds={selectedCategoryId ? [selectedCategoryId] : []}
-        onToggle={handleCategorySelect}
-        singleSelect={true}
-      /> ) : null }
+
+      { selectedMainId ? (
+        <PropertySection
+          title={'category'}
+          properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
+          selectedPropertyIds={selectedCategoryId ? [selectedCategoryId] : []}
+          handleSelect={handleCategorySelect}
+          isSingleSelect={true}
+          isEditable={true}
+        /> ) : null }
+
 
       { selectedCategoryId ? (
       <View>
-      <ColorList
+      <ColorSection
         colors={sortedColors}
-        selectable={true}
-        selectedIds={selectedColorIds}
-        onToggle={toggleColor}
+        selectedColorIds={selectedColorIds}
+        handleSelect={toggleColor}
+        isEditable={true}
       />
 
-      <PropertyList
+      <PropertySection
         title="patterns"
         properties={sortedPatterns}
-        selectable={true}
-        selectedIds={selectedPatternIds}
-        onToggle={togglePattern}
+        selectedPropertyIds={selectedPatternIds}
+        handleSelect={togglePattern}
+        isEditable={true}
       />
 
       { selectedMainId !== accessoriesMainId ? (
       <View>
-        <PropertyList
-          title="fit"
+        <PropertySection
+          title="fits"
           properties={sortedFits}
-          selectable={true}
-          selectedIds={selectedFitIds}
-          onToggle={toggleFit}
+          selectedPropertyIds={selectedFitIds}
+          handleSelect={toggleFit}
+          isEditable={true}
         />
 
         {selectedCategoryId ? (
-          <PropertyList
-            title="cut"
-            properties={sortedCuts}
-            selectable={true}
-            selectedIds={selectedCutIds}
-            onToggle={toggleCut}
-          />) : null}
+          <PropertySection
+            title="cuts"
+            properties={filteredCuts}
+            selectedPropertyIds={selectedCutIds}
+            handleSelect={toggleCut}
+            isEditable={true}
+          /> ): null}
         </View>
       ) : null}
 
-      <PropertyList
-        title="textile"
+      <PropertySection
+        title="textiles"
         properties={sortedTextiles}
-        selectable={true}
-        selectedIds={selectedTextileIds}
-        onToggle={toggleTextile}
+        selectedPropertyIds={selectedTextileIds}
+        handleSelect={toggleTextile}
+        isEditable={true}
       />
 
-      <PropertyList
-        title="occasion"
+      <PropertySection
+        title="occasions"
         properties={sortedOccasions}
-        selectable={true}
-        selectedIds={selectedOccasionIds}
-        onToggle={toggleOccasion}
+        selectedPropertyIds={selectedOccasionIds}
+        handleSelect={toggleOccasion}
+        isEditable={true}
       />
 
-      <CustomSegmentedButton
-        property={'comfort'}
-        levels={COMFORT_LEVELS}
+      <ComfortSection
         value={comfort}
         isEditable={true}
         onChange={handleComfortSelect}
       />
 
-      <PropertyList
+      <PropertySection
         title="feel_in"
         properties={sortedFeelIns}
-        selectable={true}
-        selectedIds={selectedFeelInIds}
-        onToggle={toggleFeelIn}
+        selectedPropertyIds={selectedFeelInIds}
+        handleSelect={toggleFeelIn}
+        isEditable={true}
       />
 
-      <QuestionSection
+      <QuestionsSection
         likeMe={likeMe}
         handleLikeMeSelect={handleLikeMeSelect}
         lookLevel={lookLevel}

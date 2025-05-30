@@ -1,3 +1,4 @@
+import Realm from 'realm';
 import { usePropertyManager } from '../hooks/usePropertyManager';
 
 import { Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn } from '../database/index';

@@ -11,9 +11,22 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
-  const { viewType, setViewType, numColumns, setNumColumns } = useWardrobeContext();
+  const {
+    viewType,
+    setViewType,
+    numColumns,
+    setNumColumns,
+    isEditMode,
+    setIsEditMode,
+    saveChanges,
+  } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
+
+  const handleBack = () => {
+    setIsEditMode(false);
+    return navigation.goBack();
+  };
 
   const cycleZoom = () => {
     setNumColumns(prev => {
@@ -25,6 +38,11 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     });
   };
 
+  const toggleEditMode = () => {
+    if (isEditMode) { saveChanges() };
+    setIsEditMode(!isEditMode)
+  }
+
   return (
     <Appbar.Header
       style={{ height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top }}
@@ -33,7 +51,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       statusBarHeight={0}
       >
       {back ?
-        <Appbar.BackAction onPress={navigation.goBack} /> : null}
+        <Appbar.BackAction onPress={handleBack} /> : null}
       <Appbar.Content title={title} style={styles.title}/>
       {route.name === "Wardrobe" ? (
       <SegmentedButtons
@@ -51,13 +69,19 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           }
         ]}
         style={styles.segmentedButtons}
-      />) : null}
+      />) : null }
       {route.name === "Wardrobe" && viewType === 'grid' ? (
         <Appbar.Action
           icon="magnify"
           onPress={cycleZoom}
         />
-        ) : null}
+        ) : null }
+      {route.name === "ItemDetail" ? (
+        <Appbar.Action
+          icon={isEditMode ? "check" : "pencil"}
+          onPress={toggleEditMode}
+        />
+      ) : null }
     </Appbar.Header>
   )
 }

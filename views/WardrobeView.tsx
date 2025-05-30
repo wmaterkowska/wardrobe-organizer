@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 
 import Realm from 'realm';
 import { useQuery } from '@realm/react';
-import  { WardrobeProvider, useWardrobeContext }  from '../context/WardrobeContext';
+import  { useWardrobeContext }  from '../context/WardrobeContext';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';

@@ -8,6 +8,9 @@ interface WardrobeContextProps {
   setViewType: React.Dispatch<React.SetStateAction<ViewType>>;
   numColumns: NumColumns;
   setNumColumns: React.Dispatch<React.SetStateAction<NumColumns>>;
+  isEditMode: boolean;
+  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  saveChanges: () => void;
 }
 
 const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
@@ -21,10 +24,33 @@ export const useWardrobeContext = () => {
 export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [numColumns, setNumColumns] = useState<NumColumns>(2);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
 
   return (
-    <WardrobeContext.Provider value={{ viewType, setViewType, numColumns, setNumColumns }}>
+    <WardrobeContext.Provider
+      value={{
+        viewType,
+        setViewType,
+        numColumns,
+        setNumColumns,
+        isEditMode,
+        setIsEditMode,
+        saveChanges: (fn: () => void) => setSaveCallback(() => fn),
+      }}
+    >
       {children}
     </WardrobeContext.Provider>
   );
+};
+
+export const useRegisterSave = (saveFn: () => void) => {
+  const ctx = useWardrobeContext();
+
+  React.useEffect(() => {
+    if (ctx && ctx.saveChanges) {
+      ctx.saveChanges(saveFn);
+    }
+  }, [saveFn, ctx]);
 };
