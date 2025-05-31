@@ -12,6 +12,7 @@ import RootStackParamList from '../navigation/RootNavigator';
 
 import { Item } from '../database/models/Item';
 import ItemCard from '../components/ItemCard';
+import WardrobeVerticalList from '../components/WardrobeVerticalList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wardrobe'>;
 
@@ -33,30 +34,9 @@ export default function WardrobeView({ navigation }: Props) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
-        <View style={styles.wardrobeContainer}>
-          {Array.from(Array(numColumns)).map((_, colIndex) => (
-            <View style={styles.wardrobeColumn} key={colIndex}>
-              {items.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
-                <ItemCard
-                  key={i.id}
-                  item={i}
-                  onPress={() =>
-                    navigation.navigate('ItemDetail', {
-                      itemId: i.id,
-                    })
-                  }
-                  zoom={zoom}
-                />
-              ))}
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+    <>
+    <WardrobeVerticalList items={items} numColumns={numColumns} zoom={zoom} navigation={navigation}/>
+    </>
   )
 }
 

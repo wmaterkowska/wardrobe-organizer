@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
-type ViewType = 'list' | 'grid';
-type NumColumns = 1 | 2 | 3 | 4;
+export type ViewType = 'list' | 'grid';
+export type NumColumns = 1 | 2 | 3 | 4;
 
 interface WardrobeContextProps {
   viewType: ViewType;

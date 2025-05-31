@@ -7,7 +7,7 @@ import ColorList from './ColorList';
 
 import { Item } from '../database/models/Item';
 
-export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress: () => void, zoom: Int }) {
+export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress?: () => void, zoom: Int }) {
 
   const [imageHeight, setImageHeight] = useState(200);
   const screenWidth = Dimensions.get('window').width;
