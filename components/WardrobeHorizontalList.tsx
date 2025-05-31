@@ -1,11 +1,15 @@
+import React, { useState } from 'react';
+
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Surface } from 'react-native-paper';
 import ItemCard from './ItemCard';
+import PropertyChip from './PropertyChip';
 
 import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
+import { MainCategory } from '../database/models/MainCategory';
 
 type Props = {
   items: Item[];
@@ -15,14 +19,37 @@ type Props = {
 export default function WardrobeHorizontalList({items, navigation} : Props) {
 
   const categories = useQuery(Category);
+  const mains = useQuery(MainCategory);
+
+  const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(categories);
+  const [mainChosen, setMainChosen] = useState<MainCategory>(mains.find((m) => m.name === 'Clothes'));
+
+  const handleMainSelect = (id: string) => {
+    const mainFromId = mains.find((m) => m.id === id);
+    console.log('main', mainFromId.name);
+    console.log('categories', mainFromId.categories);
+    setMainChosen(mainFromId);
+    setCategoriesFiltered(mainFromId.categories);
+  };
+
 
   return (
     <View style={{ flex: 1 }}>
+      <Surface elevation={0} style={styles.mains}>
+        {mains.map((m) => (
+          <PropertyChip
+            key={m.id}
+            label={m.name}
+            selectable={true}
+            selected={m.id === mainChosen.id}
+            onPress={() => handleMainSelect(m.id)}/>
+        ))}
+      </Surface>
       <ScrollView
         showsVerticalScrollIndicator={true}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
         <View>
-        {categories.map((cat, index) => (
+        {categoriesFiltered.map((cat, index) => (
           <View style={styles.listContainer}>
             <Text variant="titleMedium" style={styles.title}>{cat.name}</Text>
             <Surface key={index}>
@@ -53,6 +80,12 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
 }
 
 const styles = StyleSheet.create({
+  mains: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 5,
+    marginTop: 4,
+  },
   listContainer: {
     marginTop: 16,
   },
