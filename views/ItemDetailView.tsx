@@ -124,7 +124,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
      setFilteredCuts([]);
      setSortedCuts([]);
     }
-  }, [itemCategory, cuts, itemCuts]);
+  }, [itemCategory, categories, cuts, itemCuts]);
 
 // functions to toggle edit all button =============================================================
   const [isEditAll, setIsEditAll] = useState(false);
@@ -212,9 +212,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleColorSelect = (id: string) => {
     const colorFromId = colors.find((c) => c.id === id);
-    setItemColors((prev) =>
-      prev.includes(colorFromId) ? prev.filter((c) => c.id !== colorFromId.id) : [...prev, colorFromId]
-      );
+    setItemColors((prev) => {
+      const isSelected = prev.some((c) => c.id === colorFromId.id);
+      return isSelected ? prev.filter((c) => c.id !== colorFromId.id) : [...prev, colorFromId]; });
   };
 
   const togglePatternEdit = () => {
@@ -223,9 +223,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handlePatternSelect = (id: string) => {
     const patternFromId = patterns.find((p) => p.id === id);
-    setItemPatterns((prev) =>
-      prev.includes(patternFromId) ? prev.filter((p) => p !== patternFromId) : [...prev, patternFromId]
-      );
+    setItemPatterns((prev) => {
+      const isSelected = prev.some((p) => p.id === patternFromId.id);
+      return isSelected ? prev.filter((p) => p.id !== patternFromId.id) : [...prev, patternFromId]; });
   };
 
   const toggleFitEdit = () => {
@@ -234,9 +234,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleFitSelect = (id: string) => {
     const fitFromId = fits.find((f) => f.id === id);
-    setItemFits((prev) =>
-      prev.includes(fitFromId) ? prev.filter((f) => f !== fitFromId) : [...prev, fitFromId]
-      );
+    setItemFits((prev) => {
+      const isSelected = prev.some((f) => f.id === fitFromId.id);
+      return isSelected ? prev.filter((f) => f.id !== fitFromId.id) : [...prev, fitFromId]; });
   };
 
   const toggleCutEdit = () => {
@@ -245,9 +245,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleCutSelect = (id: string) => {
     const cutFromId = cuts.find((c) => c.id === id);
-    setItemCuts((prev) =>
-      prev.includes(cutFromId) ? prev.filter((c) => c !== cutFromId) : [...prev, cutFromId]
-      );
+    setItemCuts((prev) => {
+      const isSelected = prev.some((c) => c.id === cutFromId.id);
+      return isSelected ? prev.filter((c) => c.id !== cutFromId.id) : [...prev, cutFromId]; });
   };
 
   const toggleTextileEdit = () => {
@@ -256,9 +256,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleTextileSelect = (id: string) => {
     const textileFromId = textiles.find((t) => t.id === id);
-    setItemTextiles((prev) =>
-      prev.includes(textileFromId) ? prev.filter((t) => t !== textileFromId) : [...prev, textileFromId]
-      );
+    setItemTextiles((prev) => {
+      const isSelected = prev.some((t) => t.id === textileFromId.id);
+      return isSelected ? prev.filter((t) => t.id !== textileFromId.id) : [...prev, textileFromId]; });
   };
 
   const toggleOccasionEdit = () => {
@@ -267,9 +267,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleOccasionSelect = (id: string) => {
     const occasionFromId = occasions.find((o) => o.id === id);
-    setItemOccasions((prev) =>
-      prev.includes(occasionFromId) ? prev.filter((o) => o !== occasionFromId) : [...prev, occasionFromId]
-      );
+    setItemOccasions((prev) => {
+      const isSelected = prev.some((o) => o.id === occasionFromId.id);
+      return isSelected ? prev.filter((o) => o.id !== occasionFromId.id) : [...prev, occasionFromId]; });
   };
 
   const toggleComfortEdit = () => {
@@ -286,9 +286,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
   };
   const handleFeelInSelect = (id: string) => {
     const feelInFromId = feels.find((f) => f.id === id);
-    setItemFeelIn((prev) =>
-      prev.includes(feelInFromId) ? prev.filter((f) => f !== feelInFromId) : [...prev, feelInFromId]
-      );
+    setItemFeelIn((prev) => {
+      const isSelected = prev.some((f) => f.id === feelInFromId.id);
+      return isSelected ? prev.filter((f) => f.id !== feelInFromId.id) : [...prev, feelInFromId]; });
   };
 
   const toggleLikeMeEdit = () => {
@@ -335,7 +335,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
       occasions: itemOccasions,
       comfort: itemComfort,
       feel_in: itemFeelIn,
-      like_me: likeMe,
+      like_me: likeMeLevel,
       look_level: lookLevel,
       frequency: frequencyLevel,
       price: priceLevel,
@@ -416,9 +416,9 @@ export default function ItemDetailView({ route, navigation }: Props) {
           {main ? <Text variant="bodyMedium"> > </Text> : null}
           <PropertySection
             title='category'
-            propertyName={item?.category?.name}
+            propertyName={itemCategory?.name}
             properties={sortedCategories?.filter((c) => c.main_category?.id === main?.id)}
-            selectedPropertyIds={[item?.category?.id]}
+            selectedPropertyIds={[itemCategory?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}
             isEditable={isCategoryEditable}
@@ -437,8 +437,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
         <PropertySection
           title='patterns'
-          properties={isPatternsEditable && isEditMode ? sortedPatterns : item.patterns}
-          selectedPropertyIds={isPatternsEditable && isEditMode ? itemPatterns.map((p) => p.id) : []}
+          properties={(isPatternsEditable && isEditMode) ? sortedPatterns : item.patterns}
+          selectedPropertyIds={(isPatternsEditable && isEditMode) ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
           isEditable={isPatternsEditable}
           onPressEditIcon={togglePatternEdit}

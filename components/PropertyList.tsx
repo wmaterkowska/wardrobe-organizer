@@ -39,7 +39,7 @@ export default function PropertyList({
           : id
       )
     }
-  }
+  };
 
   return (
   <View style={styles.listContainer} >
@@ -51,7 +51,7 @@ export default function PropertyList({
             key={property.id}
             label={property.name}
             selectable={selectable}
-            selected={selectedIds?.includes(property.id)}
+            selected={selectedIds?.includes(property.id) || selectedIds === property.id}
             onPress={selectable ? () => handleToggle(property.id) : undefined }
           /> ) )}
       </View>
