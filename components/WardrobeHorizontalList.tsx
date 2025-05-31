@@ -22,7 +22,7 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
   const mains = useQuery(MainCategory);
 
   const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(categories);
-  const [mainChosen, setMainChosen] = useState<MainCategory>(mains.find((m) => m.name === 'Clothes'));
+  const [mainChosen, setMainChosen] = useState<MainCategory | null>(mains.find((m) => m.name === 'Clothes'));
 
   const handleMainSelect = (id: string) => {
     const mainFromId = mains.find((m) => m.id === id);
@@ -32,18 +32,28 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
     setCategoriesFiltered(mainFromId.categories);
   };
 
+  const handleAll = () => {
+    setMainChosen(null);
+    setCategoriesFiltered(categories);
+  }
+
 
   return (
     <View style={{ flex: 1 }}>
       <Surface elevation={0} style={styles.mains}>
         {mains.map((m) => (
           <PropertyChip
-            key={m.id}
-            label={m.name}
+            key={m?.id}
+            label={m?.name}
             selectable={true}
-            selected={m.id === mainChosen.id}
+            selected={m.id === mainChosen?.id}
             onPress={() => handleMainSelect(m.id)}/>
         ))}
+        <PropertyChip
+          label='All'
+          selectable={true}
+          selected={mainChosen === null}
+          onPress={()=> handleAll()}/>
       </Surface>
       <ScrollView
         showsVerticalScrollIndicator={true}
