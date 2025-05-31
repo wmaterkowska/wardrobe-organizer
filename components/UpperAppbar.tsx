@@ -72,7 +72,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       />) : null }
       {route.name === "Wardrobe" && viewType === 'grid' ? (
         <Appbar.Action
-          icon="magnify"
+          icon="view-grid-plus-outline"
           onPress={cycleZoom}
         />
         ) : null }

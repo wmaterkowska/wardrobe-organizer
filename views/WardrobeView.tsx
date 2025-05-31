@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import Realm from 'realm';
@@ -11,17 +10,16 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 
 import { Item } from '../database/models/Item';
-import ItemCard from '../components/ItemCard';
+
 import WardrobeVerticalList from '../components/WardrobeVerticalList';
+import WardrobeHorizontalList from '../components/WardrobeHorizontalList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wardrobe'>;
 
 export default function WardrobeView({ navigation }: Props) {
 
-  const { numColumns, setNumColumns } = useWardrobeContext();
+  const { numColumns, setNumColumns, viewType } = useWardrobeContext();
   const items = useQuery(Item);
-
-  const { bottom } = useSafeAreaInsets();
 
   const zoom = (numColumns == 1) ? 1 : numColumns-1;
 
@@ -35,7 +33,10 @@ export default function WardrobeView({ navigation }: Props) {
 
   return (
     <>
+    {viewType === 'grid' ?
     <WardrobeVerticalList items={items} numColumns={numColumns} zoom={zoom} navigation={navigation}/>
+    : <WardrobeHorizontalList items={items} navigation={navigation}/>
+    }
     </>
   )
 }
