@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useWardrobeContext } from '../context/WardrobeContext';
+import { useGroupedItems, ItemKey } from '../hooks/useGroupedItems';
 
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
+import { Text, Surface, Button } from 'react-native-paper';;
 import ItemCard from './ItemCard';
 import PropertyChip from './PropertyChip';
+import HorizontalItemList from './HorizontalItemList';
 
 import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
 import { MainCategory } from '../database/models/MainCategory';
+
+import { ALL_ITEM_PROPERTIES } from '../constants/index';
 
 type Props = {
   items: Item[];
@@ -18,32 +23,58 @@ type Props = {
 
 export default function WardrobeHorizontalList({items, navigation} : Props) {
 
-  const categories = useQuery(Category);
+  const { isFilter } = useWardrobeContext();
   const mains = useQuery(MainCategory);
+  const categories = useQuery(Category);
 
-  const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(categories);
   const [mainChosen, setMainChosen] = useState<MainCategory | null>(mains.find((m) => m.name === 'Clothes'));
+  const [itemsForMain, setItemsForMain] = useState<Items[]>(items.filter((item) => item.main_category.name === 'Clothes'));
+  const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(mainChosen?.categories || categories);
+
+  const [groupByKey, setGroupByKey] = useState<ItemKey | null>(null);
+  const groupedItems = useGroupedItems(itemsForMain, groupByKey);
 
   const handleMainSelect = (id: string) => {
     const mainFromId = mains.find((m) => m.id === id);
-    console.log('main', mainFromId.name);
-    console.log('categories', mainFromId.categories);
     setMainChosen(mainFromId);
+    setItemsForMain(items.filter((i) => i.main_category.id === mainFromId.id));
     setCategoriesFiltered(mainFromId.categories);
   };
 
-  const handleAll = () => {
-    setMainChosen(null);
-    setCategoriesFiltered(categories);
-  }
+  useEffect(() => {
+    console.log('groupedItems', groupedItems)
+  },[itemsForMain]);
 
+
+  const handleAll = () => {
+    setCategoriesFiltered(categories);
+    setMainChosen(null);
+    setItemsForMain(items);
+  };
 
   return (
     <View style={{ flex: 1 }}>
+      {isFilter ? (
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
+          <Surface style={styles.propertyButtonsContainer} elevation={0}>
+            {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
+              <Button
+                style={styles.propertyButton}
+                compact={true}
+                key={idx}
+                onPress={() => setGroupByKey(k)}
+              >{ALL_ITEM_PROPERTIES[k]}</Button>
+            ))}
+          </Surface>
+        </ScrollView>
+      ) : null }
       <Surface elevation={0} style={styles.mains}>
-        {mains.map((m) => (
+        {mains.map((m, idx) => (
           <PropertyChip
-            key={m?.id}
+            key={m?.id || idx}
             label={m?.name}
             selectable={true}
             selected={m.id === mainChosen?.id}
@@ -55,14 +86,23 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
           selected={mainChosen === null}
           onPress={()=> handleAll()}/>
       </Surface>
+
       <ScrollView
         showsVerticalScrollIndicator={true}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
         <View>
+        {Object.keys(groupedItems).length !== 0 ? (
+         <View>
+           {Object.entries(groupedItems).map(([groupName, groupItems], idx) => (
+              <HorizontalItemList items={groupItems} key={idx} propertyName={groupName}/>
+           ))}
+         </View>
+        ) : (
+        <View>
         {categoriesFiltered.map((cat, index) => (
-          <View style={styles.listContainer}>
+          <View style={styles.listContainer} key={index}>
             <Text variant="titleMedium" style={styles.title}>{cat.name}</Text>
-            <Surface key={index}>
+            <Surface>
             <ScrollView
               horizontal={true}
               style={{padding: 16}}
@@ -83,6 +123,7 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
             </Surface>
           </View>
         ))}
+        </View>)}
         </View>
       </ScrollView>
     </View>
@@ -94,7 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 5,
-    marginTop: 4,
+    justifySelf: 'flex-start',
   },
   listContainer: {
     marginTop: 16,
@@ -103,4 +144,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     paddingBottom: 4,
   },
+  propertyButtonsContainer: {
+    flexDirection: 'row',
+  },
+  propertyButton: {
+  }
 })

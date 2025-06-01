@@ -1,3 +1,21 @@
+export const ALL_ITEM_PROPERTIES = {
+  main_category : "Main Category",
+  category: "Category",
+  colors: "Colors",
+  patterns: "Patterns",
+  fits: "Fits",
+  cuts: "Cuts",
+  textiles: "Textiles",
+  comfort: "Comfort",
+  occasions: "Occasions",
+  feel_in: "Feels",
+  like_me: "Like Me",
+  look_level: "Look Level",
+  frequency: "Frequency",
+  price: "Price",
+  want: "Want",
+}
+
 export const PROPERTIES_ARRAY =['patterns', 'fits', 'cuts', 'textiles', 'occasions' ];
 
 export const COMFORT_LEVELS = [1, 2, 3, 4, 5];
