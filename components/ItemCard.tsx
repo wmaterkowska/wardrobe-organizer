@@ -3,13 +3,24 @@ import { Card, Chip } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { resolveAssetSource, Dimensions } from 'react-native';
 
+import  { useWardrobeContext }  from '../context/WardrobeContext';
+
 import ColorList from './ColorList';
 
 import { Item } from '../database/models/Item';
 
-export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress: () => void, zoom: Int }) {
+type Props = {
+  item: Item;
+  onPress?: () => void;
+  zoom?: Int;
+}
+
+export default function ItemCard({ item, onPress, zoom = 2 }: Props) {
+
+  const { viewType } = useWardrobeContext();
 
   const [imageHeight, setImageHeight] = useState(200);
+  const [imageWidth, setImageWidth] = useState(200);
   const screenWidth = Dimensions.get('window').width;
 
   useEffect(() => {
@@ -19,6 +30,7 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
       (width, height) => {
         const ratio = height / width;
         setImageHeight(screenWidth * ratio * 0.6 / zoom);
+        setImageWidth(screenWidth / ratio * 0.4);
       },
       (error) => {
         console.warn('Image.getSize failed:', error);
@@ -27,12 +39,14 @@ export default function ItemCard({ item, onPress, zoom }: { item: Item; onPress:
   }, [item.image_uri, zoom]);
 
     return (
-      <TouchableOpacity onPress={onPress} style={styles.itemContainer}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}]}>
         <Card mode='elevated'>
             {item.image_uri ? (
               <Card.Cover
                 source={{ uri: item.image_uri }}
-                style={{height: imageHeight}}
+                style={viewType === 'list' ? {height: 200} : {height: imageHeight}}
                 resizeMode="contain"
                 />
               ) : null}

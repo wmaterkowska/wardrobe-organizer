@@ -21,20 +21,19 @@ export default function ColorList({
   selectable = false,
   selectedIds = [],
   onToggle,
-  size = 45}: { Props }) {
+  size = 45}: Props) {
 
   const { visibleItems, showToggle, toggle, expanded } = useExpandableList(colors, 10);
 
   const handleToggle = (id: string) => {
     if (!onToggle) return;
-
     const alreadySelected = selectedIds?.includes(id);
       onToggle(
         alreadySelected
         ? id
         : id
       )
-    }
+    };
 
   return (
       <View style={styles.rowList}>
