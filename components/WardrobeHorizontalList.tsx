@@ -37,13 +37,17 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
   const handleMainSelect = (id: string) => {
     const mainFromId = mains.find((m) => m.id === id);
     setMainChosen(mainFromId);
-    setItemsForMain(items.filter((i) => i.main_category.id === mainFromId.id));
-    setCategoriesFiltered(mainFromId.categories);
   };
 
   useEffect(() => {
-    console.log('groupedItems', groupedItems)
-  },[itemsForMain]);
+    if (mainChosen) {
+      setItemsForMain(items.filter((i) => i.main_category.id === mainChosen?.id));
+      setCategoriesFiltered(mainChosen.categories);
+    } else {
+      setItemsForMain(items);
+      setCategoriesFiltered(categories);
+    }
+  },[mainChosen]);
 
 
   const handleAll = () => {
@@ -60,7 +64,7 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
           <Surface style={styles.propertyButtonsContainer} elevation={0}>
-            {Object.keys(ALL_ITEM_PROPERTIES.slice(1, -1)).map((k, idx) => (
+            {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
               <Button
                 style={styles.propertyButton}
                 compact={true}

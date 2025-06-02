@@ -52,7 +52,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   }, [propertyArray, chosenProperty, filteredItems]);
 
   useEffect(() => {
-    if (!filter) {setFilteredItems(items)};
+    if (!filter) return;
     const newItemSet =  items.filter((i) => {
       if (isRealmList(i[chosenProperty])) {
         return i[chosenProperty].map((p) => p.name).includes(filter);
