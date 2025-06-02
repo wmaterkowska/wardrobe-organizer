@@ -33,7 +33,7 @@ export function useGroupedItems(items: Item[], groupByKey: ItemKey | null) {
   return groupedItems;
 }
 
-function isRealmList(obj: any): boolean {
+export function isRealmList(obj: any): boolean {
   return (
     typeof obj === 'object' &&
     obj !== null &&
