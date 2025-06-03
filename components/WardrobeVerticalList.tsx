@@ -69,6 +69,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     if (chosenProperty === property) {
       setFilter(null);
       setPropertyArray([]);
+      setFilteredItems(items);
     };
     setChosenProperty((prev) => prev === property ? null : property);
   };
