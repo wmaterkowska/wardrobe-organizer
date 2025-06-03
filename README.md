@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# Wardrobe App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile wardrobe organizer built with **React Native** and **Expo**.  
+Users can add, edit, and categorize items in their wardrobe with properties like colors, patterns, and cuts — complete with photo support and smart grouping features.
 
-## Get started
+## 🚀 Getting Started
 
-1. Install dependencies
+### Prerequisites
 
-   ```bash
-   npm install
-   ```
+- [Node.js](https://nodejs.org/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- Android emulator or a physical Android device
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Installation
 
 ```bash
-npm run reset-project
+git clone https://github.com/yourusername/wardrobe-app.git
+cd wardrobe-app
+npm install
+````
+
+### Run the App
+
+```bash
+npx expo run:android
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This will build and launch the app on an Android emulator or connected device.
 
-## Learn more
+## 📦 Tech Stack
 
-To learn more about developing your project with Expo, look at the following resources:
+* **React Native** with **Expo**
+* **Realm** database
+* **TypeScript**
+* **React Native Paper** for UI components
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🧩 Features
 
-## Join the community
+* Add and categorize clothing items
+* Attach photos using camera or gallery
+* Sort and group wardrobe items by properties
+* Editable item detail view
+* Modular property selection and management
 
-Join our community of developers creating universal apps.
+## 📝 License
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License.
+
+---
+
+> This is a work in progress. More features and refinements coming soon!
