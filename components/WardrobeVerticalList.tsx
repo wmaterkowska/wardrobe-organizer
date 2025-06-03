@@ -49,48 +49,59 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     } else {
       setPropertyArray(WANT_ARRAY)
     }
-  }, [propertyArray, chosenProperty, filteredItems]);
+  }, [propertyArray, chosenProperty, filteredItems, filter]);
 
   useEffect(() => {
     if (!filter) return;
     const newItemSet =  items.filter((i) => {
       if (isRealmList(i[chosenProperty])) {
         return i[chosenProperty].map((p) => p.name).includes(filter);
+      } else if (typeof i[chosenProperty] === 'object') {
+        return i[chosenProperty].name === filter;
       } else {
         return i[chosenProperty] === filter;
       }
     });
     setFilteredItems(newItemSet);
-  }, [filter]);
+  }, [filter, chosenProperty, propertyArray]);
 
-  const handlePropertyChoose = (property: string) => {
-    setChosenProperty(property);
+console.log(items.map((i) => i.category.name));
+console.log(chosenProperty);
+console.log(filter);
+
+  const handlePropertyChoose = (property) => {
+    if (chosenProperty === property) {
+      setFilter(null);
+      setPropertyArray([]);
+    };
+    setChosenProperty((prev) => prev === property ? null : property);
   };
 
   const handleFilter = (prop) => {
-    setFilter(prop);
+    if (filter === prop) {setFilteredItems(items)};
+    setFilter((prev) => prev === prop ? null : prop);
   };
 
   return (
     <View style={{ flex: 1 }}>
+    <View>
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
+        contentContainerStyle={{ flexGrow: 1 }} >
         <Surface style={styles.propertyButtonsContainer} elevation={0}>
           {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
             <Button
               style={styles.propertyButton}
-              compact={true}
+              mode={chosenProperty === k ? 'contained-tonal' : 'text'}
               key={idx}
               onPress={() => handlePropertyChoose(k)}
             >{ALL_ITEM_PROPERTIES[k]}</Button>
           ))}
         </Surface>
       </ScrollView>
-
       {propertyArray.length > 0 && (
-        <View style={{ margin: 5 }}>
+        <View>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -99,6 +110,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
               {propertyArray.map((p, idx) => (
                 <Button
                   style={styles.propertyButton}
+                  mode={filter === p || filter === p.name? 'outlined' : 'text'}
                   compact={true}
                   key={idx}
                   onPress={() => handleFilter(p.name || p)}
@@ -108,7 +120,8 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
           </ScrollView>
         </View>
       )}
-
+    </View>
+    <View style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
@@ -132,6 +145,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
         </View>
       </ScrollView>
     </View>
+    </View>
   )
 }
 
@@ -146,7 +160,11 @@ const styles = StyleSheet.create({
   },
   propertyButtonsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
   },
   propertyButton: {
+    padding: 0,
+    margin: 0,
   }
 });

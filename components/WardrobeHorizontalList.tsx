@@ -64,7 +64,7 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
           <Surface style={styles.propertyButtonsContainer} elevation={0}>
-            {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
+            {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
               <Button
                 style={styles.propertyButton}
                 compact={true}

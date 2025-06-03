@@ -27,6 +27,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
 
   const handleBack = () => {
     setIsEditMode(false);
+    setIsFilter(false);
     return navigation.goBack();
   };
 
@@ -81,12 +82,13 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           icon="view-grid-plus-outline"
           onPress={cycleZoom}
         />
-        ) : (
+        ) : null }
+      {route.name === "Wardrobe" && viewType === 'list' ? (
         <Appbar.Action
           icon={"filter-outline"}
           onPress={handleFilter}
         />
-      )}
+      ) : null }
       {route.name === "ItemDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}
