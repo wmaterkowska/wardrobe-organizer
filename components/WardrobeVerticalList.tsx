@@ -65,10 +65,6 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     setFilteredItems(newItemSet);
   }, [filter, chosenProperty, propertyArray]);
 
-console.log(items.map((i) => i.category.name));
-console.log(chosenProperty);
-console.log(filter);
-
   const handlePropertyChoose = (property) => {
     if (chosenProperty === property) {
       setFilter(null);

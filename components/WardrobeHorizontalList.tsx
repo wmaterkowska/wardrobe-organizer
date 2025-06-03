@@ -58,13 +58,14 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
 
   return (
     <View style={{ flex: 1 }}>
+      <View>
       {isFilter ? (
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
           <Surface style={styles.propertyButtonsContainer} elevation={0}>
-            {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
+            {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
               <Button
                 style={styles.propertyButton}
                 compact={true}
@@ -90,7 +91,8 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
           selected={mainChosen === null}
           onPress={()=> handleAll()}/>
       </Surface>
-
+      </View>
+      <View style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={true}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
@@ -130,6 +132,7 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
         </View>)}
         </View>
       </ScrollView>
+    </View>
     </View>
   )
 }
