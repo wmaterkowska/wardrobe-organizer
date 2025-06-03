@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { useWardrobeContext } from '../context/WardrobeContext';
 
+import { StyleSheet, View } from 'react-native';
 import { Appbar, SegmentedButtons, IconButton } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
@@ -19,12 +19,15 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     isEditMode,
     setIsEditMode,
     saveChanges,
+    isFilter,
+    setIsFilter,
   } = useWardrobeContext();
   const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
   const handleBack = () => {
     setIsEditMode(false);
+    setIsFilter(false);
     return navigation.goBack();
   };
 
@@ -41,6 +44,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const toggleEditMode = () => {
     if (isEditMode) { saveChanges() };
     setIsEditMode(!isEditMode)
+  }
+
+  const handleFilter = () => {
+    setIsFilter(!isFilter);
   }
 
   return (
@@ -76,6 +83,12 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={cycleZoom}
         />
         ) : null }
+      {route.name === "Wardrobe" && viewType === 'list' ? (
+        <Appbar.Action
+          icon={"filter-outline"}
+          onPress={handleFilter}
+        />
+      ) : null }
       {route.name === "ItemDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}

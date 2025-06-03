@@ -96,11 +96,13 @@ const customColorsDark = {
 export const lightTheme = {
   ...MD3LightTheme,
   colors: customColorsLight,
+  roundness: 3,
 };
 
 export const darkTheme = {
   ...MD3DarkTheme,
   colors: customColorsDark,
+  roundness: 3,
 };
 
 export const navigationThemes = adaptNavigationTheme({

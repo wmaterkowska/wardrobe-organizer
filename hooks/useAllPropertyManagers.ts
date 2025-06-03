@@ -1,7 +1,8 @@
 import { usePropertyManager } from './usePropertyManager';
-import { Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn } from '../database/index';
+import { MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn } from '../database/index';
 
 export const useAllPropertyManagers = () => {
+  const main =  usePropertyManager<MainCategory>('MainCategory');
   const category = usePropertyManager<Category>('Category');
   const color = usePropertyManager<Color>('Color');
   const pattern = usePropertyManager<Pattern>('Pattern');
@@ -12,6 +13,7 @@ export const useAllPropertyManagers = () => {
   const feels = usePropertyManager<FeelIn>('FeelIn');
 
   return {
+    main,
     category,
     color,
     pattern,
