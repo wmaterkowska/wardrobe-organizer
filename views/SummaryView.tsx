@@ -5,8 +5,8 @@ import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { useGroupedItems } from '../hooks/useGroupedItems';
 
-import { View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import { Button, Surface } from 'react-native-paper';
 import SummarySectionList from '../components/SummarySectionList';
 
 import { Item } from '../database/models/Item';
@@ -31,12 +31,27 @@ export default function HomeView({ navigation }: Props) {
   };
 
   return (
-    <View>
-      {categories.map((cat, idx) => (
-        <Button key={idx} onPress={() => handleChooseCategory(cat)}>{cat}</Button>
-      ))}
-      <SummarySectionList items={itemsKeep}/>
-      <SummarySectionList items={itemsLetGo}/>
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
+        <Surface style={styles.categoryButtonsContainer} elevation={0}>
+          {categories.map((cat, idx) => (
+            <Button key={idx} onPress={() => handleChooseCategory(cat)}>{cat}</Button>
+          ))}
+        </Surface>
+      </ScrollView>
+      <View style={{ flex: 2 }}>
+        <SummarySectionList items={itemsKeep}/>
+        <SummarySectionList items={itemsLetGo}/>
+      </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  categoryButtonsContainer: {
+    flexDirection: 'row',
+  },
+});

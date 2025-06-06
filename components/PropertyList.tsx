@@ -56,10 +56,10 @@ export default function PropertyList({
     {title ? (<Text variant="bodyLarge" >{title}</Text>) : null }
     {properties ? (
       <View style={styles.listView} >
-        {itemsToShow?.map( (property) => (
+        {itemsToShow?.map( (property, idx) => (
           <PropertyChip
-            key={property.id}
-            label={property.name}
+            key={property.id ?? idx}
+            label={property.name ?? property.toString()}
             selectable={selectable}
             selected={selectedIds?.includes(property.id) || selectedIds === property.id}
             onPress={selectable ? () => handleToggle(property.id) : undefined }
