@@ -47,6 +47,12 @@ export default function HomeView({ navigation }: Props) {
       >
         View Wardrobe
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('Summary')}
+      >
+        Summary
+      </Button>
 
     </View>
   );

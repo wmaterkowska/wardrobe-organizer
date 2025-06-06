@@ -28,7 +28,7 @@ export const propertyModelDictionary = {
   feel_in: "FeelIn",
 };
 
-export const PROPERTIES_ARRAY =['patterns', 'fits', 'cuts', 'textiles', 'occasions' ];
+export const PROPERTIES_ARRAY_FOR_SUMMARY =['colors', 'patterns', 'fits', 'cuts', 'textiles', 'comfort', 'feel_in' ];
 
 export const COMFORT_LEVELS = [1, 2, 3, 4, 5];
 
