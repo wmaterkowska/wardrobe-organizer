@@ -54,12 +54,13 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   useEffect(() => {
     if (!filter) return;
     const newItemSet =  items.filter((i) => {
+      if(!i[chosenProperty]) return;
       if (isRealmList(i[chosenProperty])) {
         return i[chosenProperty].map((p) => p.name).includes(filter);
-      } else if (typeof i[chosenProperty] === 'object') {
-        return i[chosenProperty].name === filter;
-      } else {
+      } else if (typeof i[chosenProperty] === 'string') {
         return i[chosenProperty] === filter;
+      } else {
+        return i[chosenProperty].name === filter;
       }
     });
     setFilteredItems(newItemSet);
