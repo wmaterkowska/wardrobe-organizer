@@ -7,6 +7,9 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import { View, Text } from 'react-native';
 import CategorySummary from '../components/summaries/CategorySummary';
+import FeelSummary from '../components/summaries/FeelSummary';
+import FrequencySummary from '../components/summaries/FrequencySummary';
+import AppearanceSummary from '../components/summaries/AppearanceSummary';
 
 import { Item } from './../database/models/Item';
 
@@ -31,7 +34,15 @@ export default function SummaryDetailView({ route }: Props) {
       {type === 'category' && (
         <CategorySummary itemsKeep={itemsKeep} itemsLetGo={itemsLetGo} />
       )}
-      {/* Add more summary types later */}
+      {type === 'feel' && (
+        <FeelSummary />
+      )}
+      {type === 'frequency' && (
+        <FrequencySummary />
+      )}
+      {type === 'appearance' && (
+        <AppearanceSummary />
+      )}
     </View>
   );
 }

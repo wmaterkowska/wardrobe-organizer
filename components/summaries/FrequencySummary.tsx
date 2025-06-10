@@ -7,7 +7,7 @@ import { Surface } from 'react-native-paper';
 
 import { LEVELS } from '../../constants/index';
 
-export default function FeelSummary() {
+export default function FrequencySummary() {
   const allItems = useQuery(Item);
 
   return (
@@ -16,8 +16,8 @@ export default function FeelSummary() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollContainer}
     >
-      {LEVELS['like_me'].map((level, index) => {
-        const filteredItems = allItems.filtered('like_me == $0', level);
+      {LEVELS['frequency'].map((level, index) => {
+        const filteredItems = allItems.filtered('frequency == $0', level);
 
         return (
           <Surface key={index} style={styles.card} elevation={3}>
