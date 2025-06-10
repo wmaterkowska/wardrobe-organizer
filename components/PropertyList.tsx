@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Item from '../database/models/Item';
 
@@ -15,6 +15,7 @@ type Props = {
   selectedIds?: string[];
   onToggle?: (id: string) => void;
   singleSelect?: Boolean;
+  isExpandable?: Boolean;
 }
 
 export default function PropertyList({
@@ -23,9 +24,18 @@ export default function PropertyList({
   selectable = false,
   selectedIds = [],
   onToggle,
-  singleSelect = false, }: Props) {
+  singleSelect = false,
+  isExpandable = true,
+  }: Props) {
 
   const { visibleItems, showToggle, toggle, expanded } = useExpandableList(properties, 10);
+  const [ itemsToShow, setItemsToShow ] = useState(properties);
+
+  useEffect(() => {
+    if (isExpandable) {
+      setItemsToShow(visibleItems)
+    }
+  }, [isExpandable, expanded])
 
   const handleToggle = (id: string) => {
     if (!onToggle) return;
@@ -46,10 +56,10 @@ export default function PropertyList({
     {title ? (<Text variant="bodyLarge" >{title}</Text>) : null }
     {properties ? (
       <View style={styles.listView} >
-        {visibleItems?.map( (property) => (
+        {itemsToShow?.map( (property, idx) => (
           <PropertyChip
-            key={property.id}
-            label={property.name}
+            key={property.id ?? idx}
+            label={property.name ?? property.toString()}
             selectable={selectable}
             selected={selectedIds?.includes(property.id) || selectedIds === property.id}
             onPress={selectable ? () => handleToggle(property.id) : undefined }
