@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView';
 import WardrobeView from '../views/WardrobeView';
 import ItemDetailView from '../views/ItemDetailView';
 import SummaryView from '../views/SummaryView';
+import SummaryDetailView from '../views/SummaryDetailView';
 import UpperAppbar from '../components/UpperAppbar';
 
 export type RootStackParamList = {
@@ -11,6 +12,7 @@ export type RootStackParamList = {
   Wardrobe: undefined;
   ItemDetail: {itemId: string};
   Summary: undefined;
+  SummaryDetail: {type: 'category' | 'feel' | 'frequency' | 'appearance'};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,6 +29,7 @@ export default function RootNavigator() {
       <Stack.Screen name="Wardrobe" component={WardrobeView} />
       <Stack.Screen name="ItemDetail" component={ItemDetailView} />
       <Stack.Screen name="Summary" component={SummaryView} />
+      <Stack.Screen name="SummaryDetail" component={SummaryDetailView} />
     </Stack.Navigator>
   );
 }
