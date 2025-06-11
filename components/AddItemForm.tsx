@@ -70,13 +70,24 @@ export default function AddItemForm({ onDismiss }: Props) {
     feels: { getSorted: getSortedFeelIns, incrementOrCreate: incrementOrCreateFeelIn },
   } = useAllPropertyManagers();
 
-  const sortedCategories = getSortedCategories(categories.map(c => c.id));
   const sortedColors = getSortedColors(colors.map(c => c.id));
+  const sortedCategories = getSortedCategories(categories.map(c => c.id));
   const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
   const sortedFits = getSortedFits(fits.map(f => f.id));
   const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
+
+// // use Effect to show categories of main category ==================================================
+//   useEffect(() => {
+//     if (selectedMainId) {
+//       const sorted = getSortedCategories(categories.map(c => c.id));
+//       const filtered = sorted.filter(cat => cat.main_category.id === selectedMainId);
+//       setFilteredCategories([...filtered]);
+//     } else {
+//       setFilteredCategories([]);
+//     }
+//   }, [selectedMainId, categories, getSortedCategories]);
 
 // use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
@@ -100,7 +111,7 @@ export default function AddItemForm({ onDismiss }: Props) {
   }
   const handleMainCategorySelect = (id: string) => {
     setSelectedMainId(id);
-    setSelectedCategoryId(null)
+    setSelectedCategoryId(null);
   };
   const handleCategorySelect = (id: string) => {setSelectedCategoryId(id)};
   const toggleColor = (id: string) => {
@@ -222,8 +233,9 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       { selectedMainId ? (
         <PropertySection
+          key={selectedMainId}
           title={'category'}
-          properties={sortedCategories.filter((c) => c.main_category.id === selectedMainId.toString())}
+          properties={sortedCategories.filter(cat => cat.main_category.id === selectedMainId)}
           selectedPropertyIds={selectedCategoryId ? [selectedCategoryId] : []}
           handleSelect={handleCategorySelect}
           isSingleSelect={true}
