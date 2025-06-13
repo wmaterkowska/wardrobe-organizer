@@ -41,7 +41,7 @@ export default function RootNavigator() {
   ];
 
   return (
-    <TabNavigationContext.Provider value={{ setTabByKey }}>
+    <TabNavigationContext.Provider value={{ setTabByKey, currentTabKey }}>
     <Stack.Navigator
       initialRouteName="Main"
       screenOptions={{

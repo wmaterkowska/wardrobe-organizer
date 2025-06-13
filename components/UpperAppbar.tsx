@@ -24,7 +24,6 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     isFilter,
     setIsFilter,
   } = useWardrobeContext();
-  //const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
   const handleBack = () => {
@@ -62,7 +61,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null}
       <Appbar.Content style={styles.title}/>
-      {currentTabKey === 'home' ? (
+      {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
       <SegmentedButtons
         density='small'
         value={viewType}
@@ -79,13 +78,13 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ]}
         style={styles.segmentedButtons}
       />) : null }
-      {route.name === "Main" && viewType === 'grid' ? (
+      {currentTabKey === 'wardrobe' && viewType === 'grid' && route.name !== "ItemDetail" ? (
         <Appbar.Action
           icon="view-grid-plus-outline"
           onPress={cycleZoom}
         />
         ) : null }
-      {route.name === "Main" && viewType === 'list' ? (
+      {currentTabKey === 'wardrobe' && viewType === 'list' && route.name !== "ItemDetail" ? (
         <Appbar.Action
           icon={"filter-outline"}
           onPress={handleFilter}
