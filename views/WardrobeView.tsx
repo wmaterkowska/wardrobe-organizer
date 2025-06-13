@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
+
 import { View, SafeAreaView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
@@ -6,17 +10,14 @@ import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import  { useWardrobeContext }  from '../context/WardrobeContext';
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import RootStackParamList from '../navigation/RootNavigator';
-
 import { Item } from '../database/models/Item';
 
 import WardrobeVerticalList from '../components/WardrobeVerticalList';
 import WardrobeHorizontalList from '../components/WardrobeHorizontalList';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Wardrobe'>;
+export default function WardrobeView() {
 
-export default function WardrobeView({ navigation }: Props) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const { numColumns, setNumColumns, viewType } = useWardrobeContext();
   const items = useQuery(Item);

@@ -5,7 +5,6 @@ type TabRouteKey = keyof typeof TAB_ROUTE_KEYS;
 
 type TabContextType = {
   setTabByKey: (key: TabRouteKey) => void;
-  currentIndex: int;
   currentTabKey: TabRouteKey;
 };
 

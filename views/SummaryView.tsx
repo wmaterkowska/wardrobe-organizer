@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import RootStackParamList from '../navigation/RootNavigator';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
+
 import { useGroupedItems } from '../hooks/useGroupedItems';
 
 import { View, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
@@ -10,9 +12,10 @@ import SummarySectionList from '../components/SummarySectionList';
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Summary'>;
 
-export default function HomeView({ navigation }: Props) {
+export default function HomeView() {
+
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <SafeAreaView style={styles.container}>

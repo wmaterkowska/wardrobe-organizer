@@ -12,7 +12,7 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
-  const { currentTabKey, currentIndex } = useTabNavigation();
+  const { currentTabKey } = useTabNavigation();
   const {
     viewType,
     setViewType,
@@ -62,7 +62,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null}
       <Appbar.Content style={styles.title}/>
-      {currentIndex === 0 ? (
+      {currentTabKey === 'home' ? (
       <SegmentedButtons
         density='small'
         value={viewType}
@@ -79,7 +79,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ]}
         style={styles.segmentedButtons}
       />) : null }
-      {route.name === "Wardrobe" && viewType === 'grid' ? (
+      {route.name === "Main" && viewType === 'grid' ? (
         <Appbar.Action
           icon="view-grid-plus-outline"
           onPress={cycleZoom}
