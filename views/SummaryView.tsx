@@ -5,8 +5,8 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import { useGroupedItems } from '../hooks/useGroupedItems';
 
-import { View, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
-import { Button, Surface, Card, Text } from 'react-native-paper';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
+import SummaryCard from '../components/SummaryCard'
 import SummarySectionList from '../components/SummarySectionList';
 
 import { Item } from '../database/models/Item';
@@ -18,41 +18,28 @@ export default function HomeView() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <SafeAreaView style={styles.container}>
-    <View style={{ flex: 1 }}>
-      <View style={{ gap: 12 }}>
-        <Card>
-        <Card.Content>
-          <Text variant="titleMedium">Summary by Category</Text>
-          <Text variant="bodySmall">Explore which types of clothes you own most.</Text>
-          <Button onPress={() => navigation.navigate('SummaryDetail', {type: 'category'})}>View Summary</Button>
-        </Card.Content>
-        </Card>
-
-        <Card>
-        <Card.Content>
-          <Text variant="titleMedium">How You Feel in Your Clothes</Text>
-          <Text variant="bodySmall">See how your wardrobe supports your comfort and confidence.</Text>
-          <Button onPress={() => navigation.navigate('SummaryDetail', {type: 'feel'})}>View Summary</Button>
-        </Card.Content>
-        </Card>
-
-        <Card>
-        <Card.Content>
-          <Text variant="titleMedium">Frequency of Use</Text>
-          <Text variant="bodySmall">Discover what you wear the most (and least).</Text>
-          <Button onPress={() => navigation.navigate('SummaryDetail', {type: 'frequency'})}>View Summary</Button>
-        </Card.Content>
-        </Card>
-
-        <Card>
-        <Card.Content>
-          <Text variant="titleMedium">How You See Yourself</Text>
-          <Text variant="bodySmall">Review how your wardrobe reflects your style and image.</Text>
-          <Button onPress={() => navigation.navigate('SummaryDetail', {type: 'appearance'})}>View Summary</Button>
-        </Card.Content>
-        </Card>
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.container}>
+      <SummaryCard
+        title="Summary by Category"
+        description="See which styles, fits, or colors you tend to keep or let go in each clothing category."
+        onPress={() => navigation.navigate('SummaryDetail', {type: 'category'})}
+      />
+      <SummaryCard
+        title="Summary by Feel"
+        description="Understand how you feel in your clothes and what features are linked to comfort or confidence."
+        onPress={() => navigation.navigate('SummaryDetail', {type: 'feel'})}
+      />
+      <SummaryCard
+        title="Summary by Frequency"
+        description="Discover what you actually wear — explore the traits of your most (and least) worn items."
+        onPress={() => navigation.navigate('SummaryDetail', {type: 'frequency'})}
+      />
+      <SummaryCard
+        title="Summary by Appearance"
+        description="Find out what makes you feel beautiful and how your wardrobe reflects your self-image."
+        onPress={() => navigation.navigate('SummaryDetail', {type: 'appearance'})}
+      />
     </View>
     </SafeAreaView>
   )
@@ -60,6 +47,7 @@ export default function HomeView() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    gap: 12,
+    padding: 16,
   },
 });
