@@ -21,23 +21,31 @@ export default function HomeView() {
     <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <SummaryCard
-        title="Summary by Category"
+        label="Summary by"
+        keyword="Category"
         description="See which styles, fits, or colors you tend to keep or let go in each clothing category."
+        icon='shape-outline'
         onPress={() => navigation.navigate('SummaryDetail', {type: 'category'})}
       />
       <SummaryCard
-        title="Summary by Feel"
-        description="Understand how you feel in your clothes and what features are linked to comfort or confidence."
+        label="Summary by"
+        keyword="Feel"
+        description="Understand how you feel in your clothes and what features are linked to feeling like yourself."
+        icon='heart-outline'
         onPress={() => navigation.navigate('SummaryDetail', {type: 'feel'})}
       />
       <SummaryCard
-        title="Summary by Frequency"
+        label="Summary by"
+        keyword="Frequency"
         description="Discover what you actually wear — explore the traits of your most (and least) worn items."
+        icon='calendar-check-outline'
         onPress={() => navigation.navigate('SummaryDetail', {type: 'frequency'})}
       />
       <SummaryCard
-        title="Summary by Appearance"
+        label="Summary by"
+        keyword="Appearance"
         description="Find out what makes you feel beautiful and how your wardrobe reflects your self-image."
+        icon='mirror'
         onPress={() => navigation.navigate('SummaryDetail', {type: 'appearance'})}
       />
     </View>
