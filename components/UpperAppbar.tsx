@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useWardrobeContext } from '../context/WardrobeContext';
+import { useTabNavigation } from '../context/TabNavigationContext';
 
 import { StyleSheet, View } from 'react-native';
 import { Appbar, SegmentedButtons, IconButton } from 'react-native-paper';
@@ -11,6 +12,7 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
+  const { currentTabKey, currentIndex } = useTabNavigation();
   const {
     viewType,
     setViewType,
@@ -22,7 +24,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     isFilter,
     setIsFilter,
   } = useWardrobeContext();
-  const title = getHeaderTitle(options, route.name);
+  //const title = getHeaderTitle(options, route.name);
   const { top } = useSafeAreaInsets();
 
   const handleBack = () => {
@@ -59,8 +61,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null}
-      <Appbar.Content title={title} style={styles.title}/>
-      {route.name === "Wardrobe" ? (
+      <Appbar.Content style={styles.title}/>
+      {currentIndex === 0 ? (
       <SegmentedButtons
         density='small'
         value={viewType}
@@ -83,7 +85,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={cycleZoom}
         />
         ) : null }
-      {route.name === "Wardrobe" && viewType === 'list' ? (
+      {route.name === "Main" && viewType === 'list' ? (
         <Appbar.Action
           icon={"filter-outline"}
           onPress={handleFilter}

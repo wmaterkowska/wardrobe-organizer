@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 import { useGroupedItems } from '../hooks/useGroupedItems';
 
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
 import { Button, Surface, Card, Text } from 'react-native-paper';
 import SummarySectionList from '../components/SummarySectionList';
 
@@ -15,6 +15,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Summary'>;
 export default function HomeView({ navigation }: Props) {
 
   return (
+    <SafeAreaView style={styles.container}>
     <View style={{ flex: 1 }}>
       <View style={{ gap: 12 }}>
         <Card>
@@ -50,5 +51,12 @@ export default function HomeView({ navigation }: Props) {
         </Card>
       </View>
     </View>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import Realm from 'realm';
@@ -32,22 +32,17 @@ export default function WardrobeView({ navigation }: Props) {
   }
 
   return (
-    <>
+    <SafeAreaView style={styles.container}>
     {viewType === 'grid' ?
     <WardrobeVerticalList items={items} numColumns={numColumns} zoom={zoom} navigation={navigation}/>
     : <WardrobeHorizontalList items={items} navigation={navigation}/>
     }
-    </>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  wardrobeContainer: {
-    display: 'flex',
-    padding: 10,
-    flexDirection: "row",
-  },
-  wardrobeColumn: {
+  container : {
     flex: 1,
   },
 });
