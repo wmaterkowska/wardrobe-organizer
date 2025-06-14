@@ -51,7 +51,7 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
         </Surface>
       </ScrollView>
 
-      <Text style={themedStyles.categoryTitle} variant="titleMedium">{chosenCategory}</Text>
+      <Text style={themedStyles.categoryTitle} variant="titleLarge">{chosenCategory}</Text>
 
       <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory+'_columns'}>
         <View style={themedStyles.column}>
@@ -75,9 +75,8 @@ const styles = (colors) => StyleSheet.create({
     flexDirection: 'row',
   },
   categoryTitle: {
-    fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   column: {
     flex: 1,
