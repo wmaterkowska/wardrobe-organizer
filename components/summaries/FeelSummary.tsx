@@ -20,7 +20,7 @@ export default function FeelSummary() {
         const filteredItems = allItems.filtered('like_me == $0', level);
 
         return (
-          <Surface key={index} style={styles.card} elevation={3}>
+          <Surface key={index} style={styles.card} elevation={1}>
             <Text style={styles.heading}>{level}</Text>
             <SummarySectionList items={filteredItems} />
           </Surface>
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 12,
     padding: 10,
-    backgroundColor: '#fff',
   },
   heading: {
     fontSize: 16,

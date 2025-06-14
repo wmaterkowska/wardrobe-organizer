@@ -38,7 +38,8 @@ export default function PropertyChip({
 
 const styles = StyleSheet.create({
   chip: {
-    margin: 4,
     width: 'auto',
+    marginRight: 4,
+    marginBottom: 4,
   },
 });

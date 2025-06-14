@@ -75,7 +75,7 @@ export default function PropertyList({
 
 const styles = StyleSheet.create({
   listContainer: {
-    paddingTop: 16,
+    paddingTop: 10,
   },
   listView: {
     flexDirection: 'row',

@@ -3,7 +3,8 @@ import Realm from 'realm';
 import { useQuery } from '@realm/react';
 
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Button, Surface } from 'react-native-paper';
+import { Button, Surface, Text } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
 
 import { Item } from '../../database/models/Item';
@@ -15,6 +16,9 @@ type Props = {
 }
 
 export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
+
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
 
   const categories = useQuery(Category).map((cat) => cat.name);
 
@@ -40,22 +44,60 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
-        <Surface style={styles.categoryButtonsContainer} elevation={0}>
+        <Surface style={themedStyles.categoryButtonsContainer} elevation={0}>
           {categories.map((cat, idx) => (
             <Button key={idx} onPress={() => handleChooseCategory(cat)}>{cat}</Button>
           ))}
         </Surface>
       </ScrollView>
-      <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory}>
-        <SummarySectionList key={chosenCategory+'_keep'} items={itemsKeepToShow} />
-        <SummarySectionList key={chosenCategory+'_letGo'} items={itemsLetGoToShow} />
+
+      <Text style={themedStyles.categoryTitle} variant="titleMedium">{chosenCategory}</Text>
+
+      <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory+'_columns'}>
+        <View style={themedStyles.column}>
+          <Text style={themedStyles.columnTitle} variant="titleSmall">Keep</Text>
+          <SummarySectionList key={chosenCategory+'_keep'} items={itemsKeepToShow} />
+        </View>
+
+        <View style={themedStyles.divider} />
+
+        <View style={themedStyles.column}>
+          <Text style={themedStyles.columnTitle} variant="titleSmall">Let Go</Text>
+          <SummarySectionList key={chosenCategory+'_letGo'} items={itemsLetGoToShow} />
+        </View>
       </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   categoryButtonsContainer: {
     flexDirection: 'row',
+  },
+  categoryTitle: {
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  column: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+  columnTitle: {
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  divider: {
+    width: 1,
+    backgroundColor: colors.onBackground,
+    marginHorizontal: 4,
+    marginTop: 30,
+    marginBottom: 60,
+  },
+  summaryContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 12,
   },
 });
