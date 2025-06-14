@@ -90,7 +90,7 @@ const styles = (colors) => StyleSheet.create({
   },
   divider: {
     width: 1,
-    backgroundColor: colors.onBackground,
+    backgroundColor: colors.outline,
     marginHorizontal: 4,
     marginTop: 30,
     marginBottom: 60,
@@ -98,6 +98,6 @@ const styles = (colors) => StyleSheet.create({
   summaryContainer: {
     flex: 1,
     flexDirection: 'row',
-    padding: 12,
+    padding: 10,
   },
 });

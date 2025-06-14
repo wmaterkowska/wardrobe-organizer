@@ -1,16 +1,25 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, View, StyleSheet, Dimensions } from 'react-native';
+import { Text } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
+import SummarySectionList from '../SummarySectionList';
+
 import { useQuery } from '@realm/react';
 import { Item } from '../../database/models/Item';
-import SummarySectionList from '../SummarySectionList';
-import { Surface } from 'react-native-paper';
 
-import { LEVELS } from '../../constants/index';
+import { LEVELS, Titles } from '../../constants/index';
 
 export default function FeelSummary() {
   const allItems = useQuery(Item);
 
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
+
   return (
+    <View style={{ flex: 1 }}>
+
+    <Text style={themedStyles.title} variant="titleLarge">{Titles.like_me}</Text>
+
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
@@ -18,34 +27,43 @@ export default function FeelSummary() {
     >
       {LEVELS['like_me'].map((level, index) => {
         const filteredItems = allItems.filtered('like_me == $0', level);
-
         return (
-          <Surface key={index} style={styles.card} elevation={1}>
-            <Text style={styles.heading}>{level}</Text>
+          <View key={index}>
+          <Text style={themedStyles.heading} variant="titleMedium">{level}</Text>
+          <View style={themedStyles.card} elevation={0}>
             <SummarySectionList items={filteredItems} />
-          </Surface>
+          </View>
+          </View>
         );
       })}
     </ScrollView>
+    </View>
   );
 }
 
 const { width } = Dimensions.get('window');
-const cardWidth = width * 0.6;
+const cardWidth = width * 0.45;
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
+  card: {
+    flex: 1,
+    width: cardWidth,
+    borderRightWidth: 1,
+    borderColor: colors.outline,
+    paddingHorizontal: 8,
+    backgroundColor: colors.primarySurface,
+  },
+  heading: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   scrollContainer: {
     paddingHorizontal: 10,
   },
-  card: {
-    width: cardWidth,
-    marginRight: 15,
-    borderRadius: 12,
-    padding: 10,
-  },
-  heading: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 10,
+  title: {
+    margin: 16,
+    marginVertical: 16,
+    textAlign: 'center',
+    color: colors.onSurfaceVariant,
   },
 });
