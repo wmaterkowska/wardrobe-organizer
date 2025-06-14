@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRealm } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
@@ -7,11 +8,14 @@ import { Appbar, SegmentedButtons, IconButton } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
+import { getTitle } from '../utility/screenTitle';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
 export default function UpperAppbar({ navigation, route, options, back }) {
 
+  const realm = useRealm();
   const { currentTabKey } = useTabNavigation();
   const {
     viewType,
@@ -51,6 +55,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setIsFilter(!isFilter);
   }
 
+  const title = getTitle(route.name, route.params, currentTabKey, realm);
+
   return (
     <Appbar.Header
       style={{ height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top }}
@@ -60,7 +66,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null}
-      <Appbar.Content style={styles.title}/>
+      <Appbar.Content style={styles.title} title={title}/>
       {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
       <SegmentedButtons
         density='small'
@@ -104,6 +110,5 @@ const styles = StyleSheet.create({
   segmentedButtons: {
     flex: 1,
     alignItems: 'center',
-    marginRight: 30,
   },
 })

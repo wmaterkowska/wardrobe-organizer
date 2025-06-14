@@ -4,7 +4,7 @@ import RootNavigator from '../navigation/RootNavigator';
 import { PaperProvider } from 'react-native-paper';
 import { WardrobeProvider } from '../context/WardrobeContext';
 import { useColorScheme } from 'react-native';
-import { lightTheme, darkTheme, navigationThemes } from '../theme/paperTheme';
+import { lightTheme, darkTheme, navigationThemes } from '../theme/paperTheme3';
 
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
