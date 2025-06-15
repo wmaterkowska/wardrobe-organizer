@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRealm } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
 import { StyleSheet, View } from 'react-native';
-import { Appbar, SegmentedButtons, IconButton } from 'react-native-paper';
+import { Appbar, Divider, IconButton, Menu, SegmentedButtons, } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
@@ -56,6 +56,21 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   }
 
   const title = getTitle(route.name, route.params, currentTabKey, realm);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuAnchorRef = useRef(null);
+
+  const goToAbout = () => {
+    console.log('Navigate to About');
+  };
+
+  const goToHelp = () => {
+    console.log('Navigate to Help');
+  };
+
+  const goToLicenses = () => {
+    console.log('Navigate to Licenses');
+  };
+
 
   return (
     <Appbar.Header
@@ -102,6 +117,27 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={toggleEditMode}
         />
       ) : null }
+
+      <View ref={menuAnchorRef}>
+      <Menu
+        visible={menuVisible}
+        onDismiss={() => setMenuVisible(false)}
+        anchor={
+          <Appbar.Action
+            icon="dots-vertical"
+            accessibilityLabel="Menu"
+            onPress={() => setMenuVisible(true)}
+          />
+        }
+        anchorPosition="bottom"
+      >
+        <Menu.Item title="light/dark" />
+        <Menu.Item title="polish/english" />
+        <Divider />
+        <Menu.Item onPress={goToHelp} title="Help / Guide" />
+        <Menu.Item onPress={goToAbout} title="About" />
+      </Menu>
+      </View>
     </Appbar.Header>
   )
 }
