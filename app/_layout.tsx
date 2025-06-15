@@ -12,11 +12,15 @@ import { Textile } from '../database/models/Textile';
 import { Occasion } from '../database/models/Occasion';
 import { FeelIn } from '../database/models/FeelIn';
 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 export default function RootLayout() {
 
   return (
+    <SafeAreaProvider>
     <RealmProvider schema={[Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn]}>
         <Stack screenOptions={{headerShown: false}} />
     </RealmProvider>
+    </SafeAreaProvider>
     )
 }

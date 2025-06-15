@@ -3,7 +3,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|ts|tsx)$': 'babel-jest',
   },
-  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transformIgnorePatterns: [
     'node_modules/(?!(react-native' +
@@ -13,6 +13,7 @@ module.exports = {
       '|@realm' +
       '|react-native-paper' +
       '|react-clone-referenced-element' +
+      '|react-native-safe-area-context' +
       ')/)',
   ],
 };
