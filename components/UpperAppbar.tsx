@@ -65,8 +65,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       statusBarHeight={0}
       >
       {back ?
-        <Appbar.BackAction onPress={handleBack} /> : null}
-      <Appbar.Content style={styles.title} title={title}/>
+        <Appbar.BackAction onPress={handleBack} /> : null }
+      <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/>
       {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
       <SegmentedButtons
         density='small'
