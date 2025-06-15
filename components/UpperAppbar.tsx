@@ -60,7 +60,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const menuAnchorRef = useRef(null);
 
   const goToAbout = () => {
-    console.log('Navigate to About');
+    navigation.navigate('About');
   };
 
   const goToHelp = () => {
