@@ -19,7 +19,7 @@ jest.mock('@react-navigation/native', () => {
 });
 
 
-describe('UpperAppbar', () => {
+describe('UpperAppbarMainTabs', () => {
   const renderAppbar = (currentTabKey: string, routeName: string) => {
     (useRoute as jest.Mock).mockReturnValue({ name: routeName });
 
