@@ -117,7 +117,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={toggleEditMode}
         />
       ) : null }
-
+      {currentTabKey === 'home' ? (
       <View ref={menuAnchorRef}>
       <Menu
         visible={menuVisible}
@@ -138,6 +138,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         <Menu.Item onPress={goToAbout} title="About" />
       </Menu>
       </View>
+      ) : null }
     </Appbar.Header>
   )
 }

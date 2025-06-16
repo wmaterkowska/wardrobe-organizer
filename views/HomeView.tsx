@@ -22,7 +22,7 @@ export default function HomeView({ navigation }: Props) {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const items = useQuery(Item);
 
-  if (items.length !== 0) {
+  if (items.length === 0) {
     return <WelcomeView />
   }
 
