@@ -4,10 +4,11 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
 import { StyleSheet, View } from 'react-native';
-import { Appbar, Divider, IconButton, Menu, SegmentedButtons, } from 'react-native-paper';
+import { Appbar, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
+import { useThemeToggle } from '../context/ThemeContext';
 import { getTitle } from '../utility/screenTitle';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
@@ -71,6 +72,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     console.log('Navigate to Licenses');
   };
 
+  const { isDark, toggleTheme } = useThemeToggle();
+
 
   return (
     <Appbar.Header
@@ -131,7 +134,11 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         }
         anchorPosition="bottom"
       >
-        <Menu.Item title="light/dark" />
+        <Menu.Item
+          onPress={toggleTheme}
+          title={isDark ? 'Light theme' : 'Dark theme'}
+          leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
+        />
         <Menu.Item title="polish/english" />
         <Divider />
         <Menu.Item onPress={goToHelp} title="Help / Guide" />
