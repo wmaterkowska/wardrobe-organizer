@@ -13,14 +13,17 @@ import { Occasion } from '../database/models/Occasion';
 import { FeelIn } from '../database/models/FeelIn';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { CustomThemeProvider } from '../context/ThemeContext';
 
 export default function RootLayout() {
 
   return (
+    <CustomThemeProvider>
     <SafeAreaProvider>
-    <RealmProvider schema={[Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn]}>
+      <RealmProvider schema={[Item, MainCategory, Category, Color, Pattern, Fit, Cut, Textile, Occasion, FeelIn]}>
         <Stack screenOptions={{headerShown: false}} />
-    </RealmProvider>
+      </RealmProvider>
     </SafeAreaProvider>
+    </CustomThemeProvider>
     )
 }
