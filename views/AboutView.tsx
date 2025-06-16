@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Linking } from 'react-native';
 import { Text, Title, Divider } from 'react-native-paper';
 import { Strings } from '../constants/appStrings';
 
 export default function AboutView() {
   return (
+    <SafeAreaView style={{ flex: 1 , paddingBottom: 50 }}>
     <ScrollView contentContainerStyle={styles.container}>
       <Title style={styles.title}>{Strings.appName}</Title>
       <Text style={styles.tagline}>{Strings.aboutOneSentence}</Text>
@@ -52,6 +53,7 @@ export default function AboutView() {
         github.com/wmaterkowska/wardrobe-organizer
       </Text>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -8,5 +8,5 @@ export const Strings = {
 
   license: 'MIT License © 2024 Weronika Materkowska',
   developer: 'Developed by Weronika Materkowska',
-  aboutDeveloper: 'Passionate about design, minimalism, and code. This app is built with ❤️ using React Native.',
+  aboutDeveloper: 'Passionate about coding, physics, and creative problem-solving. I enjoy making life easier through thoughtful, user-friendly apps. \nThis app is built with ❤️ using React Native.',
 };
