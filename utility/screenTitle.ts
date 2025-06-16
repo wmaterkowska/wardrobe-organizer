@@ -16,6 +16,10 @@ export function getTitle(
     return summaryTypeLabel(params.type);
   }
 
+  if (routeName === 'About') {
+    return 'About';
+  }
+
   // Tab screens
   switch (currentTabKey) {
     case 'home':

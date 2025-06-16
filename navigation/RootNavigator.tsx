@@ -8,6 +8,7 @@ import MainTabs from './MainTabs';
 import ItemDetailView from '../views/ItemDetailView';
 import SummaryDetailView from '../views/SummaryDetailView';
 import UpperAppbar from '../components/UpperAppbar';
+import AboutView from '../views/AboutView';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   ItemDetail: {itemId: string};
   Summary: undefined;
   SummaryDetail: {type: 'category' | 'feel' | 'frequency' | 'appearance'};
+  About: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -59,6 +61,7 @@ export default function RootNavigator() {
       <Stack.Screen name="ItemDetail" component={ItemDetailView} />
       <Stack.Screen name="SummaryDetail" component={SummaryDetailView} />
       {/* }<Stack.Screen name="OutfitDetail" component={OutfitDetailView} /> */}
+      <Stack.Screen name="About" component={AboutView} />
     </Stack.Navigator>
     </TabNavigationContext.Provider>
   );

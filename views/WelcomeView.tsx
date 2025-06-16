@@ -11,21 +11,26 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function HomeView({ navigation }: Props) {
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>
-      <Text variant="headlineLarge" style={styles.appName}>
-        {Strings.appName}
-      </Text>
-      <Text variant="titleLarge" style={styles.welcome}>
-        {Strings.welcome}
-      </Text>
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <Text variant="headlineLarge" style={styles.appName}>
+          {Strings.appName}
+        </Text>
+        <Text variant="titleLarge" style={styles.welcome}>
+          {Strings.welcome}
+        </Text>
+      </View>
 
-      <Button
-        mode="outlined"
-        onPress={() => {}}
-        style={{ marginBottom: 16 }}
-      >
-        Add New Piece
-      </Button>
+      <View style={styles.buttonContainer}>
+        <Button
+          mode="outlined"
+          onPress={() => {}}
+          style={styles.button}
+          contentStyle={{ margin: 'auto'}}
+        >
+          <Text variant="titleLarge"> Add New Piece </Text>
+        </Button>
+      </View>
     </View>
   );
 }
@@ -33,11 +38,34 @@ export default function HomeView({ navigation }: Props) {
 const styles = StyleSheet.create({
   appName: {
     textAlign: 'left',
-    marginLeft: 52,
+    margin: '15%',
+  },
+  button: {
+    height: '100%',
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomWidth: 0,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flexGrow: 0,
+    height: '30%',
+  },
+  container: {
+    flex: 1,
+    margin: 0,
+    padding: 0,
+    justifyContent: 'center',
+  },
+  textContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   welcome: {
     textAlign: 'left',
-    margin: 32,
-    padding: 20,
+    marginHorizontal: '15%',
   }
 })
