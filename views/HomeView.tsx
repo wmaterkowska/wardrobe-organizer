@@ -9,7 +9,6 @@ import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
 
-import WelcomeView from './WelcomeView';
 import AddItemModal from '../components/AddItemModal';
 import AddItemForm from '../components/AddItemForm';
 
@@ -22,10 +21,6 @@ export default function HomeView({ navigation }: Props) {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const items = useQuery(Item);
   const wardrobeCount = items.length;
-
-  if (items.length === 0) {
-    return <WelcomeView />
-  }
 
   return (
     <SafeAreaView style={styles.container} >

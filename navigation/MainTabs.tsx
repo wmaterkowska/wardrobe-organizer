@@ -8,7 +8,6 @@ import HomeView from '../views/HomeView';
 import WardrobeView from '../views/WardrobeView';
 import SummaryView from '../views/SummaryView';
 import OutfitsView from '../views/OutfitsView';
-// import UpperAppbar from '../components/UpperAppbar';
 import AddItemModal from '../components/AddItemModal';
 import AddItemForm from '../components/AddItemForm';
 

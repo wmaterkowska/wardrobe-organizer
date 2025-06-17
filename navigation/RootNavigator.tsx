@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { useQuery } from '@realm/react';
+import { Item } from '../database/models/Item';
 
 import { TabNavigationContext } from '../context/TabNavigationContext';
 import { TAB_INDEX_MAP } from './tabRoutes';
@@ -9,6 +12,7 @@ import ItemDetailView from '../views/ItemDetailView';
 import SummaryDetailView from '../views/SummaryDetailView';
 import UpperAppbar from '../components/UpperAppbar';
 import AboutView from '../views/AboutView';
+import WelcomeView from '../views/WelcomeView';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,10 +27,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
 
+  const items = useQuery(Item);
   const tabKeys: TabRouteKey[] = ['home', 'wardrobe', 'summary',]
 
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
   const currentTabKey = tabKeys[index];
+  const [showOnboarding, setShowOnboarding] = useState(true);
 
   const setTabByKey = (key: keyof typeof TAB_INDEX_MAP) => {
     const tabIndex = TAB_INDEX_MAP[key];
@@ -46,10 +52,15 @@ export default function RootNavigator() {
   return (
     <TabNavigationContext.Provider value={{ setTabByKey, currentTabKey }}>
     <Stack.Navigator
-      initialRouteName="Main"
+      //initialRouteName="Main"
       screenOptions={{
         header: (props) => <UpperAppbar {...props}/>
       }}>
+      {showOnboarding ? (
+        <Stack.Screen name="Onboarding" component={WelcomeView} />
+      ) : (
+        <Stack.Screen name="Main" component={MainTabs} />
+      )}
       <Stack.Screen name="Main">
         {() => (
           <MainTabs
