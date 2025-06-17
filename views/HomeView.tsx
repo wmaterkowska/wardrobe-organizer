@@ -32,31 +32,6 @@ export default function HomeView({ navigation }: Props) {
       <Text variant="headlineMedium" style={{ textAlign: 'center', marginBottom: 32 }}>
         {Strings.appName}
       </Text>
-
-      <Button
-        mode="contained"
-        onPress={() => setAddModalVisible(true)}
-        style={{ marginBottom: 16 }}
-      >
-        Add New Piece
-      </Button>
-      <AddItemModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
-        {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
-      </AddItemModal>
-      <Button
-        mode="contained"
-        onPress={() => setTabByKey('wardrobe')}
-        style={{ marginBottom: 16 }}
-      >
-        View Wardrobe
-      </Button>
-
-      <Button
-        mode="contained"
-        onPress={() => setTabByKey('summary')}
-      >
-        Summary
-      </Button>
     </View>
     </SafeAreaView>
   );
