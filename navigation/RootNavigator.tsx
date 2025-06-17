@@ -36,10 +36,11 @@ export default function RootNavigator() {
   };
 
   const mainRoutes = [
-    { key: 'home', title: 'Home', focusedIcon: 'home-outline', unfocusedIcon: 'home-outline' },
-    { key: 'wardrobe', title: 'Wardrobe', focusedIcon: 'hanger', unfocusedIcon: 'hanger' },
-    { key: 'summary', title: 'Summary', focusedIcon: 'chart-bar', unfocusedIcon: 'chart-bar' },
-//    { key: 'outfits', title: 'Outfits', icon: 'tshirt-crew' },
+    { key: 'home', title: 'Home', focusedIcon: 'home-outline' },
+    { key: 'wardrobe', title: 'Wardrobe', focusedIcon: 'tshirt-crew-outline' },
+    { key: 'add', title: '', focusedIcon: 'plus' }, // Placeholder for FAB
+    { key: 'outfits', title: 'Outfits', focusedIcon: 'hanger' },
+    { key: 'summary', title: 'Summary', focusedIcon: 'chart-pie' },
   ];
 
   return (
