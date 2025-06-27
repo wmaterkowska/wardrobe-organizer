@@ -28,7 +28,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function RootNavigator() {
 
   const items = useQuery(Item);
-  const tabKeys: TabRouteKey[] = ['home', 'wardrobe', 'summary',]
+  const tabKeys: TabRouteKey[] = ['home', 'wardrobe', '', 'outfits', 'summary']
 
   const [index, setIndex] = useState(0);
   const currentTabKey = tabKeys[index];

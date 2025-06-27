@@ -28,6 +28,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     saveChanges,
     isFilter,
     setIsFilter,
+    isSelectMode,
+    setIsSelectMode,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
 
@@ -102,6 +104,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ]}
         style={styles.segmentedButtons}
       />) : null }
+      {isSelectMode ? (
+        <Text>placeholder</Text>
+      ) : (
+      <View>
       {currentTabKey === 'wardrobe' && viewType === 'grid' && route.name !== "ItemDetail" ? (
         <Appbar.Action
           icon="view-grid-plus-outline"
@@ -114,6 +120,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={handleFilter}
         />
       ) : null }
+      </View>)}
+
       {route.name === "ItemDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}

@@ -12,7 +12,7 @@ type Props = {
 
 export default function SummaryCard({keyword, label, description, icon, onPress}: Props) {
 
- const theme = useTheme();
+  const theme = useTheme();
 
   return (
   <Pressable onPress={onPress}>

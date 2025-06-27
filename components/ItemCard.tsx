@@ -14,7 +14,7 @@ type Props = {
   onPress?: () => void;
   onLongPress?: () => void;
   zoom?: Int;
-  selectionMode: 'none' | 'delete' | 'select';
+  selectionMode: {type: 'none' | 'delete' | 'select'};
   selected: boolean;
   onSelectToggle: () => void;
 }

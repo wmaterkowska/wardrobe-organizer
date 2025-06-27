@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 
@@ -14,13 +15,14 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function HomeView({ navigation }: Props) {
 
   const [addModalVisible, setAddModalVisible] = useState(false);
+  const theme = useTheme();
 
   const handleAddButton = () => {
     setAddModalVisible(true);
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container, {backgroundColor: theme.colors.surface}}>
       <View style={styles.textContainer}>
         <Text variant="headlineLarge" style={styles.appName}>
           {Strings.appName}
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexGrow: 0,
-    height: '30%',
+    height: '50%',
   },
   container: {
     flex: 1,
