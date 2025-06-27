@@ -80,6 +80,21 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     setFilter((prev) => prev === prop ? null : prop);
   };
 
+  // card selection --------------------------------------------------------------------------------
+  const [selectionMode, setSelectionMode] = useState<'none' | 'delete' | 'select'>('none');
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const onLongPressItem = (id: string) => {
+    setSelectionMode('select');
+    setSelectedItems(prev => [...prev, id]);
+  };
+
+  const toggleItemSelection = (id: string) => {
+    setSelectedItems(prev =>
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
     <View>
@@ -135,7 +150,11 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
                       itemId: i.id,
                     })
                   }
+                  onLongPress={onLongPressItem}
                   zoom={zoom}
+                  selectionMode={selectionMode}
+                  selected={selectedItems.includes(i.id)}
+                  onSelectToggle={() => toggleItemSelection(i.id)}
                 />
               ))}
             </View>
