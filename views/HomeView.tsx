@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 import { useTabNavigation } from '../context/TabNavigationContext';
@@ -9,7 +9,6 @@ import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
 
-import WelcomeView from './WelcomeView';
 import AddItemModal from '../components/AddItemModal';
 import AddItemForm from '../components/AddItemForm';
 
@@ -21,10 +20,7 @@ export default function HomeView({ navigation }: Props) {
 
   const [addModalVisible, setAddModalVisible] = useState(false);
   const items = useQuery(Item);
-
-  if (items.length === 0) {
-    return <WelcomeView />
-  }
+  const wardrobeCount = items.length;
 
   return (
     <SafeAreaView style={styles.container} >
@@ -33,30 +29,21 @@ export default function HomeView({ navigation }: Props) {
         {Strings.appName}
       </Text>
 
-      <Button
-        mode="contained"
-        onPress={() => setAddModalVisible(true)}
-        style={{ marginBottom: 16 }}
-      >
-        Add New Piece
-      </Button>
-      <AddItemModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
-        {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
-      </AddItemModal>
-      <Button
-        mode="contained"
-        onPress={() => setTabByKey('wardrobe')}
-        style={{ marginBottom: 16 }}
-      >
-        View Wardrobe
-      </Button>
-
-      <Button
-        mode="contained"
-        onPress={() => setTabByKey('summary')}
-      >
-        Summary
-      </Button>
+      <View style={styles.cardContainer}>
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={styles.text}>
+                You have <Text style={styles.highlight}>{wardrobeCount}</Text> pieces in your wardrobe.
+              </Text>
+            </Card.Content>
+          </Card>
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={styles.title}>Your Most Worn Color</Text>
+              <Text style={styles.text}>Olive green</Text>
+            </Card.Content>
+          </Card>
+      </View>
     </View>
     </SafeAreaView>
   );
@@ -66,4 +53,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  card: {
+    width: '45%',
+  },
+  cardContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: '5%',
+    gap: '10%',
+  }
 });

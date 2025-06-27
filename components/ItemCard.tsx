@@ -47,7 +47,7 @@ export default function ItemCard({ item, onPress, zoom = 2 }: Props) {
               <Card.Cover
                 source={{ uri: item.image_uri }}
                 style={viewType === 'list' ? {height: 200} : {height: imageHeight}}
-                resizeMode="contain"
+                resizeMode="cover"
                 />
               ) : null}
             {item.item_name ? (

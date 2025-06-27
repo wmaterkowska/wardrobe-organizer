@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
+
+import AddItemModal from '../components/AddItemModal';
+import AddItemForm from '../components/AddItemForm';
 
 import { Strings } from '../constants';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeView({ navigation }: Props) {
+
+  const [addModalVisible, setAddModalVisible] = useState(false);
+
+  const handleAddButton = () => {
+    setAddModalVisible(true);
+  }
 
   return (
     <View style={styles.container}>
@@ -24,13 +33,19 @@ export default function HomeView({ navigation }: Props) {
       <View style={styles.buttonContainer}>
         <Button
           mode="outlined"
-          onPress={() => {}}
+          onPress={handleAddButton}
           style={styles.button}
           contentStyle={{ margin: 'auto'}}
         >
           <Text variant="titleLarge"> Add New Piece </Text>
         </Button>
       </View>
+      <AddItemModal visible={addModalVisible} onClose={() => {
+        setAddModalVisible(false);
+         navigation.replace('Main');
+      }} >
+        {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
+      </AddItemModal>
     </View>
   );
 }
