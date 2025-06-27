@@ -9,7 +9,7 @@ import ItemCard from './ItemCard';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Item } from '../database/models/Item';
-import { NumColumns } from '../context/WardrobeContext';
+import { NumColumns, useWardrobeContext } from '../context/WardrobeContext';
 import { ALL_ITEM_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
 
 type Props = {
@@ -20,6 +20,8 @@ type Props = {
 }
 
 export default function WardrobeVerticalList({items, numColumns, zoom, navigation}: Props) {
+
+  const { isSelectMode, setIsSelectMode } = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
   const [chosenProperty, setChosenProperty] = useState<string | null>(null);
@@ -87,6 +89,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   const onLongPressItem = (id: string) => {
     setSelectionMode('select');
     setSelectedItems(prev => [...prev, id]);
+    setIsSelectMode(true);
   };
 
   const toggleItemSelection = (id: string) => {

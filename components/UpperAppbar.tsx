@@ -4,7 +4,7 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
 import { StyleSheet, View } from 'react-native';
-import { Appbar, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
+import { Appbar, Button, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
@@ -86,7 +86,17 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null }
-      <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/>
+      {!isSelectMode ?
+        <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/> : null}
+
+      {currentTabKey === 'wardrobe' && isSelectMode === true ? (
+        <>
+        <Button>create outfit</Button>
+        <Button>delete items</Button>
+        <Button onPress={() => setIsSelectMode(false)}>x</Button>
+        </>
+      ) : (
+      <>
       {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
       <SegmentedButtons
         density='small'
@@ -104,10 +114,6 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ]}
         style={styles.segmentedButtons}
       />) : null }
-      {isSelectMode ? (
-        <Text>placeholder</Text>
-      ) : (
-      <View>
       {currentTabKey === 'wardrobe' && viewType === 'grid' && route.name !== "ItemDetail" ? (
         <Appbar.Action
           icon="view-grid-plus-outline"
@@ -120,7 +126,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={handleFilter}
         />
       ) : null }
-      </View>)}
+      </>
+      )}
 
       {route.name === "ItemDetail" ? (
         <Appbar.Action

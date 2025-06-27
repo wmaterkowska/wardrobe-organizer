@@ -21,7 +21,7 @@ type Props = {
 
 export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selectionMode, selected, onSelectToggle }: Props) {
 
-  const { viewType } = useWardrobeContext();
+  const { viewType, isSelectMode } = useWardrobeContext();
 
   const [imageHeight, setImageHeight] = useState(200);
   const [imageWidth, setImageWidth] = useState(200);
@@ -47,12 +47,12 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
         onPress={onPress}
         onLongPress={onLongPress}
         style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}]}>
-        <Card mode='elevated'>
-            {selectionMode !== 'none' && (
+        <Card mode={(selected && isSelectMode) ? 'outlined' : 'elevated'}>
+            {selectionMode !== 'none' && isSelectMode && (
               <IconButton
                 icon={selectionMode === 'delete' ? 'close' : selected ? 'check-circle' : 'circle-outline'}
                 onPress={() => onSelectToggle(item.id)}
-                style={styles.overlayIcon}
+                style={styles.selectionIcon}
               />
             )}
             {item.image_uri ? (
@@ -76,5 +76,17 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
     padding: 4,
+  },
+  selectedCard: {
+    borderWidth: 2,
+    borderColor: 'red'
+  },
+  selectionIcon: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    zIndex: 99,
   },
 });
