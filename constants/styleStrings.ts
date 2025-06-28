@@ -4,7 +4,7 @@ export const Want = {
 }
 
 export const Questions = {
-  like_me: 'Does this piece feel like you?',
+  like_me: 'Does this feel like you?',
   look_level: 'How do you feel about the way you look in this?',
   frequency: 'How often do you wear this?',
   price: 'Was it worth the price?',
