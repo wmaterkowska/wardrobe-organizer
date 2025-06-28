@@ -16,7 +16,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export default function AddItemModal({ visible, onClose, children }: Props) {
+export default function AddModal({ visible, onClose, children }: Props) {
 
   const theme = useTheme();
 
@@ -44,7 +44,6 @@ export default function AddItemModal({ visible, onClose, children }: Props) {
                 <Text style={styles.closeText}>✕</Text>
               </Pressable>
             </View>
-
             {children}
           </View>
         </View>

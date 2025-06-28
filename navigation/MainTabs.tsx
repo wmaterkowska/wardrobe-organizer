@@ -8,8 +8,11 @@ import HomeView from '../views/HomeView';
 import WardrobeView from '../views/WardrobeView';
 import SummaryView from '../views/SummaryView';
 import OutfitsView from '../views/OutfitsView';
-import AddItemModal from '../components/AddItemModal';
+import AddModal from '../components/AddModal';
 import AddItemForm from '../components/AddItemForm';
+import AddOutfitForm from '../components/AddOutfitForm';
+
+import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
   index: number;
@@ -19,6 +22,7 @@ type Props = {
 
 export default function MainTabs({ index, setIndex, routes }: Props) {
 
+  const { isSelectMode } = useWardrobeContext();
   const [addModalVisible, setAddModalVisible] = useState(false);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -44,9 +48,11 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         onPress={handleAddPress}
         style={styles.fab}
       />
-      <AddItemModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
-        {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
-      </AddItemModal>
+      <AddModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
+        {isSelectMode ?
+          <AddOutfitForm />
+          : <AddItemForm onClose={() => setAddModalVisible(false)}/>}
+      </AddModal>
     </View>
   );
 }
