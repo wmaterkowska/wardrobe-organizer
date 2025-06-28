@@ -10,7 +10,7 @@ import ItemCard from './ItemCard';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Item } from '../database/models/Item';
-import { NumColumns, useWardrobeContext, useRegisterDelete } from '../context/WardrobeContext';
+import { NumColumns, useWardrobeContext } from '../context/WardrobeContext';
 import { ALL_ITEM_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
 
 type Props = {
@@ -18,12 +18,14 @@ type Props = {
   numColumns: NumColumns;
   zoom: int;
   navigation;
+  onLongPressItem?: () => void;
+  selectedItems?: string[];
+  toggleItemSelection: () => void;
 }
 
-export default function WardrobeVerticalList({items, numColumns, zoom, navigation}: Props) {
+export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems, toggleItemSelection}: Props) {
 
-  const realm = useRealm();
-  const { isSelectMode, setIsSelectMode, deleteItems } = useWardrobeContext();
+  const {isSelectMode} = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
   const [chosenProperty, setChosenProperty] = useState<string | null>(null);
@@ -83,37 +85,6 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     if (filter === prop) {setFilteredItems(items)};
     setFilter((prev) => prev === prop ? null : prop);
   };
-
-// card selection ==================================================================================
-  //const [selectionMode, setSelectionMode] = useState<'none' | 'delete' | 'select'>('none');
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-
-  const onLongPressItem = () => {
-    //setSelectionMode('select');
-    setIsSelectMode(true);
-  };
-
-  const toggleItemSelection = (id: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  };
-
-  const deleteFn = useCallback(() => {
-    console.log('delete test');
-    realm.write(() => {
-      selectedItems.forEach((id) => {
-        console.log('id', id)
-        const itemToDelete = realm.objectForPrimaryKey(Item, id);
-        if (itemToDelete) realm.delete(itemToDelete);
-      });
-     });
-
-    setSelectedItems([]);
-    setFilteredItems(items);
-  }, [selectedItems, realm]);
-
-  useRegisterDelete(deleteFn);
 
   return (
     <View style={{ flex: 1 }}>

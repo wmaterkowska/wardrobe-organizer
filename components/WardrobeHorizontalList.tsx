@@ -19,11 +19,14 @@ import { ALL_ITEM_PROPERTIES } from '../constants/index';
 type Props = {
   items: Item[];
   navigation;
+  onLongPressItem?: () => void;
+  selectedItems?: string[];
+  toggleItemSelection: () => void;
 }
 
-export default function WardrobeHorizontalList({items, navigation} : Props) {
+export default function WardrobeHorizontalList({items, navigation, onLongPressItem, selectedItems, toggleItemSelection} : Props) {
 
-  const { isFilter } = useWardrobeContext();
+  const { isFilter, isSelectMode } = useWardrobeContext();
   const mains = useQuery(MainCategory);
   const categories = useQuery(Category);
 
@@ -123,6 +126,10 @@ export default function WardrobeHorizontalList({items, navigation} : Props) {
                     itemId: i.id,
                   })
                 }
+                onLongPress={onLongPressItem}
+                selectionMode={isSelectMode}
+                selected={selectedItems.includes(i.id)}
+                onSelectToggle={() => toggleItemSelection(i.id)}
               />
             ))}
             </ScrollView>
