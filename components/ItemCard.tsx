@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Chip } from 'react-native-paper';
+import { Card, Chip, IconButton } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { resolveAssetSource, Dimensions } from 'react-native';
 
@@ -12,12 +12,16 @@ import { Item } from '../database/models/Item';
 type Props = {
   item: Item;
   onPress?: () => void;
+  onLongPress?: () => void;
   zoom?: Int;
+  selectionMode?: {type: 'none' | 'delete' | 'select'};
+  selected?: boolean;
+  onSelectToggle?: () => void;
 }
 
-export default function ItemCard({ item, onPress, zoom = 2 }: Props) {
+export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selectionMode, selected, onSelectToggle }: Props) {
 
-  const { viewType } = useWardrobeContext();
+  const { viewType, isSelectMode } = useWardrobeContext();
 
   const [imageHeight, setImageHeight] = useState(200);
   const [imageWidth, setImageWidth] = useState(200);
@@ -41,8 +45,16 @@ export default function ItemCard({ item, onPress, zoom = 2 }: Props) {
     return (
       <TouchableOpacity
         onPress={onPress}
+        onLongPress={onLongPress}
         style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}]}>
-        <Card mode='elevated'>
+        <Card mode={(selected && isSelectMode) ? 'outlined' : 'elevated'}>
+            {selectionMode !== 'none' && isSelectMode && (
+              <IconButton
+                icon={selectionMode === 'delete' ? 'close' : selected ? 'check-circle' : 'circle-outline'}
+                onPress={() => onSelectToggle(item.id)}
+                style={styles.selectionIcon}
+              />
+            )}
             {item.image_uri ? (
               <Card.Cover
                 source={{ uri: item.image_uri }}
@@ -64,5 +76,17 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
     padding: 4,
+  },
+  selectedCard: {
+    borderWidth: 2,
+    borderColor: 'red'
+  },
+  selectionIcon: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    zIndex: 99,
   },
 });

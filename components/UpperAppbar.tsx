@@ -3,8 +3,8 @@ import { useRealm } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
-import { StyleSheet, View } from 'react-native';
-import { Appbar, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
+import { Alert, StyleSheet, View } from 'react-native';
+import { Appbar, Button, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
 
@@ -28,6 +28,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     saveChanges,
     isFilter,
     setIsFilter,
+    isSelectMode,
+    setIsSelectMode,
+    deleteItems,
+    triggerDelete,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
 
@@ -74,6 +78,25 @@ export default function UpperAppbar({ navigation, route, options, back }) {
 
   const { isDark, toggleTheme } = useThemeToggle();
 
+  const handleCreateOutfit = () => {}
+  const cancelSelection = () => {setIsSelectMode(false)}
+  const confirmDelete = () => {
+    Alert.alert(
+      'Delete Items',
+      `Are you sure you want to delete item(s)?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: triggerDelete,
+        },
+      ]
+    );
+  };
 
   return (
     <Appbar.Header
@@ -84,7 +107,33 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null }
-      <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/>
+      {!isSelectMode ?
+        <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/> : null}
+
+      {currentTabKey === 'wardrobe' && isSelectMode === true ? (
+        <View style={styles.selectModeButtons}>
+          <Button
+            mode="outlined"
+            icon="hanger"
+            onPress={handleCreateOutfit}
+          >
+            Create Outfit
+          </Button>
+          <Button
+            mode="text"
+            icon="trash-can"
+            onPress={confirmDelete}
+          >
+            Delete Items
+          </Button>
+          <IconButton
+            icon="close"
+            onPress={cancelSelection}
+            accessibilityLabel="Cancel selection"
+          />
+        </View>
+      ) : (
+      <>
       {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
       <SegmentedButtons
         density='small'
@@ -114,6 +163,9 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           onPress={handleFilter}
         />
       ) : null }
+      </>
+      )}
+
       {route.name === "ItemDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}
@@ -155,4 +207,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  selectModeButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+    gap: 8,
+  }
 })

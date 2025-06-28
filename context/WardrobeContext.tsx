@@ -13,6 +13,10 @@ interface WardrobeContextProps {
   saveChanges: () => void;
   isFilter: boolean;
   setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  isSelectMode: boolean;
+  setIsSelectMode: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteItems: () => void;
+  triggerDelete: () => void;
 }
 
 const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
@@ -28,8 +32,10 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [numColumns, setNumColumns] = useState<NumColumns>(2);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [isSelectMode, setIsSelectMode] = useState<boolean>(false);
 
   const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
+  const [deleteCallback, setDeleteCallback] = useState<() => void>(() => () => {});
 
   return (
     <WardrobeContext.Provider
@@ -43,6 +49,10 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         saveChanges: (fn: () => void) => setSaveCallback(() => fn),
         isFilter,
         setIsFilter,
+        isSelectMode,
+        setIsSelectMode,
+        deleteItems: (fn: () => void) => setDeleteCallback(() => fn),
+        triggerDelete: deleteCallback,
       }}
     >
       {children}
@@ -58,4 +68,14 @@ export const useRegisterSave = (saveFn: () => void) => {
       ctx.saveChanges(saveFn);
     }
   }, [saveFn, ctx]);
+};
+
+export const useRegisterDelete = (deleteFn: () => void) => {
+  const ctx = useWardrobeContext();
+
+  React.useEffect(() => {
+    if (ctx && ctx.deleteItems) {
+      ctx.deleteItems(deleteFn);
+    }
+  }, [deleteFn, ctx]);
 };
