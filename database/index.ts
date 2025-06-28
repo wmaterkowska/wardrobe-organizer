@@ -8,3 +8,4 @@ export { Cut } from './models/Cut';
 export { Textile } from './models/Textile';
 export { Occasion } from './models/Occasion';
 export { FeelIn } from './models/FeelIn';
+export { Outfit } from './models/Outfit';
