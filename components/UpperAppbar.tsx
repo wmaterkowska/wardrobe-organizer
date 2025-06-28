@@ -3,7 +3,7 @@ import { useRealm } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
@@ -30,6 +30,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setIsFilter,
     isSelectMode,
     setIsSelectMode,
+    deleteItems,
+    triggerDelete,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
 
@@ -77,9 +79,24 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const { isDark, toggleTheme } = useThemeToggle();
 
   const handleCreateOutfit = () => {}
-  const handleDeleteItems = () => {}
   const cancelSelection = () => {setIsSelectMode(false)}
-
+  const confirmDelete = () => {
+    Alert.alert(
+      'Delete Items',
+      `Are you sure you want to delete item(s)?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: triggerDelete,
+        },
+      ]
+    );
+  };
 
   return (
     <Appbar.Header
@@ -105,7 +122,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           <Button
             mode="text"
             icon="trash-can"
-            onPress={handleDeleteItems}
+            onPress={confirmDelete}
           >
             Delete Items
           </Button>

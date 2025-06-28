@@ -14,9 +14,9 @@ type Props = {
   onPress?: () => void;
   onLongPress?: () => void;
   zoom?: Int;
-  selectionMode: {type: 'none' | 'delete' | 'select'};
-  selected: boolean;
-  onSelectToggle: () => void;
+  selectionMode?: {type: 'none' | 'delete' | 'select'};
+  selected?: boolean;
+  onSelectToggle?: () => void;
 }
 
 export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selectionMode, selected, onSelectToggle }: Props) {

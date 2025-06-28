@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Realm from 'realm';
+import { useRealm } from '@realm/react';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
 import { ScrollView, View, StyleSheet } from 'react-native';
@@ -9,7 +10,7 @@ import ItemCard from './ItemCard';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Item } from '../database/models/Item';
-import { NumColumns, useWardrobeContext } from '../context/WardrobeContext';
+import { NumColumns, useWardrobeContext, useRegisterDelete } from '../context/WardrobeContext';
 import { ALL_ITEM_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
 
 type Props = {
@@ -21,7 +22,8 @@ type Props = {
 
 export default function WardrobeVerticalList({items, numColumns, zoom, navigation}: Props) {
 
-  const { isSelectMode, setIsSelectMode } = useWardrobeContext();
+  const realm = useRealm();
+  const { isSelectMode, setIsSelectMode, deleteItems } = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
   const [chosenProperty, setChosenProperty] = useState<string | null>(null);
@@ -82,21 +84,36 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
     setFilter((prev) => prev === prop ? null : prop);
   };
 
-  // card selection --------------------------------------------------------------------------------
-  const [selectionMode, setSelectionMode] = useState<'none' | 'delete' | 'select'>('none');
+// card selection ==================================================================================
+  //const [selectionMode, setSelectionMode] = useState<'none' | 'delete' | 'select'>('none');
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const onLongPressItem = (id: string) => {
-    setSelectionMode('select');
-    setSelectedItems(prev => [...prev, id]);
+  const onLongPressItem = () => {
+    //setSelectionMode('select');
     setIsSelectMode(true);
   };
 
   const toggleItemSelection = (id: string) => {
-    setSelectedItems(prev =>
-      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
+
+  const deleteFn = useCallback(() => {
+    console.log('delete test');
+    realm.write(() => {
+      selectedItems.forEach((id) => {
+        console.log('id', id)
+        const itemToDelete = realm.objectForPrimaryKey(Item, id);
+        if (itemToDelete) realm.delete(itemToDelete);
+      });
+     });
+
+    setSelectedItems([]);
+    setFilteredItems(items);
+  }, [selectedItems, realm]);
+
+  useRegisterDelete(deleteFn);
 
   return (
     <View style={{ flex: 1 }}>
@@ -155,7 +172,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
                   }
                   onLongPress={onLongPressItem}
                   zoom={zoom}
-                  selectionMode={selectionMode}
+                  selectionMode={isSelectMode}
                   selected={selectedItems.includes(i.id)}
                   onSelectToggle={() => toggleItemSelection(i.id)}
                 />
