@@ -69,6 +69,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Once in a while',
       price: 'I\'am fine',
       want: 'Keep',
+      created
     });
 
     realm.create('Item', {

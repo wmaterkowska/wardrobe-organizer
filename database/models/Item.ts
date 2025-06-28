@@ -10,6 +10,7 @@ import { Cut } from './Cut';
 import { Textile } from './Textile';
 import { Occasion } from './Occasion';
 import { FeelIn } from './FeelIn';
+import { Outfit } from './Outfit';
 
 export class Item extends Realm.Object {
   id!: string;
@@ -30,6 +31,8 @@ export class Item extends Realm.Object {
   frequency?: string;
   price?: string;
   want?: string;
+  created: Date;
+  outfits?: Realm.List<Outfit>;
 
   static schema: ObjectSchema = {
     name: 'Item',
@@ -52,7 +55,13 @@ export class Item extends Realm.Object {
       look_level: 'string?',
       frequency: 'string?',
       price: 'string?',
-      want: 'string?'
+      want: 'string?',
+      created: 'date',
+      outfits: {
+        type: 'linkingObjects',
+        objectType: 'Outfit',
+        property: 'items',
+      }
     },
   };
 
