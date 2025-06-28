@@ -3,6 +3,7 @@ import { Item } from './Item';
 export class Outfit extends Realm.Object {
   id!: string;
   outfit_name?: string;
+  image_uri?: string;
   items!: Realm.List<Item>; // many-to-many
   occasions?: Realm.List<Occasion>;
   comfort?: number;
@@ -19,6 +20,7 @@ export class Outfit extends Realm.Object {
     properties: {
       id: 'string',
       outfit_name: 'string',
+      image_uri: 'string?',
       items: 'Item[]',
       occasions: 'Occasion[]',
       comfort: 'int?',
