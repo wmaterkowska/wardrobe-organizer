@@ -76,6 +76,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
 
   const { isDark, toggleTheme } = useThemeToggle();
 
+  const handleCreateOutfit = () => {}
+  const handleDeleteItems = () => {}
+  const cancelSelection = () => {setIsSelectMode(false)}
+
 
   return (
     <Appbar.Header
@@ -90,11 +94,27 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/> : null}
 
       {currentTabKey === 'wardrobe' && isSelectMode === true ? (
-        <>
-        <Button>create outfit</Button>
-        <Button>delete items</Button>
-        <Button onPress={() => setIsSelectMode(false)}>x</Button>
-        </>
+        <View style={styles.selectModeButtons}>
+          <Button
+            mode="outlined"
+            icon="hanger"
+            onPress={handleCreateOutfit}
+          >
+            Create Outfit
+          </Button>
+          <Button
+            mode="text"
+            icon="trash-can"
+            onPress={handleDeleteItems}
+          >
+            Delete Items
+          </Button>
+          <IconButton
+            icon="close"
+            onPress={cancelSelection}
+            accessibilityLabel="Cancel selection"
+          />
+        </View>
       ) : (
       <>
       {currentTabKey === 'wardrobe' && route.name !== "ItemDetail" ? (
@@ -170,4 +190,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  selectModeButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+    gap: 8,
+  }
 })
