@@ -20,15 +20,13 @@ export default function WardrobeView() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
 
-  const { numColumns, setNumColumns, viewType, isSelectMode, setIsSelectMode } = useWardrobeContext();
+  const { numColumns, setNumColumns, viewType, isSelectMode, setIsSelectMode, selectedItems, setSelectedItems } = useWardrobeContext();
   const items = useQuery(Item);
 
   const zoom = (numColumns == 1) ? 1 : numColumns-1;
 
 
 // card selection ==================================================================================
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-
   const onLongPressItem = () => {
     setIsSelectMode(true);
   };

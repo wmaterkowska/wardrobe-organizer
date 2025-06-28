@@ -33,8 +33,10 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
       item.image_uri,
       (width, height) => {
         const ratio = height / width;
-        setImageHeight(screenWidth * ratio * 0.6 / zoom);
-        setImageWidth(screenWidth / ratio * 0.4);
+        if (zoom !== -1) {
+          setImageHeight(screenWidth * ratio * 0.6 / zoom);
+          setImageWidth(screenWidth / ratio * 0.4);
+        }
       },
       (error) => {
         console.warn('Image.getSize failed:', error);
@@ -46,9 +48,9 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
       <TouchableOpacity
         onPress={onPress}
         onLongPress={onLongPress}
-        style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}]}>
-        <Card mode={(selected && isSelectMode) ? 'outlined' : 'elevated'}>
-            {selectionMode !== 'none' && isSelectMode && (
+        style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}, zoom === -1 ? styles.addOutfit : {}]}>
+        <Card mode={(selected && isSelectMode) ? 'outlined' : 'elevated'} >
+            {isSelectMode && zoom  !== -1 && (
               <IconButton
                 icon={selectionMode === 'delete' ? 'close' : selected ? 'check-circle' : 'circle-outline'}
                 onPress={() => onSelectToggle(item.id)}
@@ -73,6 +75,9 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
 }
 
 const styles = StyleSheet.create({
+  addOutfit: {
+    width: '30%',
+  },
   itemContainer: {
     width: "100%",
     padding: 4,

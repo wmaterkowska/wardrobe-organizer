@@ -51,7 +51,7 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
       <AddModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
         {isSelectMode ?
           <AddOutfitForm />
-          : <AddItemForm onClose={() => setAddModalVisible(false)}/>}
+          : <AddItemForm />}
       </AddModal>
     </View>
   );

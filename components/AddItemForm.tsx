@@ -23,11 +23,7 @@ import QuestionsSection from './QuestionsSection';
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 import { pickOrCaptureImage } from '../utility/photoUtils'
 
-type Props = {
-  onDismiss: () => void;
-};
-
-export default function AddItemForm({ onDismiss }: Props) {
+export default function AddItemForm() {
   const realm = useRealm();
   const { mains, categories, colors, patterns, fits, cuts, textiles, occasions, feels } = useItemFormData();
 
