@@ -69,7 +69,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Once in a while',
       price: 'I\'am fine',
       want: 'Keep',
-      created
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -91,6 +91,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Now and then',
       price: 'I\'am fine',
       want: 'Unsure',
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -112,6 +113,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Once in a while',
       price: 'Great value',
       want: 'Keep',
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -133,6 +135,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Pretty often',
       price: 'Great value',
       want: 'Keep',
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -154,6 +157,7 @@ export const seedDatabaseWithItems = (
       frequency: 'It\'s a favourite',
       price: 'Great value',
       want: 'Keep',
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -175,6 +179,7 @@ export const seedDatabaseWithItems = (
       frequency: 'Forgot I had it',
       price: 'I\'am fine',
       want: 'Let go',
+      created: new Date(),
     });
 
     realm.create('Item', {
@@ -196,6 +201,7 @@ export const seedDatabaseWithItems = (
       frequency: 'It\'s a favourite',
       price: 'Great value',
       want: 'Keep',
+      created: new Date(),
     });
 
   });
@@ -256,15 +262,33 @@ const patternsToSeed = [
   'Striped',
   'Plaid',
   'Polka Dot',
-  'Animal',
+  'Houndstooth',
+  'Herringbone',
+  'Nature-Inspired',
   'Floral',
-  'Abstract',
+  'Leaf',
+  'Animal',
+  'Snake',
+  'Nature Print',
   'Geometric',
+  'Abstract',
+  'Paisley',
   'Tie-Dye',
-  'Camouflage',
-  'Boho Print',
-  'Textured',
-  'Logos',
+  'Gradient/Ombre',
+  'Marble',
+  'Text Print',
+  'Graphic',
+  'Logo',
+  'Slogan',
+  'Pop Culture Print',
+  'Knitted',
+  'Crochet',
+  'Lace',
+  'Embroidered',
+  'Patchwork',
+  'Quilted',
+  'Mixed',
+  'Minimal',
 ];
 
 const fitsToSeed = [
@@ -341,12 +365,30 @@ const cutsToSeed = [
   ];
 
   const occasionsToSeed = [
-    'Everyday',
-    'Work',
+    'Everyday/casual',
+    'Casual Lunch/Coffee',
+    'School/University',
+    'Vacation',
+    'Travel',
+    'Beach/Poolside',
+    'Outdoor Activity',
+    'Loungewear/Home',
     'Sport',
+    'Religious',
+    'Cultural Event',
+    'Funeral',
+    'Party/Night Out',
     'Wedding',
     'Date',
-  ];
+    'Holiday gathering',
+    'Special event',
+    'Work/Business',
+    'Formal/Event',
+    'Spring',
+    'Summer',
+    'Autumn',
+    'Winter',
+   ];
 
   const feelsToSeed = [
     'Confident',
