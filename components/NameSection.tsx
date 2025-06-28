@@ -12,17 +12,17 @@ type Props = {
 
 export default function ItemNameSection({itemName, onChange, isEditable, onPressEditIcon}: Props) {
 
-  const { isEditMode } = useWardrobeContext();
+  const { isEditMode, isSelectMode } = useWardrobeContext();
 
   return (
   <View style={styles.nameContainer}>
     {isEditMode || isEditable ? (
-      <View>
-        {!itemName || !isEditMode ? ( <Text variant="bodyLarge">item name</Text> ) : null }
+      <View style={{width: '100%'}}>
+        {!itemName || !isEditMode ? ( <Text variant="bodyLarge">{isSelectMode ? 'outfit name' : 'item name'}</Text> ) : null }
         { isEditable ? (
         <TextInput
           style={styles.input}
-          placeholder="e.g., Jacket"
+          placeholder={isSelectMode ? "e.g., Casual Friday" : "e.g., Jacket"}
           value={itemName}
           onChangeText={onChange}
         /> ) : <Text variant="headlineLarge">{itemName}</Text> }
@@ -37,7 +37,7 @@ export default function ItemNameSection({itemName, onChange, isEditable, onPress
 
 const styles = StyleSheet.create({
   nameContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   input: {
     borderWidth: 1,

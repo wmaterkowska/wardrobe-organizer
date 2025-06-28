@@ -13,7 +13,7 @@ import PropertyList from './PropertyList';
 import ColorList from './ColorList';
 import CustomSegmentedButton from './CustomSegmentedButton';
 import ImageSection from './ImageSection';
-import ItemNameSection from './ItemNameSection';
+import NameSection from './NameSection';
 import PropertySection from './PropertySection';
 import ColorSection from './ColorSection';
 import ComfortSection from './ComfortSection';
@@ -77,17 +77,6 @@ export default function AddItemForm({ onDismiss }: Props) {
   const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
-
-// // use Effect to show categories of main category ==================================================
-//   useEffect(() => {
-//     if (selectedMainId) {
-//       const sorted = getSortedCategories(categories.map(c => c.id));
-//       const filtered = sorted.filter(cat => cat.main_category.id === selectedMainId);
-//       setFilteredCategories([...filtered]);
-//     } else {
-//       setFilteredCategories([]);
-//     }
-//   }, [selectedMainId, categories, getSortedCategories]);
 
 // use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
@@ -217,7 +206,7 @@ export default function AddItemForm({ onDismiss }: Props) {
 
       <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <ItemNameSection itemName={itemName} isEditable={true} onChange={setItemName} />
+      <NameSection itemName={itemName} isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
         <PropertySection
