@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, View, SafeAreaView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
+import InsightCard from '../components/InsightCard';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 import { useTabNavigation } from '../context/TabNavigationContext';
@@ -38,19 +39,8 @@ export default function HomeView({ navigation }: Props) {
       ) : null }
 
       <View style={styles.cardContainer}>
-          <Card style={styles.card}>
-            <Card.Content>
-              <Text style={styles.text}>
-                You have <Text style={styles.highlight}>{wardrobeCount}</Text> pieces in your wardrobe.
-              </Text>
-            </Card.Content>
-          </Card>
-          <Card style={styles.card}>
-            <Card.Content>
-              <Text style={styles.title}>Your Most Worn Color</Text>
-              <Text style={styles.text}>Olive green</Text>
-            </Card.Content>
-          </Card>
+          <InsightCard type={'itemsInWardrobe'} data={items.length} />
+          <InsightCard type={'mostWornColor'} data={items[0]} />
       </View>
     </View>
     </SafeAreaView>
