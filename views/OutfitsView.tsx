@@ -13,6 +13,14 @@ export default function OutfitsView() {
 
   const handleCardPress = () => {};
 
+  if (!outfits.length) {
+    return (
+      <View>
+        <Text>No outfits found. Add your first outfit!</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={{flex: 1}}>
     <ScrollView
