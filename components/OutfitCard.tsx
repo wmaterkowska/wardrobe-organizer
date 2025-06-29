@@ -1,5 +1,7 @@
-import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
+import { resolveAssetSource, Dimensions } from 'react-native';
 
 import { Outfit } from '../database/models/Outfit';
 
@@ -10,14 +12,34 @@ type Props = {
 
 export default function OutfitCard({outfit, onPress}: Props) {
 
-  const coverUri = outfit.image_uri ? outfit.imageUri : outfit.items[0].image_uri;
+  const coverUri = outfit.image_uri ? outfit.image_uri : outfit.items[0].image_uri;
+
+  const [imageHeight, setImageHeight] = useState(200);
+  const [imageWidth, setImageWidth] = useState(200);
+  const screenWidth = Dimensions.get('window').width;
+
+  useEffect(() => {
+    Image.getSize(
+      coverUri,
+      (width, height) => {
+        ratio = height / width;
+        setImageHeight(screenWidth * ratio * 0.6);
+        setImageWidth(screenWidth /ratio * 0.4);
+      },
+      (error) => {
+        console.warn('Image.getSize failed:', error);
+      }
+    );
+  }, [coverUri]);
 
   return (
     <TouchableOpacity
-      onPress={onPress}>
+      onPress={onPress}
+      style={styles.outfitContainer}>
     <Card>
       <Card.Cover
         source={{uri: coverUri}}
+        style={{height: imageHeight}}
         resizeMode="cover"
       />
       {outfit.outfit_name ? (
@@ -27,3 +49,10 @@ export default function OutfitCard({outfit, onPress}: Props) {
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  outfitContainer: {
+    width: "100%",
+    padding: 4,
+  }
+});
