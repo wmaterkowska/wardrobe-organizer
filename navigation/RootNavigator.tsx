@@ -53,7 +53,6 @@ export default function RootNavigator() {
   return (
     <TabNavigationContext.Provider value={{ setTabByKey, currentTabKey }}>
     <Stack.Navigator
-      //initialRouteName="Main"
       screenOptions={{
         header: (props) => <UpperAppbar {...props}/>
       }}>

@@ -4,6 +4,7 @@ import { Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
 
+import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { Item } from '../../database/models/Item';
 
@@ -16,7 +17,7 @@ export default function FrequencySummary() {
   const themedStyles = styles(colors);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
 
     <Text style={themedStyles.title} variant="titleLarge">{Titles.frequency}</Text>
 

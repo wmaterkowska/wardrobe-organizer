@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Text, Button } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
 
@@ -27,6 +28,8 @@ import WantSection from '../components/WantSection';
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
 export default function ItemDetailView({ route, navigation }: Props) {
+
+  const { colors: themeColors } = useTheme();
 
   const realm = useRealm();
   const { mains, categories, colors, patterns, fits, cuts, textiles, occasions, feels } = useItemFormData();
@@ -379,8 +382,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16}}
-      showsVerticalScrollIndicator={false} >
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16, backgroundColor: themeColors.background}}
+      showsVerticalScrollIndicator={false}>
       <View>
         {isEditMode ? ( <>
           <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
