@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -15,6 +15,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function HomeView({ navigation }: Props) {
 
   const [addModalVisible, setAddModalVisible] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
   const theme = useTheme();
 
   const handleAddButton = () => {
@@ -24,9 +25,18 @@ export default function HomeView({ navigation }: Props) {
   return (
     <View style={styles.container, {backgroundColor: theme.colors.surface}}>
       <View style={styles.textContainer}>
+        <View>
+          <Image
+            source={require("../assets/logo/SetMyStyle-logo.png")}
+            resizeMode="contain"
+            style={styles.logo}
+            onError={() => setLogoFailed(true)} />
+        </View>
+        {logoFailed ? (
         <Text variant="headlineLarge" style={styles.appName}>
           {Strings.appName}
         </Text>
+        ) : null }
         <Text variant="titleLarge" style={styles.welcome}>
           {Strings.welcome}
         </Text>
@@ -58,14 +68,7 @@ const styles = StyleSheet.create({
     margin: '15%',
   },
   button: {
-    height: '100%',
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderBottomRightRadius: 0,
-    borderBottomWidth: 0,
-    display: 'flex',
-    justifyContent: 'center',
+    margin: 16,
   },
   buttonContainer: {
     flexGrow: 0,
@@ -77,9 +80,16 @@ const styles = StyleSheet.create({
     padding: 0,
     justifyContent: 'center',
   },
+  logo: {
+    width: 200,
+    height: 200,
+    margin: 16,
+    alignSelf: 'center',
+  },
   textContainer: {
     flexGrow: 1,
     justifyContent: 'center',
+    marginBottom: 16,
   },
   welcome: {
     textAlign: 'left',
