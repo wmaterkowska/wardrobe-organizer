@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import Realm from 'realm';
+import { useQuery, useRealm } from '@realm/react';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, SegmentedButtons, Text } from 'react-native-paper';
@@ -9,22 +11,26 @@ import PropertySection from './PropertySection';
 import QuestionsSection from './QuestionsSection';
 import ComfortSection from './ComfortSection';
 
-import { useQuery, useRealm } from '@realm/react';
 import  { useWardrobeContext }  from '../context/WardrobeContext';
 import { useItemFormData } from '../hooks/useItemFormData';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
+import { saveNewOutfit } from '../utility/outfitSave';
 
 import { Item } from '../database/models/Item'
 import { COMFORT_LEVELS, WANT_ARRAY, LEVELS, Want, Questions } from '../constants';
 
 import { pickOrCaptureImage } from '../utility/photoUtils';
 
-export default function AddOutfitForm() {
+type Props = {
+  onDismiss: () => void;
+}
+
+export default function AddOutfitForm({ onDismiss }: Props) {
 
   const realm = useRealm();
   const { occasions, feels } = useItemFormData();
 
-  const { selectedItems } = useWardrobeContext();
+  const { selectedItems, setSelectedItems } = useWardrobeContext();
   const outfitItems = selectedItems.map((id) => {
     const item = realm.objectForPrimaryKey<Item>('Item', id);
     return item;
@@ -76,8 +82,28 @@ export default function AddOutfitForm() {
 
 // save outfit to database =========================================================================
   const handleSave = () => {
-    console.log('save')
-  }
+    if (!outfitName && !imageUri) return;
+
+    saveNewOutfit({
+      realm,
+      outfitName,
+      imageUri,
+      selectedItems,
+      selectedOccasionIds,
+      comfort,
+      selectedFeelInIds,
+      likeMe,
+      lookLevel,
+      frequency,
+      want,
+    });
+
+    setSelectedItems([]);
+    setSelectedFeelInIds([]);
+    setSelectedOccasionIds([]);
+
+    onDismiss();
+  };
 
   return (
     <ScrollView
