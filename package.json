@@ -49,7 +49,8 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "^13.13.5",
     "realm": "^12.14.2",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "expo-screen-orientation": "~8.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import Realm from 'realm'
+import { Image, View, StyleSheet } from 'react-native';
+import { Button, IconButton, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
@@ -15,6 +16,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function HomeView({ navigation }: Props) {
 
   const [addModalVisible, setAddModalVisible] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
   const theme = useTheme();
 
   const handleAddButton = () => {
@@ -22,17 +24,27 @@ export default function HomeView({ navigation }: Props) {
   }
 
   return (
-    <View style={styles.container, {backgroundColor: theme.colors.surface}}>
+    <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
+    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={() => navigation.navigate('Main')}/>
       <View style={styles.textContainer}>
+        <View>
+          <Image
+            source={require("../assets/logo/SetMyStyle-logo.png")}
+            resizeMode="contain"
+            style={styles.logo}
+            onError={() => setLogoFailed(true)} />
+        </View>
+        {logoFailed ? (
         <Text variant="headlineLarge" style={styles.appName}>
           {Strings.appName}
         </Text>
+        ) : null }
         <Text variant="titleLarge" style={styles.welcome}>
           {Strings.welcome}
         </Text>
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={{flex: 1}}>
         <Button
           mode="outlined"
           onPress={handleAddButton}
@@ -48,6 +60,7 @@ export default function HomeView({ navigation }: Props) {
       }} >
         {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
       </AddModal>
+
     </View>
   );
 }
@@ -58,24 +71,25 @@ const styles = StyleSheet.create({
     margin: '15%',
   },
   button: {
-    height: '100%',
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderBottomRightRadius: 0,
-    borderBottomWidth: 0,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flexGrow: 0,
-    height: '50%',
+    margin: 16,
   },
   container: {
     flex: 1,
     margin: 0,
     padding: 0,
     justifyContent: 'center',
+  },
+  forwardButton: {
+    position: 'absolute',
+    top: 0,
+    alignSelf: 'flex-end',
+    zIndex: 999,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    margin: 16,
+    alignSelf: 'center',
   },
   textContainer: {
     flexGrow: 1,
@@ -85,4 +99,4 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginHorizontal: '15%',
   }
-})
+});

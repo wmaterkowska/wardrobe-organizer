@@ -3,8 +3,8 @@
     "name": "wardrobe",
     "slug": "wardrobe",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "orientation": "default",
+    "icon": "./assets/logo/SetMyStyle-icon.png",
     "scheme": "wardrobe",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,10 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo/SetMyStyle-icon.png"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.anonymous.wardrobe"
     },
     "web": {
@@ -35,7 +33,13 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
