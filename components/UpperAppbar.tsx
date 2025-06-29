@@ -118,13 +118,6 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {currentTabKey === 'wardrobe' && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
           <Button
-            mode="outlined"
-            icon="hanger"
-            onPress={handleCreateOutfit}
-          >
-            Create Outfit
-          </Button>
-          <Button
             mode="text"
             icon="trash-can"
             onPress={confirmDelete}
