@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Card, useTheme } from 'react-native-paper';
+import { Image, View, StyleSheet } from 'react-native';
+import { Card, Text, useTheme } from 'react-native-paper';
 import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorDot from './ColorDot';
 
@@ -35,47 +35,27 @@ export default function InsightCard({ type, data }: Props) {
         return (
           <>
             <Text style={styles.title}>Most Worn Color</Text>
-            <Text style={styles.subtitle}>{data.name}</Text>
-            <ColorDot colorCode={data.color_code}/>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+              <Text style={styles.subtitle}>{data.name}</Text>
+              <ColorDot colorCode={data.color_code}/>
+            </View>
           </>
         );
-
-//       case 'unwornItems':
-//         return (
-//           <>
-//             <Text style={styles.title}>Items You Haven't Worn</Text>
-//             {data.items.map((item: any, i: number) => (
-//               <Text key={i} style={styles.item}>{item.name}</Text>
-//             ))}
-//           </>
-//         );
 
       case 'recentlyAdded':
         return (
           <>
             <Text style={styles.title}>Recently Added</Text>
-            {data.items.map((item: any, i: number) => (
-              <Text key={i} style={styles.item}>{item.name}</Text>
-            ))}
+            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
           </>
         );
-
-//       case 'seasonal':
-//         return (
-//           <>
-//             <Text style={styles.title}>Seasonal Picks</Text>
-//             <Text style={styles.caption}>{data.season}</Text>
-//             {data.items.map((item: any, i: number) => (
-//               <Text key={i} style={styles.item}>{item.name}</Text>
-//             ))}
-//           </>
-//         );
 
       case 'declutterPrompt':
         return (
           <>
             <Text style={styles.title}>Time to Declutter?</Text>
-            <Text style={styles.caption}>{data.count} items haven't been worn in 3+ months</Text>
+            <Text style={styles.caption}>Piece you almost forget about</Text>
+            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
           </>
         );
 
@@ -108,6 +88,10 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: 'bold',
   },
+  image: {
+    width: 100,
+    height: 100,
+  },
   title: {
     fontSize: 18,
     fontWeight: '600',
@@ -126,11 +110,5 @@ const styles = StyleSheet.create({
   item: {
     fontSize: 15,
     marginVertical: 2,
-  },
-  colorDot: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginVertical: 8,
   },
 });

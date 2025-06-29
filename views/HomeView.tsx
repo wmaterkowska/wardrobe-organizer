@@ -11,7 +11,7 @@ import { useQuery, useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
 
-import { findMostWornColor } from '../utility/insightUtils';
+import { findMostWornColor, findRecentlyAddedItem, findItemYouForgotAbout } from '../utility/insightUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -23,6 +23,8 @@ export default function HomeView({ navigation }: Props) {
   const realm = useRealm();
   const items = useQuery(Item);
   const mostWornColor = findMostWornColor({realm});
+  const recentlyAddedItem = findRecentlyAddedItem({realm});
+  const itemYouForgotAbout = findItemYouForgotAbout({realm});
 
   return (
     <SafeAreaView style={styles.container} >
@@ -44,6 +46,8 @@ export default function HomeView({ navigation }: Props) {
       <View style={styles.cardContainer}>
           <InsightCard type={'itemsInWardrobe'} data={items.length} />
           <InsightCard type={'mostWornColor'} data={mostWornColor} />
+          <InsightCard type={'recentlyAdded'} data={recentlyAddedItem} />
+          <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} />
       </View>
     </View>
     </SafeAreaView>
@@ -54,13 +58,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  card: {
-    width: '45%',
-  },
   cardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    margin: '5%',
+    marginHorizontal: '5%',
+    marginTop: '5%',
     gap: '10%',
   },
   logo: {
