@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet } from 'react-native';
+import { Image, View, SafeAreaView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
@@ -17,15 +17,27 @@ export default function HomeView({ navigation }: Props) {
   const { setTabByKey } = useTabNavigation();
 
   const [addModalVisible, setAddModalVisible] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
+
   const items = useQuery(Item);
   const wardrobeCount = items.length;
 
   return (
     <SafeAreaView style={styles.container} >
-    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>
+    <View style={styles.view}>
+      <View>
+        <Image
+          source={require("../assets/logo/SetMyStyle-logo.png")}
+          resizeMode="contain"
+          style={styles.logo}
+          onError={() => setLogoFailed(true)} />
+      </View>
+
+      {logoFailed ? (
       <Text variant="headlineMedium" style={{ textAlign: 'center', marginBottom: 32 }}>
         {Strings.appName}
       </Text>
+      ) : null }
 
       <View style={styles.cardContainer}>
           <Card style={styles.card}>
@@ -55,10 +67,21 @@ const styles = StyleSheet.create({
     width: '45%',
   },
   cardContainer: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     margin: '5%',
     gap: '10%',
-  }
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 16,
+    alignSelf: 'center',
+  },
+  view: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 24,
+  },
 });
