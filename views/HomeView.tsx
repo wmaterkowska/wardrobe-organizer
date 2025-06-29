@@ -11,7 +11,11 @@ import { useQuery, useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
 
-import { findMostWornColor, findRecentlyAddedItem, findItemYouForgotAbout } from '../utility/insightUtils';
+import {
+  getRandomCards,
+  findMostWornColor,
+  findRecentlyAddedItem,
+  findItemYouForgotAbout } from '../utility/insightUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -25,6 +29,15 @@ export default function HomeView({ navigation }: Props) {
   const mostWornColor = findMostWornColor({realm});
   const recentlyAddedItem = findRecentlyAddedItem({realm});
   const itemYouForgotAbout = findItemYouForgotAbout({realm});
+
+  const insightCards = [
+    <InsightCard type={'itemsInWardrobe'} data={items.length} />,
+    <InsightCard type={'mostWornColor'} data={mostWornColor} />,
+    <InsightCard type={'recentlyAdded'} data={recentlyAddedItem} />,
+    <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} />,
+  ];
+
+  const randomCards = getRandomCards(insightCards);
 
   return (
     <SafeAreaView style={styles.container} >
@@ -44,10 +57,7 @@ export default function HomeView({ navigation }: Props) {
       ) : null }
 
       <View style={styles.cardContainer}>
-          <InsightCard type={'itemsInWardrobe'} data={items.length} />
-          <InsightCard type={'mostWornColor'} data={mostWornColor} />
-          <InsightCard type={'recentlyAdded'} data={recentlyAddedItem} />
-          <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} />
+          {randomCards.map((card) => (<>{card}</>))}
       </View>
     </View>
     </SafeAreaView>

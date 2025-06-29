@@ -1,6 +1,16 @@
 import Realm from 'realm';
 import { Color, Item } from '../database/index';
 
+export const shuffleArray = (array) => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+export const getRandomCards = (array) => {
+  const shuffled = shuffleArray(array);
+  const count = Math.random() < 0.5 ? 3 : 4;
+  return shuffled.slice(0, count);
+};
+
 export const findMostWornColor = ({realm}: {realm : Realm}) => {
 
   const topColors = realm.objects('Color').sorted('usage_count', true).slice(0, 5);

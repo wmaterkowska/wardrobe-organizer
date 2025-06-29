@@ -58,12 +58,19 @@ export default function InsightCard({ type, data }: Props) {
             <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
           </>
         );
-
-      case 'custom':
+ //TODO =================================================================
+      case 'favouriteFit':
         return (
           <>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.caption}>{data.description}</Text>
+          </>
+        );
+
+      case 'theBestFeel':
+        return (
+          <>
+
           </>
         );
 
