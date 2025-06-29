@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Realm from 'realm';
@@ -35,6 +35,10 @@ export default function RootNavigator() {
   const currentTabKey = tabKeys[index];
   const [showOnboarding, setShowOnboarding] = useState(true);
 
+  useEffect(() => {
+    if (items.length !== 0) {setShowOnboarding(false)}
+  }, [items])
+
   const setTabByKey = (key: keyof typeof TAB_INDEX_MAP) => {
     const tabIndex = TAB_INDEX_MAP[key];
     if (typeof tabIndex === 'number') {
@@ -59,8 +63,6 @@ export default function RootNavigator() {
       {showOnboarding ? (
         <Stack.Screen name="Onboarding" component={WelcomeView} />
       ) : (
-        <Stack.Screen name="Main" component={MainTabs} />
-      )}
       <Stack.Screen name="Main">
         {() => (
           <MainTabs
@@ -70,6 +72,7 @@ export default function RootNavigator() {
           />
         )}
       </Stack.Screen>
+      )}
       <Stack.Screen name="ItemDetail" component={ItemDetailView} />
       <Stack.Screen name="SummaryDetail" component={SummaryDetailView} />
       {/* }<Stack.Screen name="OutfitDetail" component={OutfitDetailView} /> */}

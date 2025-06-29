@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Realm from 'realm'
 import { Image, View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, IconButton, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
@@ -23,7 +24,8 @@ export default function HomeView({ navigation }: Props) {
   }
 
   return (
-    <View style={styles.container, {backgroundColor: theme.colors.surface}}>
+    <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
+    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={() => navigation.navigate('Main')}/>
       <View style={styles.textContainer}>
         <View>
           <Image
@@ -42,7 +44,7 @@ export default function HomeView({ navigation }: Props) {
         </Text>
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={{flex: 1}}>
         <Button
           mode="outlined"
           onPress={handleAddButton}
@@ -58,6 +60,7 @@ export default function HomeView({ navigation }: Props) {
       }} >
         {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
       </AddModal>
+
     </View>
   );
 }
@@ -70,15 +73,17 @@ const styles = StyleSheet.create({
   button: {
     margin: 16,
   },
-  buttonContainer: {
-    flexGrow: 0,
-    height: '50%',
-  },
   container: {
     flex: 1,
     margin: 0,
     padding: 0,
     justifyContent: 'center',
+  },
+  forwardButton: {
+    position: 'absolute',
+    top: 0,
+    alignSelf: 'flex-end',
+    zIndex: 999,
   },
   logo: {
     width: 200,
@@ -89,10 +94,9 @@ const styles = StyleSheet.create({
   textContainer: {
     flexGrow: 1,
     justifyContent: 'center',
-    marginBottom: 16,
   },
   welcome: {
     textAlign: 'left',
     marginHorizontal: '15%',
   }
-})
+});

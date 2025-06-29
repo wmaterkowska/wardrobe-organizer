@@ -14,8 +14,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeView({ navigation }: Props) {
 
-  const { setTabByKey } = useTabNavigation();
-
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
 
