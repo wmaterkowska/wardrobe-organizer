@@ -63,6 +63,8 @@ export default function PropertyList({
             selectable={selectable}
             selected={selectedIds?.includes(property.id) || selectedIds === property.id}
             onPress={selectable ? () => handleToggle(property.id) : undefined }
+            color={property.color_code ?? null}
+            colorSize={property.color_code ? 16 : null}
           /> ) )}
       </View>
       ) : null }

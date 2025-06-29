@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Chip } from 'react-native-paper';
+import ColorDot from './ColorDot';
 
 type Props = {
   label: string;
@@ -9,6 +10,8 @@ type Props = {
   onPress?: () => void;
   icon?: string;
   onClose?: () => void;
+  color?: string;
+  colorSize?: int;
 }
 
 export default function PropertyChip({
@@ -18,6 +21,8 @@ export default function PropertyChip({
   onPress,
   icon,
   onClose,
+  color,
+  colorSize,
   }: Props) {
 
   return (
@@ -31,6 +36,7 @@ export default function PropertyChip({
       style={styles.chip}
       selected={selected}
       showSelectedCheck={(selectable && selected) ? true : false}
+      avatar={color ? (<ColorDot colorCode={color} size={colorSize} />) : null}
       >{label}</Chip>
   )
 
