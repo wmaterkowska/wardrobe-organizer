@@ -30,6 +30,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setIsFilter,
     isSelectMode,
     setIsSelectMode,
+    selectedItems,
+    setSelectedItems,
     deleteItems,
     triggerDelete,
   } = useWardrobeContext();
@@ -79,7 +81,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const { isDark, toggleTheme } = useThemeToggle();
 
   const handleCreateOutfit = () => {}
-  const cancelSelection = () => {setIsSelectMode(false)}
+  const cancelSelection = () => {
+    setIsSelectMode(false);
+    setSelectedItems([]);
+  }
   const confirmDelete = () => {
     Alert.alert(
       'Delete Items',
@@ -112,13 +117,6 @@ export default function UpperAppbar({ navigation, route, options, back }) {
 
       {currentTabKey === 'wardrobe' && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
-          <Button
-            mode="outlined"
-            icon="hanger"
-            onPress={handleCreateOutfit}
-          >
-            Create Outfit
-          </Button>
           <Button
             mode="text"
             icon="trash-can"

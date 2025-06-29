@@ -9,9 +9,6 @@ import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
 
-import AddItemModal from '../components/AddItemModal';
-import AddItemForm from '../components/AddItemForm';
-
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeView({ navigation }: Props) {

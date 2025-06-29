@@ -15,6 +15,8 @@ interface WardrobeContextProps {
   setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
   isSelectMode: boolean;
   setIsSelectMode: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedItems: string[];
+  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>;
   deleteItems: () => void;
   triggerDelete: () => void;
 }
@@ -33,6 +35,7 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [isSelectMode, setIsSelectMode] = useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
   const [deleteCallback, setDeleteCallback] = useState<() => void>(() => () => {});
@@ -51,6 +54,8 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setIsFilter,
         isSelectMode,
         setIsSelectMode,
+        selectedItems,
+        setSelectedItems,
         deleteItems: (fn: () => void) => setDeleteCallback(() => fn),
         triggerDelete: deleteCallback,
       }}

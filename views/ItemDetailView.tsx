@@ -17,7 +17,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import EditAllButtonSection from'../components/EditAllButtonSection';
 import ImageSection from '../components/ImageSection';
-import ItemNameSection from '../components/ItemNameSection';
+import NameSection from '../components/NameSection';
 import PropertySection from '../components/PropertySection';
 import ColorSection from '../components/ColorSection';
 import ComfortSection from '../components/ComfortSection';
@@ -395,7 +395,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleImageEdit}
         />
 
-        <ItemNameSection
+        <NameSection
           itemName={itemName}
           isEditable={isItemNameEditable}
           onPressEditIcon={toggleNameEdit}

@@ -5,7 +5,7 @@ import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 
-import AddItemModal from '../components/AddItemModal';
+import AddModal from '../components/AddModal';
 import AddItemForm from '../components/AddItemForm';
 
 import { Strings } from '../constants';
@@ -42,12 +42,12 @@ export default function HomeView({ navigation }: Props) {
           <Text variant="titleLarge"> Add New Piece </Text>
         </Button>
       </View>
-      <AddItemModal visible={addModalVisible} onClose={() => {
+      <AddModal visible={addModalVisible} onClose={() => {
         setAddModalVisible(false);
          navigation.replace('Main');
       }} >
         {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
-      </AddItemModal>
+      </AddModal>
     </View>
   );
 }
