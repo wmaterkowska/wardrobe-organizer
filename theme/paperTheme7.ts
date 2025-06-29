@@ -127,6 +127,3 @@ export const navigationThemes = adaptNavigationTheme({
   reactNavigationLight: NavigationLightTheme,
   reactNavigationDark: NavigationDarkTheme,
 });
-
-
-const color="#FFFFFF";

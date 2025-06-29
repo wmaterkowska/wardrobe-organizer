@@ -39,7 +39,7 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: colors.background}}>
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
