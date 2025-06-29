@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Realm from 'realm';
 import { useTabNavigation } from '../context/TabNavigationContext';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation, FAB } from 'react-native-paper';

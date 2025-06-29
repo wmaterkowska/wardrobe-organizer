@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
