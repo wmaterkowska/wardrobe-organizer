@@ -7,9 +7,11 @@ import RootStackParamList from '../navigation/RootNavigator';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
 import Realm from 'realm';
-import { useQuery } from '@realm/react';
+import { useQuery, useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
 import { Strings } from '../constants';
+
+import { findMostWornColor } from '../utility/insightUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -18,8 +20,9 @@ export default function HomeView({ navigation }: Props) {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
 
+  const realm = useRealm();
   const items = useQuery(Item);
-  const wardrobeCount = items.length;
+  const mostWornColor = findMostWornColor({realm});
 
   return (
     <SafeAreaView style={styles.container} >
@@ -40,7 +43,7 @@ export default function HomeView({ navigation }: Props) {
 
       <View style={styles.cardContainer}>
           <InsightCard type={'itemsInWardrobe'} data={items.length} />
-          <InsightCard type={'mostWornColor'} data={items[0]} />
+          <InsightCard type={'mostWornColor'} data={mostWornColor} />
       </View>
     </View>
     </SafeAreaView>
