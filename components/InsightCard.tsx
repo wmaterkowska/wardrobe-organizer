@@ -76,6 +76,14 @@ export default function InsightCard({ type, data }: Props) {
           </>
         );
 
+      case 'feelIn':
+        return (
+          <>
+            <Text style={styles.title}>You feel <Text style={styles.highlight}>{data.feelIn}</Text> in</Text>
+            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+          </>
+        );
+
       default:
         return <Text>Unknown card type</Text>;
     }

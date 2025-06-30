@@ -54,4 +54,12 @@ export const findTheBestLikeMe = ({realm}: {realm: Realm}) => {
   return likeMeItems[randomIndex];
 };
 
-
+// export const findFellIn = ({realm}: {realm: Realm}) => {
+//   const feelIns = realm.objects('FeelIn');
+//   const randomIndex = Math.floor(Math.random() * feelIns.length);
+//
+//   const chosenFeelIn = feelIns[randomIndex];
+//
+//   const feelInItems = realm.objects('Item').filtered('feel_in.includes()')
+//
+// }
