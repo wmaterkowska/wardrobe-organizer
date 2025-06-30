@@ -7,8 +7,8 @@ export const shuffleArray = (array) => {
 
 export const getRandomCards = (array) => {
   const shuffled = shuffleArray(array);
-  const count = Math.random() < 0.5 ? 3 : 4;
-  return shuffled.slice(0, count);
+  // const count = Math.random() < 0.5 ? 3 : 4;
+  return shuffled.slice(0, 4);
 };
 
 export const findMostWornColor = ({realm}: {realm : Realm}) => {
@@ -28,7 +28,6 @@ export const findMostWornColor = ({realm}: {realm : Realm}) => {
 export const findRecentlyAddedItem = ({realm}: {realm: Realm}) => {
 
   const recentlyAddedItems = realm.objects('Item').sorted('created', true).slice(0, 3);
-
   return recentlyAddedItems[0];
 };
 
@@ -40,6 +39,19 @@ export const findItemYouForgotAbout = ({realm}: {realm: Realm}) => {
     const randomIndex = Math.floor(Math.random() * itemsYouForgotAbout.length);
     return itemsYouForgotAbout[randomIndex];
   }
-
   return null;
 };
+
+export const findFavouriteFit = ({realm}: {realm: Realm}) => {
+  const favouriteFit = realm.objects('Fit').sorted('usage_count', true)[0];
+  return favouriteFit;
+};
+
+export const findTheBestLikeMe = ({realm}: {realm: Realm}) => {
+  const likeMeItems = realm.objects('Item').filtered('like_me = $0', 'This is me!');
+  const randomIndex = Math.floor(Math.random() * likeMeItems.length);
+
+  return likeMeItems[randomIndex];
+};
+
+

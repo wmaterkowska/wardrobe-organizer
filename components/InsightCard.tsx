@@ -18,7 +18,8 @@ type Props = {
 };
 
 export default function InsightCard({ type, data }: Props) {
-  const { colors } = useTheme();
+
+  const theme = useTheme();
 
   const renderContent = () => {
     switch (type) {
@@ -58,19 +59,20 @@ export default function InsightCard({ type, data }: Props) {
             <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
           </>
         );
- //TODO =================================================================
+
       case 'favouriteFit':
         return (
           <>
-            <Text style={styles.title}>{data.title}</Text>
-            <Text style={styles.caption}>{data.description}</Text>
+            <Text style={styles.title}>Your favourite fit is </Text>
+            <Text style={styles.subtitle}>{data.name}</Text>
           </>
         );
 
       case 'theBestFeel':
         return (
           <>
-
+            <Text style={styles.title}>You feel exactly like you in</Text>
+            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
           </>
         );
 
@@ -80,7 +82,7 @@ export default function InsightCard({ type, data }: Props) {
   };
 
   return (
-    <Card style={styles.card}>
+    <Card style={[styles.card, {borderLeftColor: theme.colors.secondary}]}>
       <Card.Content>
         {renderContent()}
       </Card.Content>
@@ -91,6 +93,8 @@ export default function InsightCard({ type, data }: Props) {
 const styles = StyleSheet.create({
   card: {
     width: '45%',
+    elevation: 1,
+    borderLeftWidth: 4,
   },
   highlight: {
     fontWeight: 'bold',

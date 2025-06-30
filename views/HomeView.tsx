@@ -15,7 +15,9 @@ import {
   getRandomCards,
   findMostWornColor,
   findRecentlyAddedItem,
-  findItemYouForgotAbout } from '../utility/insightUtils';
+  findItemYouForgotAbout,
+  findFavouriteFit,
+  findTheBestLikeMe, } from '../utility/insightUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -29,12 +31,16 @@ export default function HomeView({ navigation }: Props) {
   const mostWornColor = findMostWornColor({realm});
   const recentlyAddedItem = findRecentlyAddedItem({realm});
   const itemYouForgotAbout = findItemYouForgotAbout({realm});
+  const favouriteFit = findFavouriteFit({realm});
+  const theBestFeel = findTheBestLikeMe({realm});
 
   const insightCards = [
-    <InsightCard type={'itemsInWardrobe'} data={items.length} />,
-    <InsightCard type={'mostWornColor'} data={mostWornColor} />,
-    <InsightCard type={'recentlyAdded'} data={recentlyAddedItem} />,
-    <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} />,
+    <InsightCard type={'itemsInWardrobe'} data={items.length} key={0}/>,
+    <InsightCard type={'mostWornColor'} data={mostWornColor} key={1}/>,
+    <InsightCard type={'recentlyAdded'} data={recentlyAddedItem} key={2}/>,
+    <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} key={3}/>,
+    <InsightCard type={'favouriteFit'} data={favouriteFit} key={4}/>,
+    <InsightCard type={'theBestFeel'} data={theBestFeel} key={5} />,
   ];
 
   const randomCards = getRandomCards(insightCards);
@@ -42,22 +48,13 @@ export default function HomeView({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.container} >
     <View style={styles.view}>
-      <View>
-        <Image
-          source={require("../assets/logo/SetMyStyle-logo.png")}
-          resizeMode="contain"
-          style={styles.logo}
-          onError={() => setLogoFailed(true)} />
-      </View>
 
-      {logoFailed ? (
       <Text variant="headlineMedium" style={{ textAlign: 'center', marginBottom: 32 }}>
         {Strings.appName}
       </Text>
-      ) : null }
 
       <View style={styles.cardContainer}>
-          {randomCards.map((card) => (<>{card}</>))}
+          {randomCards.map((card) => card)}
       </View>
     </View>
     </SafeAreaView>
@@ -76,8 +73,8 @@ const styles = StyleSheet.create({
     gap: '10%',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     marginBottom: 16,
     alignSelf: 'center',
   },
