@@ -100,14 +100,14 @@ export default function InsightCard({ type, data }: Props) {
       case 'feelIn':
         return (
           <>
-            {data.feelIn ? (
+            {data.feelIn && data.item ? (
               <>
                 <Text style={styles.title}>You feel <Text style={styles.subtitle}>{data.feelIn.name}</Text> in</Text>
                 {data.item.image_uri ?
                   <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={styles.image} />
                   : <Text style={styles.subtitle}>{data.item.name}</Text>
                 }
-              </>) : <Text style={styles.title}>Start tagging your clothes with how they make you feel!</Text>
+              </>) : <Text style={styles.title}>Tag your clothes with how they make you feel!</Text>
             }
           </>
         );
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
+    borderRadius: 3,
   },
   title: {
     fontSize: 18,
