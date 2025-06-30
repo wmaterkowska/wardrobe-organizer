@@ -17,7 +17,9 @@ import {
   findRecentlyAddedItem,
   findItemYouForgotAbout,
   findFavouriteFit,
-  findTheBestLikeMe, } from '../utility/insightUtils';
+  findTheBestLikeMe,
+  findFeelIn,
+  findRecentOutfit } from '../utility/insightUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -33,6 +35,8 @@ export default function HomeView({ navigation }: Props) {
   const itemYouForgotAbout = findItemYouForgotAbout({realm});
   const favouriteFit = findFavouriteFit({realm});
   const theBestFeel = findTheBestLikeMe({realm});
+  const feelInData = findFeelIn({realm});
+  const recentOutfit = findRecentOutfit({realm});
 
   const insightCards = [
     <InsightCard type={'itemsInWardrobe'} data={items.length} key={0}/>,
@@ -41,6 +45,8 @@ export default function HomeView({ navigation }: Props) {
     <InsightCard type={'declutterPrompt'} data={itemYouForgotAbout} key={3}/>,
     <InsightCard type={'favouriteFit'} data={favouriteFit} key={4}/>,
     <InsightCard type={'theBestFeel'} data={theBestFeel} key={5} />,
+    <InsightCard type={'feelIn'} data={feelInData} key={6} />,
+    <InsightCard type={'recentOutfit'} data={recentOutfit} key={7} />,
   ];
 
   const randomCards = getRandomCards(insightCards);

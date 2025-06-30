@@ -1,5 +1,5 @@
 import Realm from 'realm';
-import { Color, Item } from '../database/index';
+import { Color, Item, FeelIn, Outfit } from '../database/index';
 
 export const shuffleArray = (array) => {
   return [...array].sort(() => Math.random() - 0.5);
@@ -12,7 +12,6 @@ export const getRandomCards = (array) => {
 };
 
 export const findMostWornColor = ({realm}: {realm : Realm}) => {
-
   const topColors = realm.objects('Color').sorted('usage_count', true).slice(0, 5);
   const maxCount = topColors[0].usage_count;
   const allColorsWithMaxCount = topColors.filter(color => color.usage_count === maxCount);
@@ -26,13 +25,11 @@ export const findMostWornColor = ({realm}: {realm : Realm}) => {
 };
 
 export const findRecentlyAddedItem = ({realm}: {realm: Realm}) => {
-
   const recentlyAddedItems = realm.objects('Item').sorted('created', true).slice(0, 3);
   return recentlyAddedItems[0];
 };
 
 export const findItemYouForgotAbout = ({realm}: {realm: Realm}) => {
-
   const itemsYouForgotAbout = realm.objects('Item').filtered('frequency = $0', 'Forgot I had it');
 
   if (itemsYouForgotAbout.length > 0) {
@@ -54,12 +51,19 @@ export const findTheBestLikeMe = ({realm}: {realm: Realm}) => {
   return likeMeItems[randomIndex];
 };
 
-// export const findFellIn = ({realm}: {realm: Realm}) => {
-//   const feelIns = realm.objects('FeelIn');
-//   const randomIndex = Math.floor(Math.random() * feelIns.length);
-//
-//   const chosenFeelIn = feelIns[randomIndex];
-//
-//   const feelInItems = realm.objects('Item').filtered('feel_in.includes()')
-//
-// }
+export const findFellIn = ({realm}: {realm: Realm}) => {
+  const feelIns = realm.objects('FeelIn');
+  const randomFeelInIndex = Math.floor(Math.random() * feelIns.length);
+  const chosenFeelIn = feelIns[randomFeelInIndex];
+
+  const feelInItems = realm.objects('Item').filtered('feel_in CONTAINS $0', chosenFeelIn);
+  const randomItemIndex =  Math.floor(Math.random() * feelInItems.length);
+  const chosenItem = feelInItems[randomItemIndex];
+
+  return {feelIn: chosenFeelIn, item: chosenItem};
+}
+
+export const findRecentOutfit = ({realm}: {realm: Realm}) => {
+  const recentOutfit = realm.objects('Outfit').sorted('created', true).slice(0, 3);
+  return recentOutfit[0];
+}
