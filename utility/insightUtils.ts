@@ -48,15 +48,15 @@ export const findTheBestLikeMe = ({realm}: {realm: Realm}) => {
   const likeMeItems = realm.objects('Item').filtered('like_me = $0', 'This is me!');
   const randomIndex = Math.floor(Math.random() * likeMeItems.length);
 
-  return likeMeItems[randomIndex];
+  return likeMeItems.length > 0 ? likeMeItems[randomIndex] : [];
 };
 
-export const findFellIn = ({realm}: {realm: Realm}) => {
+export const findFeelIn = ({realm}: {realm: Realm}) => {
   const feelIns = realm.objects('FeelIn');
   const randomFeelInIndex = Math.floor(Math.random() * feelIns.length);
   const chosenFeelIn = feelIns[randomFeelInIndex];
 
-  const feelInItems = realm.objects('Item').filtered('feel_in CONTAINS $0', chosenFeelIn);
+  const feelInItems = realm.objects('Item').filtered('feel_in.id CONTAINS $0', chosenFeelIn.id);
   const randomItemIndex =  Math.floor(Math.random() * feelInItems.length);
   const chosenItem = feelInItems[randomItemIndex];
 
@@ -64,6 +64,6 @@ export const findFellIn = ({realm}: {realm: Realm}) => {
 }
 
 export const findRecentOutfit = ({realm}: {realm: Realm}) => {
-  const recentOutfit = realm.objects('Outfit').sorted('created', true).slice(0, 3);
-  return recentOutfit[0];
+  const recentOutfits = realm.objects('Outfit').sorted('created', true).slice(0, 3);
+  return recentOutfits.length > 0 ? recentOutfits[0] : [];
 }

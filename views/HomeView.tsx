@@ -35,7 +35,7 @@ export default function HomeView({ navigation }: Props) {
   const itemYouForgotAbout = findItemYouForgotAbout({realm});
   const favouriteFit = findFavouriteFit({realm});
   const theBestFeel = findTheBestLikeMe({realm});
-  const feelInData = findFeelIn({realm});
+  const feelInData = findFeelIn({realm}) || {};
   const recentOutfit = findRecentOutfit({realm});
 
   const insightCards = [
@@ -59,9 +59,11 @@ export default function HomeView({ navigation }: Props) {
         {Strings.appName}
       </Text>
 
+      {items.length > 0 ?
       <View style={styles.cardContainer}>
           {randomCards.map((card) => card)}
       </View>
+      : null }
     </View>
     </SafeAreaView>
   );

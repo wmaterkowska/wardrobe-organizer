@@ -37,8 +37,13 @@ export default function InsightCard({ type, data }: Props) {
           <>
             <Text style={styles.title}>Most Worn Color</Text>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <Text style={styles.subtitle}>{data.name}</Text>
-              <ColorDot colorCode={data.color_code}/>
+              {data.name ? (
+                <>
+                  <Text style={styles.subtitle}>{data.name}</Text>
+                  <ColorDot colorCode={data.color_code}/>
+                </>
+                ) : <Text style={styles.subtitle}>?</Text>
+              }
             </View>
           </>
         );
@@ -47,7 +52,10 @@ export default function InsightCard({ type, data }: Props) {
         return (
           <>
             <Text style={styles.title}>Recently Added</Text>
-            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+            {data.image_uri ? (
+              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+              ) : <Text style={styles.subtitle}>{data.name}</Text>
+            }
           </>
         );
 
@@ -56,7 +64,10 @@ export default function InsightCard({ type, data }: Props) {
           <>
             <Text style={styles.title}>Time to Declutter?</Text>
             <Text style={styles.caption}>Piece you almost forget about</Text>
-            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+            {data.image_uri ? (
+              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+              ) : <Text style={styles.subtitle}>{data.name}</Text>
+            }
           </>
         );
 
@@ -64,33 +75,58 @@ export default function InsightCard({ type, data }: Props) {
         return (
           <>
             <Text style={styles.title}>Your favourite fit is </Text>
-            <Text style={styles.subtitle}>{data.name}</Text>
+            {data.name ?
+              <Text style={styles.subtitle}>{data.name}</Text>
+              : <Text style={styles.subtitle}>?</Text>
+            }
           </>
         );
 
       case 'theBestFeel':
         return (
           <>
-            <Text style={styles.title}>You feel exactly like you in</Text>
-            <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+            {data.image_uri || data.name ? (
+              <>
+                <Text style={styles.title}>You feel exactly like you in</Text>
+                {data.image_uri ?
+                  <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+                  : <Text style={styles.subtitle}>{data.name}</Text> }
+              </>
+              ) : <Text style={styles.title}>You haven't added a piece that truly feels like 'you' yet.</Text>
+            }
           </>
         );
 
       case 'feelIn':
         return (
           <>
-            <Text style={styles.title}>You feel <Text style={styles.highlight}>{data.feelIn.name}</Text> in</Text>
-            <Image source={data.image_uri ? {uri: data.item.image_uri} : ''} style={styles.image} />
+            {data.feelIn ? (
+              <>
+                <Text style={styles.title}>You feel <Text style={styles.subtitle}>{data.feelIn.name}</Text> in</Text>
+                {data.item.image_uri ?
+                  <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={styles.image} />
+                  : <Text style={styles.subtitle}>{data.item.name}</Text>
+                }
+              </>) : <Text style={styles.title}>Start tagging your clothes with how they make you feel!</Text>
+            }
           </>
         );
 
       case 'recentOutfit':
         return (
         <>
-          <Text style={styles.title}>Recently Added Outfit</Text>
-          <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+          {data.image_uri || data.outfit_name ? (
+            <>
+              <Text style={styles.title}>Recently Added Outfit</Text>
+              {data.image_uri ?
+                <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
+                : <Text style={styles.subtitle}>{data.outfit_name}</Text>
+              }
+            </>
+            ) : <Text style={styles.title}>Add your first outfit!</Text>
+          }
         </>
-        )
+        );
 
       default:
         return <Text>Unknown card type</Text>;
