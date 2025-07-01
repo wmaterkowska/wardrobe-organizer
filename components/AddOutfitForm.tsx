@@ -167,8 +167,9 @@ export default function AddOutfitForm({ onDismiss }: Props) {
 
       <Button
         onPress={handleSave}
-        style={styles.saveButton}
-        disabled={!outfitName && !imageUri} >Save Outfit</Button>
+        style={[styles.saveButton, (!outfitName && !imageUri) && styles.noShadow,]}
+        disabled={!outfitName && !imageUri}
+        mode={(!outfitName && !imageUri) ? 'text' : 'elevated'} >Save Piece</Button>
     </View>
     </ScrollView>
   )
@@ -179,9 +180,15 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   saveButton: {
-    position: 'absolut',
     marginTop: 20,
     padding: 20,
+  },
+  noShadow: {
+    elevation: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 0,
   },
   wantText: {
     marginTop: 32,
