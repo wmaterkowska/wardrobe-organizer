@@ -54,7 +54,7 @@ export default function InsightCard({ type, data }: Props) {
             <Text style={styles.title}>Recently Added</Text>
             {data.image_uri ? (
               <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-              ) : <Text style={styles.subtitle}>{data.name}</Text>
+              ) : <Text style={styles.subtitle}>{data.item_name}</Text>
             }
           </>
         );
@@ -66,7 +66,7 @@ export default function InsightCard({ type, data }: Props) {
             <Text style={styles.caption}>Piece you almost forget about</Text>
             {data.image_uri ? (
               <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-              ) : <Text style={styles.subtitle}>{data.name}</Text>
+              ) : <Text style={styles.subtitle}>{data.item_name}</Text>
             }
           </>
         );
@@ -90,7 +90,7 @@ export default function InsightCard({ type, data }: Props) {
                 <Text style={styles.title}>You feel exactly like you in</Text>
                 {data.image_uri ?
                   <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-                  : <Text style={styles.subtitle}>{data.name}</Text> }
+                  : <Text style={styles.subtitle}>{data.item_name}</Text> }
               </>
               ) : <Text style={styles.title}>You haven't added a piece that truly feels like 'you' yet.</Text>
             }
@@ -105,7 +105,7 @@ export default function InsightCard({ type, data }: Props) {
                 <Text style={styles.title}>You feel <Text style={styles.subtitle}>{data.feelIn.name}</Text> in</Text>
                 {data.item.image_uri ?
                   <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={styles.image} />
-                  : <Text style={styles.subtitle}>{data.item.name}</Text>
+                  : <Text style={styles.subtitle}>{data.item.item_name}</Text>
                 }
               </>) : <Text style={styles.title}>Tag your clothes with how they make you feel!</Text>
             }
