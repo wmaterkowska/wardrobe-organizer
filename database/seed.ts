@@ -234,27 +234,43 @@ export const seedDatabaseWithProperties = (realm: Realm) => {
   ];
 
 const colorsToSeed = [
-  { name: 'Red', color_code: '#FF0000' },
-  { name: 'Orange', color_code: '#FFA500' },
-  { name: 'Coral', color_code: '#FF7F50' },
-  { name: 'Pink', color_code: '#FFC0CB' },
-  { name: 'Maroon', color_code: '#800000' },
-  { name: 'Brown', color_code: '#8B4513' },
-  { name: 'Gold', color_code: '#FFD700' },
+  { name: 'Black', color_code: '#000000' },
+  { name: 'White', color_code: '#FFFFFF' },
+  { name: 'Gray', color_code: '#808080' },
+  { name: 'Navy', color_code: '#000080' },
   { name: 'Beige', color_code: '#F5F5DC' },
-  { name: 'Yellow', color_code: '#FFFF00' },
+  { name: 'Brown', color_code: '#8B4513' },
+  { name: 'Cream', color_code: '#FFFDD0' },
   { name: 'Olive', color_code: '#808000' },
+  { name: 'Khaki', color_code: '#F0E68C' },
+  { name: 'Charcoal', color_code: '#36454F' },
+
+  { name: 'Red', color_code: '#FF0000' },
+  { name: 'Maroon', color_code: '#800000' },
+  { name: 'Burgundy', color_code: '#800020' },
+  { name: 'Pink', color_code: '#FFC0CB' },
+  { name: 'Blush', color_code: '#DE5D83' },
+
+  { name: 'Orange', color_code: '#FFA500' },
+  { name: 'Rust', color_code: '#B7410E' },
+  { name: 'Coral', color_code: '#FF7F50' },
+
+  { name: 'Yellow', color_code: '#FFFF00' },
+  { name: 'Mustard', color_code: '#FFDB58' },
+  { name: 'Gold', color_code: '#FFD700' },
+
   { name: 'Green', color_code: '#008000' },
+  { name: 'Sage', color_code: '#B2AC88' },
+  { name: 'Forest', color_code: '#228B22' },
+  { name: 'Mint', color_code: '#98FF98' },
+
+  { name: 'Blue', color_code: '#0000FF' },
+  { name: 'Sky Blue', color_code: '#87CEEB' },
   { name: 'Teal', color_code: '#008080' },
   { name: 'Turquoise', color_code: '#40E0D0' },
-  { name: 'Blue', color_code: '#0000FF' },
-  { name: 'Navy', color_code: '#000080' },
-  { name: 'Violet', color_code: '#8A2BE2' },
+
+  { name: 'Purple', color_code: '#800080' },
   { name: 'Lavender', color_code: '#E6E6FA' },
-  { name: 'Black', color_code: '#000000' },
-  { name: 'Gray', color_code: '#808080' },
-  { name: 'Silver', color_code: '#C0C0C0' },
-  { name: 'White', color_code: '#FFFFFF' },
 ];
 
 const patternsToSeed = [

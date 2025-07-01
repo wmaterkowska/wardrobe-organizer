@@ -25,7 +25,7 @@ export class Item extends Realm.Object {
   textiles?: Realm.List<Textile>;
   comfort?: number;
   occasions?: Realm.List<Occasion>;
-  feel_in?: Realm.Object<FeelIn>;
+  feel_in?: Realm.List<FeelIn>;
   like_me?: string;
   look_level?: string;
   frequency?: string;
