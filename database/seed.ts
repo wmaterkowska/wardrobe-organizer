@@ -231,6 +231,7 @@ export const seedDatabaseWithProperties = (realm: Realm) => {
     { name: 'Loungewear', main_category: 'Other' },
     { name: 'Sportswear', main_category: 'Other' },
     { name: 'Swimwear', main_category: 'Other' },
+    { name: 'Other', main_category: 'Other' },
   ];
 
 const colorsToSeed = [
