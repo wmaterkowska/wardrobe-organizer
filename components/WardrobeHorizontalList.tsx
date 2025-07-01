@@ -31,7 +31,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
   const categories = useQuery(Category);
 
   const [mainChosen, setMainChosen] = useState<MainCategory | null>(mains.find((m) => m.name === 'Clothes'));
-  const [itemsForMain, setItemsForMain] = useState<Items[]>(items.filter((item) => item.main_category.name === 'Clothes'));
+  const [itemsForMain, setItemsForMain] = useState<Items[]>(items.filter((item) => item.main_category?.name === 'Clothes'));
   const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(mainChosen?.categories || categories);
 
   const [groupByKey, setGroupByKey] = useState<ItemKey | null>(null);
@@ -44,7 +44,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
 
   useEffect(() => {
     if (mainChosen) {
-      setItemsForMain(items.filter((i) => i.main_category.id === mainChosen?.id));
+      setItemsForMain(items.filter((i) => i?.main_category?.id === mainChosen?.id));
       setCategoriesFiltered(mainChosen.categories);
     } else {
       setItemsForMain(items);
@@ -117,7 +117,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
               style={{padding: 16}}
               contentContainerStyle={{ paddingRight: 34}}
             >
-            {items.filter((item) => item.category.id === cat.id).map((i) => (
+            {items.filter((item) => item?.category?.id === cat.id).map((i) => (
               <ItemCard
                 key={i.id}
                 item={i}
