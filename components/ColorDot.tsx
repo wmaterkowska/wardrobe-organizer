@@ -27,7 +27,6 @@ export default function ColorDot({
     <View
       style={[
         themedStyles.haloContainer,
-        themedStyles.selectedHalo,
         selected && { width: haloSize, height: haloSize, borderRadius: haloSize / 2, borderColor: themeColors.onBackground },
       ]}
     >
@@ -61,8 +60,6 @@ const styles = (colors) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 6,
-  },
-  selectedHalo: {
     borderWidth: 2,
     borderColor: 'transparent',
   },
