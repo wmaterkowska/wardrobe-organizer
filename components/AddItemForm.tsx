@@ -325,8 +325,9 @@ export default function AddItemForm() {
 
       <Button
         onPress={handleSave}
-        style={styles.saveButton}
-        disabled={!itemName && !imageUri} >Save Piece</Button>
+        style={[styles.saveButton, (!itemName && !imageUri) && styles.noShadow,]}
+        disabled={!itemName && !imageUri}
+        mode={(!itemName && !imageUri) ? 'text' : 'elevated'} >Save Piece</Button>
     </View>
     </ScrollView>
   );
@@ -347,8 +348,14 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   saveButton: {
-    position: 'absolut',
     marginTop: 20,
     padding: 20,
-  }
+  },
+  noShadow: {
+    elevation: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 0,
+  },
 });

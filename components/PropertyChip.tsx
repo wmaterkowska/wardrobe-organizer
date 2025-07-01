@@ -29,7 +29,7 @@ export default function PropertyChip({
     <Chip
       icon={icon}
       onPress={onPress}
-      type='outlined'
+      mode={selected ? 'flat' : 'outlined'}
       compact={true}
       accessibilityLabel={label}
       accessibilityRole='button'
@@ -44,7 +44,6 @@ export default function PropertyChip({
 
 const styles = StyleSheet.create({
   chip: {
-    width: 'auto',
     marginRight: 4,
     marginBottom: 4,
   },
