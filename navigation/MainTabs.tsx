@@ -43,11 +43,14 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
+        shifting={true}
       />
       <FAB
         icon="plus"
         onPress={handleAddPress}
         style={styles.fab}
+        variant='tertiary'
+        mode='flat'
       />
       <AddModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
         {isSelectMode ?
