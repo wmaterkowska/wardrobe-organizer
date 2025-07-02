@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
+import { contrastRatio } from '../utility/contrastUtils';
+
 type Props = {
   colorCode: string;
   size?: number;
@@ -21,6 +23,8 @@ export default function ColorDot({
   const { colors: themeColors } = useTheme();
   const themedStyles = styles(themeColors);
 
+  const isNotVisible = contrastRatio(colorCode, themeColors.background) < 3;
+
   const haloSize = size + 8;
 
   const Dot = (
@@ -39,6 +43,13 @@ export default function ColorDot({
           height: size,
           borderRadius: size / 2,
         },
+        isNotVisible &&  {
+          elevation: 5,
+          shadowColor: themeColors.onBackground,
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.2,
+          shadowRadius: 1.5,
+          }
       ]}
     />
     </View>
@@ -63,4 +74,10 @@ const styles = (colors) => StyleSheet.create({
     borderWidth: 2,
     borderColor: 'transparent',
   },
+  shadow: {
+    shadowColor: colors.onBackground,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  }
 });
