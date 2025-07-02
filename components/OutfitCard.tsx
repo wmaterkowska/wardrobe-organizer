@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { resolveAssetSource, Dimensions } from 'react-native';
 
 import { Outfit } from '../database/models/Outfit';
@@ -11,6 +12,8 @@ type Props = {
 }
 
 export default function OutfitCard({outfit, onPress}: Props) {
+
+  const { colors: themeColors } = useTheme();
 
   const coverUri = outfit.image_uri ? outfit.image_uri : outfit.items[0].image_uri;
 
@@ -36,14 +39,14 @@ export default function OutfitCard({outfit, onPress}: Props) {
     <TouchableOpacity
       onPress={onPress}
       style={styles.outfitContainer}>
-    <Card>
+    <Card mode='outlined'  style={coverUri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
       <Card.Cover
         source={{uri: coverUri}}
         style={{height: imageHeight}}
         resizeMode="cover"
       />
       {outfit.outfit_name ? (
-        <Card.Title title={outfit.outfit_name}/>
+        <Card.Title title={outfit.outfit_name} titleStyle={coverUri ? {marginLeft: -16} : {} }/>
       ) : null}
     </Card>
     </TouchableOpacity>

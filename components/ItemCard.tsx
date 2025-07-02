@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Chip, IconButton } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { resolveAssetSource, Dimensions } from 'react-native';
 
@@ -22,6 +23,8 @@ type Props = {
 export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selectionMode, selected, onSelectToggle }: Props) {
 
   const { viewType, isSelectMode } = useWardrobeContext();
+
+  const { colors: themeColors } = useTheme();
 
   const [imageHeight, setImageHeight] = useState(200);
   const [imageWidth, setImageWidth] = useState(200);
@@ -49,7 +52,7 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
         onPress={onPress}
         onLongPress={onLongPress}
         style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}, zoom === -1 ? styles.addOutfit : {}]}>
-        <Card mode={(selected && isSelectMode) ? 'outlined' : 'elevated'} >
+        <Card mode={(selected && isSelectMode) ? 'elevated' : 'outlined'} style={item.image_uri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
             {isSelectMode && zoom  !== -1 && (
               <IconButton
                 icon={selectionMode === 'delete' ? 'close' : selected ? 'check-circle' : 'circle-outline'}
@@ -65,7 +68,7 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
                 />
               ) : null}
             {item.item_name ? (
-              <Card.Title title={item.item_name}/>
+              <Card.Title title={item.item_name} titleStyle={item.image_uri ? {marginLeft: -16} : {} }/>
              ) : null}
             {(!item.image_uri && item.colors) ? (
               <ColorList colors={item.colors} size={45 /zoom}/>) : null}
