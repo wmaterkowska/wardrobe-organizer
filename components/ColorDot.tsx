@@ -44,11 +44,8 @@ export default function ColorDot({
           borderRadius: size / 2,
         },
         isNotVisible &&  {
-          elevation: 5,
-          shadowColor: themeColors.onBackground,
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.2,
-          shadowRadius: 1.5,
+          borderColor: themeColors.onBackground,
+          borderWidth: 0.2,
           }
       ]}
     />
