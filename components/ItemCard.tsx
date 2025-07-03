@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Realm from 'realm';
 import { Card, Chip, IconButton } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
@@ -15,14 +16,11 @@ type Props = {
   onPress?: () => void;
   onLongPress?: () => void;
   zoom?: Int;
-  selectionMode?: {type: 'none' | 'delete' | 'select'};
-  selected?: boolean;
-  onSelectToggle?: () => void;
 }
 
-export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selectionMode, selected, onSelectToggle }: Props) {
+export default function ItemCard({ item, onPress, onLongPress, zoom = 2 }: Props) {
 
-  const { viewType, isSelectMode } = useWardrobeContext();
+  const { viewType, isSelectMode, selectedItems, setSelectedItems } = useWardrobeContext();
 
   const { colors: themeColors } = useTheme();
 
@@ -47,16 +45,23 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2, selecti
     );
   }, [item.image_uri, zoom]);
 
+  const addItem = (id: string) => {
+    setSelectedItems((prevArray) => prevArray.includes(id) ? prevArray.filter((i) => i !== id) : [...prevArray, id]);
+  };
+
     return (
       <TouchableOpacity
         onPress={onPress}
         onLongPress={onLongPress}
-        style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}, zoom === -1 ? styles.addOutfit : {}]}>
-        <Card mode={(selected && isSelectMode) ? 'elevated' : 'outlined'} style={item.image_uri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
-            {isSelectMode && zoom  !== -1 && (
+        style={[styles.itemContainer, viewType === 'list' ? {width: 200} : {}, zoom === -1 ? styles.addOutfit : {}]} >
+        <Card
+          mode='outlined'
+          style={item.image_uri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent'} }
+          >
+            {isSelectMode && zoom !== -1 && (
               <IconButton
-                icon={selectionMode === 'delete' ? 'close' : selected ? 'check-circle' : 'circle-outline'}
-                onPress={() => onSelectToggle(item.id)}
+                icon={isSelectMode && selectedItems.includes(item.id) ? 'check' : 'circle-outline' }
+                onPress={() => addItem(item.id)}
                 style={styles.selectionIcon}
               />
             )}
@@ -84,10 +89,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
     padding: 4,
-  },
-  selectedCard: {
-    borderWidth: 2,
-    borderColor: 'red'
   },
   selectionIcon: {
     position: 'absolute',

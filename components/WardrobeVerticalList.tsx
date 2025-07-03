@@ -19,13 +19,11 @@ type Props = {
   zoom: int;
   navigation;
   onLongPressItem?: () => void;
-  selectedItems?: string[];
-  toggleItemSelection: () => void;
 }
 
-export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems, toggleItemSelection}: Props) {
+export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems}: Props) {
 
-  const {isSelectMode} = useWardrobeContext();
+  const { isSelectMode } = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
   const [chosenProperty, setChosenProperty] = useState<string | null>(null);
@@ -143,9 +141,6 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
                   }
                   onLongPress={onLongPressItem}
                   zoom={zoom}
-                  selectionMode={isSelectMode}
-                  selected={selectedItems.includes(i.id)}
-                  onSelectToggle={() => toggleItemSelection(i.id)}
                 />
               ))}
             </View>

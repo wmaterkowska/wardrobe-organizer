@@ -1,3 +1,5 @@
+import Realm, { ObjectSchema } from 'realm';
+
 import { Item } from './Item';
 import { Occasion } from './Occasion';
 import { FeelIn } from './FeelIn';
@@ -31,7 +33,7 @@ export class Outfit extends Realm.Object {
       look_level: 'string?',
       frequency: 'string?',
       want: 'string?',
-      created: 'date'
+      created: 'date',
     },
   };
 

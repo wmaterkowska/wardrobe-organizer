@@ -25,16 +25,9 @@ export default function WardrobeView() {
 
   const zoom = (numColumns == 1) ? 1 : numColumns-1;
 
-
 // card selection ==================================================================================
   const onLongPressItem = () => {
     setIsSelectMode(true);
-  };
-
-  const toggleItemSelection = (id: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
   };
 
   const deleteFn = useCallback(() => {
@@ -66,15 +59,11 @@ export default function WardrobeView() {
       numColumns={numColumns}
       zoom={zoom}
       navigation={navigation}
-      onLongPressItem={onLongPressItem}
-      selectedItems={selectedItems}
-      toggleItemSelection={toggleItemSelection}/>
+      onLongPressItem={onLongPressItem}/>
     : <WardrobeHorizontalList
       items={items}
       navigation={navigation}
-      onLongPressItem={onLongPressItem}
-      selectedItems={selectedItems}
-      toggleItemSelection={toggleItemSelection}/>
+      onLongPressItem={onLongPressItem}/>
     }
     </SafeAreaView>
   )

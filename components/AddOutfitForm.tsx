@@ -31,10 +31,7 @@ export default function AddOutfitForm({ onDismiss }: Props) {
   const { occasions, feels } = useItemFormData();
 
   const { selectedItems, setSelectedItems } = useWardrobeContext();
-  const outfitItems = selectedItems.map((id) => {
-    const item = realm.objectForPrimaryKey<Item>('Item', id);
-    return item;
-  });
+  const outfitItems = selectedItems.map((id) => realm.objectForPrimaryKey<Item>('Item', id) );
 
   const [outfitName, setOutfitName] = useState<string | null>(null);
   const [imageUri, setImageUri] = useState<string | null>(null);

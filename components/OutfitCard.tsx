@@ -13,6 +13,8 @@ type Props = {
 
 export default function OutfitCard({outfit, onPress}: Props) {
 
+  console.log('outfit card');
+
   const { colors: themeColors } = useTheme();
 
   const coverUri = outfit.image_uri ? outfit.image_uri : outfit.items[0].image_uri;
@@ -38,13 +40,14 @@ export default function OutfitCard({outfit, onPress}: Props) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.outfitContainer}>
-    <Card mode='outlined'  style={coverUri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
+      style={styles.outfitContainer} >
+    <Card mode='outlined' style={coverUri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
+      {coverUri ? (
       <Card.Cover
         source={{uri: coverUri}}
         style={{height: imageHeight}}
         resizeMode="cover"
-      />
+      /> ) : null }
       {outfit.outfit_name ? (
         <Card.Title title={outfit.outfit_name} titleStyle={coverUri ? {marginLeft: -16} : {} }/>
       ) : null}

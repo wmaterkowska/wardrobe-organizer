@@ -1,5 +1,5 @@
 import { ObjectSchema } from 'realm';
-import { Realm } from '@realm/react';
+import Realm from 'realm';
 
 export class FeelIn extends Realm.Object {
   id!: string;
