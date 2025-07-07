@@ -12,7 +12,7 @@ export default function ItemList({ items }: Props) {
 
   return (
     <View style={styles.listContainer}>
-      {items.map(i => <ItemCard key={i.id} item={i} zoom={-1} />)}
+      {items.map((i) => <ItemCard key={i.id} item={i} zoom={-1} />)}
     </View>
   )
 }

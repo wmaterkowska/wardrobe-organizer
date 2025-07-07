@@ -125,7 +125,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       setFilteredCuts(cutsForCategory);
     } else {
      setFilteredCuts([]);
-     setSortedCuts([]);
     }
   }, [itemCategory, categories, cuts, itemCuts]);
 

@@ -31,10 +31,7 @@ export default function AddOutfitForm({ onDismiss }: Props) {
   const { occasions, feels } = useItemFormData();
 
   const { selectedItems, setSelectedItems } = useWardrobeContext();
-  const outfitItems = selectedItems.map((id) => {
-    const item = realm.objectForPrimaryKey<Item>('Item', id);
-    return item;
-  });
+  const outfitItems = selectedItems.map((id) => realm.objectForPrimaryKey<Item>('Item', id) );
 
   const [outfitName, setOutfitName] = useState<string | null>(null);
   const [imageUri, setImageUri] = useState<string | null>(null);
@@ -167,8 +164,9 @@ export default function AddOutfitForm({ onDismiss }: Props) {
 
       <Button
         onPress={handleSave}
-        style={styles.saveButton}
-        disabled={!outfitName && !imageUri} >Save Outfit</Button>
+        style={[styles.saveButton, (!outfitName && !imageUri) && styles.noShadow,]}
+        disabled={!outfitName && !imageUri}
+        mode={(!outfitName && !imageUri) ? 'text' : 'elevated'} >Save Outfit</Button>
     </View>
     </ScrollView>
   )
@@ -179,9 +177,15 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   saveButton: {
-    position: 'absolut',
     marginTop: 20,
     padding: 20,
+  },
+  noShadow: {
+    elevation: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 0,
   },
   wantText: {
     marginTop: 32,

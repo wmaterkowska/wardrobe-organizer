@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
   visible: boolean;
@@ -20,6 +21,7 @@ type Props = {
 export default function AddModal({ visible, onClose, children }: Props) {
 
   const theme = useTheme();
+  const { isSelectMode } = useWardrobeContext()
 
   return (
     <Modal
@@ -34,7 +36,7 @@ export default function AddModal({ visible, onClose, children }: Props) {
           <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
             <View style={styles.header}>
               <Text variant={"displaySmall"} accessibilityRole="header">
-                Add New
+                {isSelectMode ? 'Add New Outfit' : 'Add New Piece'}
               </Text>
               <Pressable
                 accessibilityRole="button"
@@ -63,11 +65,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     borderRadius: 16,
     padding: 16,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 2 },
+    marginVertical: 32,
   },
   header: {
     flexDirection: 'row',

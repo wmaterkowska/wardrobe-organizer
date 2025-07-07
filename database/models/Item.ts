@@ -1,5 +1,4 @@
-import { ObjectSchema } from 'realm';
-import { Realm } from '@realm/react';
+import Realm, { ObjectSchema } from 'realm';
 
 import { MainCategory } from './MainCategory';
 import { Category } from './Category';
@@ -19,8 +18,8 @@ export class Item extends Realm.Object {
   main_category?: Realm.Object<MainCategory>;
   category?: Realm.Object<Category>;
   colors?: Realm.List<Color>;
-  patterns?: RealmList<Pattern>;
-  fits?: RealmList<Fit>;
+  patterns?: Realm.List<Pattern>;
+  fits?: Realm.List<Fit>;
   cuts?: Realm.List<Cut>;
   textiles?: Realm.List<Textile>;
   comfort?: number;

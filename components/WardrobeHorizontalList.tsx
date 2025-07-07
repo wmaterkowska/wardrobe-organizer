@@ -20,18 +20,17 @@ type Props = {
   items: Item[];
   navigation;
   onLongPressItem?: () => void;
-  selectedItems?: string[];
-  toggleItemSelection: () => void;
+
 }
 
-export default function WardrobeHorizontalList({items, navigation, onLongPressItem, selectedItems, toggleItemSelection} : Props) {
+export default function WardrobeHorizontalList({items, navigation, onLongPressItem} : Props) {
 
   const { isFilter, isSelectMode } = useWardrobeContext();
   const mains = useQuery(MainCategory);
   const categories = useQuery(Category);
 
   const [mainChosen, setMainChosen] = useState<MainCategory | null>(mains.find((m) => m.name === 'Clothes'));
-  const [itemsForMain, setItemsForMain] = useState<Items[]>(items.filter((item) => item.main_category.name === 'Clothes'));
+  const [itemsForMain, setItemsForMain] = useState<Items[]>(items.filter((item) => item.main_category?.name === 'Clothes'));
   const [categoriesFiltered, setCategoriesFiltered] = useState<Category[]>(mainChosen?.categories || categories);
 
   const [groupByKey, setGroupByKey] = useState<ItemKey | null>(null);
@@ -44,7 +43,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
 
   useEffect(() => {
     if (mainChosen) {
-      setItemsForMain(items.filter((i) => i.main_category.id === mainChosen?.id));
+      setItemsForMain(items.filter((i) => i?.main_category?.id === mainChosen?.id));
       setCategoriesFiltered(mainChosen.categories);
     } else {
       setItemsForMain(items);
@@ -117,7 +116,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
               style={{padding: 16}}
               contentContainerStyle={{ paddingRight: 34}}
             >
-            {items.filter((item) => item.category.id === cat.id).map((i) => (
+            {items.filter((item) => item?.category?.id === cat.id).map((i) => (
               <ItemCard
                 key={i.id}
                 item={i}
@@ -127,9 +126,6 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
                   })
                 }
                 onLongPress={onLongPressItem}
-                selectionMode={isSelectMode}
-                selected={selectedItems.includes(i.id)}
-                onSelectToggle={() => toggleItemSelection(i.id)}
               />
             ))}
             </ScrollView>

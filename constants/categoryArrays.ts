@@ -32,7 +32,7 @@ export const PROPERTIES_ARRAY_FOR_SUMMARY =['colors', 'patterns', 'fits', 'cuts'
 
 export const COMFORT_LEVELS = [1, 2, 3, 4, 5];
 
-export const WANT_ARRAY = ['Keep', 'Unsure', 'Let go'];
+export const WANT_ARRAY = ['Let go', 'Unsure', 'Keep'];
 
 export const  LEVELS = {
   like_me: ['No way', 'Not really', 'It\'s okay', 'I like it', 'This is me!'],

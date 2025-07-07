@@ -28,9 +28,9 @@ export const saveNewOutfit = ({
         .map((id) => realm.objectForPrimaryKey(FeelIn, id))
         .filter(Boolean) : null;
 
-      console.log('items', selectedOutfitItems);
-      console.log('occasions', selectedOccasions);
-      console.log('feels', selectedFeels);
+//       console.log('items', selectedOutfitItems);
+//       console.log('occasions', selectedOccasions);
+//       console.log('feels', selectedFeels);
 
       realm.create('Outfit', {
         id: new Realm.BSON.UUID().toHexString(),

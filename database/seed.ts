@@ -70,6 +70,7 @@ export const seedDatabaseWithItems = (
       price: 'I\'am fine',
       want: 'Keep',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -92,6 +93,7 @@ export const seedDatabaseWithItems = (
       price: 'I\'am fine',
       want: 'Unsure',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -114,6 +116,7 @@ export const seedDatabaseWithItems = (
       price: 'Great value',
       want: 'Keep',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -136,6 +139,7 @@ export const seedDatabaseWithItems = (
       price: 'Great value',
       want: 'Keep',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -158,6 +162,7 @@ export const seedDatabaseWithItems = (
       price: 'Great value',
       want: 'Keep',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -180,6 +185,7 @@ export const seedDatabaseWithItems = (
       price: 'I\'am fine',
       want: 'Let go',
       created: new Date(),
+      outfits: [],
     });
 
     realm.create('Item', {
@@ -202,6 +208,7 @@ export const seedDatabaseWithItems = (
       price: 'Great value',
       want: 'Keep',
       created: new Date(),
+      outfits: [],
     });
 
   });
@@ -231,6 +238,7 @@ export const seedDatabaseWithProperties = (realm: Realm) => {
     { name: 'Loungewear', main_category: 'Other' },
     { name: 'Sportswear', main_category: 'Other' },
     { name: 'Swimwear', main_category: 'Other' },
+    { name: 'Other', main_category: 'Other' },
   ];
 
 const colorsToSeed = [

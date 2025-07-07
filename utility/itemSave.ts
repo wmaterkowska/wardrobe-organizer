@@ -69,6 +69,7 @@ export const saveNewItem = ({
         price: price,
         want: want,
         created: new Date(),
+        outfits: [],
       });
     });
 };

@@ -134,7 +134,7 @@ export default function InsightCard({ type, data }: Props) {
   };
 
   return (
-    <Card style={[styles.card, {borderLeftColor: theme.colors.secondary}]}>
+    <Card style={[styles.card, {borderLeftColor: theme.colors.tertiary}]}>
       <Card.Content>
         {renderContent()}
       </Card.Content>
