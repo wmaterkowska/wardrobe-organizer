@@ -13,8 +13,6 @@ type Props = {
 
 export default function OutfitCard({outfit, onPress}: Props) {
 
-  console.log('outfit card');
-
   const { colors: themeColors } = useTheme();
 
   const coverUri = outfit.image_uri ? outfit.image_uri : outfit.items[0].image_uri;

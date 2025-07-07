@@ -166,7 +166,7 @@ export default function AddOutfitForm({ onDismiss }: Props) {
         onPress={handleSave}
         style={[styles.saveButton, (!outfitName && !imageUri) && styles.noShadow,]}
         disabled={!outfitName && !imageUri}
-        mode={(!outfitName && !imageUri) ? 'text' : 'elevated'} >Save Piece</Button>
+        mode={(!outfitName && !imageUri) ? 'text' : 'elevated'} >Save Outfit</Button>
     </View>
     </ScrollView>
   )
