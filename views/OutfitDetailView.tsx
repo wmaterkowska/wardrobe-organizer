@@ -15,6 +15,7 @@ import { Item, Outfit, Occasion, FeelIn } from '../database/index';
 import EditAllButtonSection from'../components/EditAllButtonSection';
 import ImageSection from '../components/ImageSection';
 import NameSection from '../components/NameSection';
+import ItemList from '../components/ItemList';
 import PropertySection from '../components/PropertySection';
 import ComfortSection from '../components/ComfortSection';
 import QuestionSection from '../components/QuestionSection';
@@ -248,6 +249,10 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           isEditable={isOutfitNameEditable}
           onPressEditIcon={toggleNameEdit}
           onChange={setOutfitName}
+        />
+
+        <ItemList
+          items={outfit.items}
         />
 
         <PropertySection
