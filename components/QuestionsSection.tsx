@@ -4,14 +4,14 @@ import CustomSegmentedButton from './CustomSegmentedButton';
 import { LEVELS, Questions } from '../constants';
 
 type Props = {
-  likeMe: string;
-  handleLikeMeSelect: () => void;
-  lookLevel: string;
-  handleLookLevelSelect: () => void;
-  frequency: string;
-  handleFrequencySelect: () => void;
-  price: string;
-  handlePriceSelect: () => void;
+  likeMe?: string;
+  handleLikeMeSelect?: () => void;
+  lookLevel?: string;
+  handleLookLevelSelect?: () => void;
+  frequency?: string;
+  handleFrequencySelect?: () => void;
+  price?: string;
+  handlePriceSelect?: () => void;
 };
 
 export default function QuestionsSection({
@@ -25,9 +25,9 @@ export default function QuestionsSection({
   handlePriceSelect,
 } : Props) {
 
-
-return (
+  return (
   <View>
+    {typeof likeMe !== 'undefined' ?
       <CustomSegmentedButton
         property={Questions.like_me}
         levels={LEVELS.like_me}
@@ -35,7 +35,8 @@ return (
         isEditable={true}
         onChange={handleLikeMeSelect}
       />
-
+    : null }
+    {typeof lookLevel !== 'undefined' ?
       <CustomSegmentedButton
         property={Questions.look_level}
         levels={LEVELS.look_level}
@@ -43,7 +44,8 @@ return (
         isEditable={true}
         onChange={handleLookLevelSelect}
       />
-
+    : null }
+    {typeof frequency !== 'undefined' ?
       <CustomSegmentedButton
         property={Questions.frequency}
         levels={LEVELS.frequency}
@@ -51,7 +53,8 @@ return (
         isEditable={true}
         onChange={handleFrequencySelect}
       />
-
+    : null }
+    {typeof price !== 'undefined' ?
       <CustomSegmentedButton
         property={Questions.price}
         levels={LEVELS.price}
@@ -59,6 +62,7 @@ return (
         isEditable={true}
         onChange={handlePriceSelect}
       />
+    : null }
   </View>
 );
 }
