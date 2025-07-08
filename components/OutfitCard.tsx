@@ -9,9 +9,10 @@ import { Outfit } from '../database/models/Outfit';
 type Props = {
   outfit: Outfit;
   onPress: () => void;
+  zoom: int;
 }
 
-export default function OutfitCard({outfit, onPress}: Props) {
+export default function OutfitCard({outfit, onPress, zoom}: Props) {
 
   const { colors: themeColors } = useTheme();
 
@@ -25,14 +26,14 @@ export default function OutfitCard({outfit, onPress}: Props) {
       outfit.image_uri,
       (width, height) => {
         ratio = height / width;
-        setImageHeight(screenWidth * ratio * 0.6);
+        setImageHeight(screenWidth * ratio * 0.6 / zoom);
         setImageWidth(screenWidth /ratio * 0.4);
       },
       (error) => {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [outfit.image_uri]);
+  }, [outfit.image_uri, zoom]);
 
   return (
     <TouchableOpacity
