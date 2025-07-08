@@ -4,13 +4,13 @@ import { Text, IconButton } from 'react-native-paper';
 import  { useWardrobeContext }  from '../context/WardrobeContext';
 
 type Props = {
-  itemName?: string;
+  name?: string;
   onChange?: () => void;
   isEditable?: boolean;
   onPressEditIcon?: () => void;
 }
 
-export default function ItemNameSection({itemName, onChange, isEditable, onPressEditIcon}: Props) {
+export default function NameSection({name, onChange, isEditable, onPressEditIcon}: Props) {
 
   const { isEditMode, isSelectMode } = useWardrobeContext();
 
@@ -18,16 +18,16 @@ export default function ItemNameSection({itemName, onChange, isEditable, onPress
   <View style={styles.nameContainer}>
     {isEditMode || isEditable ? (
       <View style={{width: '100%'}}>
-        {!itemName || !isEditMode ? ( <Text variant="bodyLarge">{isSelectMode ? 'outfit name' : 'item name'}</Text> ) : null }
+        {!name || !isEditMode ? ( <Text variant="bodyLarge">{isSelectMode ? 'outfit name' : 'item name'}</Text> ) : null }
         { isEditable ? (
         <TextInput
           style={styles.input}
           placeholder={isSelectMode ? "e.g., Casual Friday" : "e.g., Jacket"}
-          value={itemName}
+          value={name}
           onChangeText={onChange}
-        /> ) : <Text variant="headlineLarge">{itemName}</Text> }
+        /> ) : <Text variant="headlineLarge">{name}</Text> }
       </View>
-      ) : <Text variant="headlineLarge">{itemName}</Text> }
+      ) : <Text variant="headlineLarge">{name}</Text> }
     { isEditMode ? (
       <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
     ) : null }

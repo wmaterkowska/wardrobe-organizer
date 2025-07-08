@@ -235,6 +235,13 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
         </>) : null }
 
+        <NameSection
+          name={outfitName}
+          isEditable={isOutfitNameEditable}
+          onPressEditIcon={toggleNameEdit}
+          onChange={setOutfitName}
+        />
+
         <ImageSection
           imageUri={imageUri}
           imageHeight={imageHeight}
@@ -242,13 +249,6 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           isEditable={isImageEditable}
           onChange={handlePickImage}
           onPressEditIcon={toggleImageEdit}
-        />
-
-        <NameSection
-          outfitName={outfitName}
-          isEditable={isOutfitNameEditable}
-          onPressEditIcon={toggleNameEdit}
-          onChange={setOutfitName}
         />
 
         <ItemList

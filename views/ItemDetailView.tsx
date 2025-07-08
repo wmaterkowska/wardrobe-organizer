@@ -398,7 +398,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         />
 
         <NameSection
-          itemName={itemName}
+          name={itemName}
           isEditable={isItemNameEditable}
           onPressEditIcon={toggleNameEdit}
           onChange={setItemName}
