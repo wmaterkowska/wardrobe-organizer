@@ -6,9 +6,10 @@ import Realm from 'realm';
 import { useRealm } from '@realm/react';
 
 import { useItemFormData } from '../hooks/useItemFormData';
-import { useWardrobeContext }  from '../context/WardrobeContext';
+import { useWardrobeContext, useRegisterSave }  from '../context/WardrobeContext';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 import { pickOrCaptureImage } from '../utility/photoUtils';
+import { updateOutfitField } from '../utility/outfitUpdate';
 
 import { Item, Outfit, Occasion, FeelIn } from '../database/index';
 
@@ -200,7 +201,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
     })
   }, []);
 
-  //useRegisterSave(saveFn);
+  useRegisterSave(saveFn);
 
 // toggle edit mode ================================================================================
   useEffect(() => {

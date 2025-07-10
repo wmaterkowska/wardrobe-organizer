@@ -150,7 +150,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         ]}
         style={styles.segmentedButtons}
       />) : null }
-      {(currentTabKey === 'wardrobe' && viewType === 'grid' && route.name !== "ItemDetail") || currentTabKey === "outfits" ? (
+      {(currentTabKey === 'wardrobe' && viewType === 'grid' && route.name !== "ItemDetail") || (currentTabKey === "outfits" && route.name !== "OutfitDetail") ? (
         <Appbar.Action
           icon="view-grid-plus-outline"
           onPress={cycleZoom}
