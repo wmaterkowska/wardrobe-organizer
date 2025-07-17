@@ -196,13 +196,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       occasions: outfitOccasions,
       comfort: outfitComfort,
       feel_in: outfitFeelIn,
-      like_me: likeMeLevel,
+      like_me: likeMe,
       look_level: lookLevel,
       frequency: frequencyLevel,
       want: wantDecision,
     })
-  }, []);
-
+  }, [imageUri, outfitName, outfitOccasions, outfitComfort, outfitFeelIn, likeMe, lookLevel, frequencyLevel, wantDecision]);
   useRegisterSave(saveFn);
 
 // toggle edit mode ================================================================================

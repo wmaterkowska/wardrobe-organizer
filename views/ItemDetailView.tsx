@@ -337,13 +337,13 @@ export default function ItemDetailView({ route, navigation }: Props) {
       occasions: itemOccasions,
       comfort: itemComfort,
       feel_in: itemFeelIn,
-      like_me: likeMeLevel,
+      like_me: likeMe,
       look_level: lookLevel,
       frequency: frequencyLevel,
       price: priceLevel,
       want: wantDecision,
     })
-  }, []);
+  }, [imageUri, itemName, main, itemCategory, itemColors, itemPatterns, itemFits, itemTextiles, itemOccasions, itemComfort, itemFeelIn, likeMe, lookLevel, frequencyLevel, priceLevel, wantDecision]);
 
   useRegisterSave(saveFn);
 
