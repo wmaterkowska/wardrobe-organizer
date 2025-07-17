@@ -37,7 +37,7 @@ export default function NameSection({name, onChange, isEditable, onPressEditIcon
 
 const styles = StyleSheet.create({
   nameContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   input: {
     borderWidth: 1,

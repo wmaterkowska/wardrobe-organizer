@@ -134,7 +134,9 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
   const toggleOccasionEdit = () => {
     setIsOccasionsEditable(!isOccasionsEditable);
-    if (isOccasionsEditable) { updateOutfitField(realm, outfit, {occasions: outfitOccasions})};
+    if (isOccasionsEditable) {
+      updateOutfitField(realm, outfit, {occasions: outfitOccasions})
+    };
   };
   const handleOccasionSelect = (id: string) => {
     const occasionFromId = occasions.find((o) => o.id === id);
@@ -216,7 +218,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       setIsFrequencyEditable(false);
       setIsWantEditable(false);
     }
-  }, [isEditMode, isEditAll])
+  }, [isEditMode, isEditAll, outfitOccasions, outfitFeelIn])
 
 // error when there is no outfit found =============================================================
   if (!outfit) {
@@ -257,11 +259,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
         />
 
         <PropertySection
+          key={'occasions'+isOccasionsEditable.toString()}
           title='occasions'
           properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : outfit.occasions}
           selectedPropertyIds={(isOccasionsEditable && isEditMode) ? outfitOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
-          isEditable={isOccasionsEditable}
+          isEditable={isEditMode && isOccasionsEditable}
           onPressEditIcon={toggleOccasionEdit}
         />
 
@@ -273,11 +276,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
         />
 
         <PropertySection
+          key={'feelIn'+isFeelInEditable.toString()}
           title={'feel_in'}
           properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : outfit.feel_in}
           selectedPropertyIds={(isFeelInEditable && isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
-          isEditable={isFeelInEditable}
+          isEditable={isEditMode && isFeelInEditable}
           onPressEditIcon={toggleFeelInEdit}
         />
 
