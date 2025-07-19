@@ -17,7 +17,7 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
   index: number;
-  steIndex: (i: number) => void;
+  setIndex: (i: number) => void;
   routes: { key: TabRouteKey; title: string; focusedIcon: string; unfocusedIcon: string }[];
 };
 
@@ -43,7 +43,8 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        shifting={true}
+        labeled={true}
+        activeIndicatorStyle={styles.highlight}
       />
       <FAB
         icon="plus"
@@ -68,4 +69,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     zIndex: 999,
   },
+  highlight: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 3,
+    borderRadius: 0,
+    paddingTop: 5,
+    marginTop: -5,
+  }
 });

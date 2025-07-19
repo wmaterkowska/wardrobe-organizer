@@ -114,7 +114,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {back ?
         <Appbar.BackAction onPress={handleBack} /> : null }
       {!isSelectMode ?
-        <Appbar.Content style={styles.title} title={title} accessibilityLabel={title}/> : null}
+        <Appbar.Content titleStyle={styles.title} title={title} accessibilityLabel={title}/> : null}
 
       {currentTabKey === 'wardrobe' && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
@@ -212,5 +212,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-between',
     gap: 8,
+  },
+  title: {
+    fontSize: 20,
   }
 })
