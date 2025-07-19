@@ -39,7 +39,6 @@ export default function PropertyChip({
       avatar={color ? (<ColorDot colorCode={color} size={colorSize} />) : null}
       >{label}</Chip>
   )
-
 }
 
 const styles = StyleSheet.create({
