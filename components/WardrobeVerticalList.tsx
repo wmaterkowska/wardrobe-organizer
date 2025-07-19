@@ -6,6 +6,7 @@ import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Button, Surface } from 'react-native-paper';
 import ItemCard from './ItemCard';
+import PropertyChip from './PropertyChip';
 
 import { isRealmList } from '../hooks/useGroupedItems';
 
@@ -26,7 +27,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   const { isSelectMode } = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
-  const [chosenProperty, setChosenProperty] = useState<string | null>(null);
+  const [chosenProperty, setChosenProperty] = useState<string | null>('main_category');
   const [propertyArray, setPropertyArray] = useState([]);
   const [filter, setFilter] = useState<string | null>(null);
 
@@ -94,8 +95,9 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
         <Surface style={styles.propertyButtonsContainer} elevation={0}>
           {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
             <Button
-              style={styles.propertyButton}
-              mode={chosenProperty === k ? 'contained-tonal' : 'text'}
+              style={[styles.propertyButton, chosenProperty === k ? styles.propertyButtonSelected : null]}
+              textColor='black'
+              rippleColor='transparent'
               key={idx}
               onPress={() => handlePropertyChoose(k)}
             >{ALL_ITEM_PROPERTIES[k]}</Button>
@@ -110,13 +112,14 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
             <Surface style={styles.propertyButtonsContainer} elevation={0}>
               {propertyArray.map((p, idx) => (
-                <Button
-                  style={styles.propertyButton}
-                  mode={filter === p || filter === p.name? 'outlined' : 'text'}
-                  compact={true}
-                  key={idx}
+                <PropertyChip
+                  label={p.name || p}
                   onPress={() => handleFilter(p.name || p)}
-                >{p.name || p}</Button>
+                  selected={filter === p || filter === p.name ? true : false}
+                  color={p.color_code ? p.color_code : null}
+                  colorSize={p.color_code ? 16 : null}
+                  key={idx}
+                />
               ))}
             </Surface>
           </ScrollView>
@@ -162,12 +165,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   propertyButtonsContainer: {
+    marginHorizontal: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
   },
   propertyButton: {
     padding: 0,
     margin: 0,
+    color: 'black',
+  },
+  propertyButtonSelected: {
+    borderTopWidth: 2,
+    borderColor: 'black',
+    borderRadius: 0,
+    color: 'black',
   }
 });

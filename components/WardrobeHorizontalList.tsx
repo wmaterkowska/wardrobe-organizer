@@ -3,7 +3,7 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 import { useGroupedItems, ItemKey } from '../hooks/useGroupedItems';
 
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text, Surface, Button } from 'react-native-paper';;
+import { Text, Surface, Button, Chip } from 'react-native-paper';;
 import ItemCard from './ItemCard';
 import PropertyChip from './PropertyChip';
 import HorizontalItemList from './HorizontalItemList';
@@ -61,6 +61,23 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
   return (
     <View style={{ flex: 1 }}>
       <View>
+      <Surface elevation={0} style={styles.mains}>
+        {mains.map((m, idx) => (
+          <Button
+            style={[styles.propertyButton, mainChosen?.name === m?.name ? styles.propertyButtonSelected : null]}
+            textColor='black'
+            rippleColor='transparent'
+            key={m?.id || idx}
+            onPress={() => handleMainSelect(m.id)}
+          >{m?.name}</Button>
+        ))}
+        <Button
+          style={[styles.propertyButton, mainChosen === null ? styles.propertyButtonSelected : null]}
+          textColor='black'
+          rippleColor='transparent'
+          onPress={() => handleAll()}
+        >All</Button>
+      </Surface>
       {isFilter ? (
         <ScrollView
           horizontal={true}
@@ -68,31 +85,19 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
           <Surface style={styles.propertyButtonsContainer} elevation={0}>
             {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
-              <Button
-                style={styles.propertyButton}
-                compact={true}
-                key={idx}
+              <PropertyChip
+                label={k}
                 onPress={() => setGroupByKey(k)}
-              >{ALL_ITEM_PROPERTIES[k]}</Button>
+                selected={groupByKey === k ? true : false}
+                key={idx}
+              />
             ))}
           </Surface>
         </ScrollView>
-      ) : null }
-      <Surface elevation={0} style={styles.mains}>
-        {mains.map((m, idx) => (
-          <PropertyChip
-            key={m?.id || idx}
-            label={m?.name}
-            selectable={true}
-            selected={m.id === mainChosen?.id}
-            onPress={() => handleMainSelect(m.id)}/>
-        ))}
-        <PropertyChip
-          label='All'
-          selectable={true}
-          selected={mainChosen === null}
-          onPress={()=> handleAll()}/>
-      </Surface>
+      ) : (
+        <View style={{ opacity: 0, paddingBottom: 5 }} accessible={false}>
+          <Button disabled={true}></Button>
+        </View>)}
       </View>
       <View style={{ flex: 1 }}>
       <ScrollView
@@ -143,7 +148,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
 const styles = StyleSheet.create({
   mains: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     gap: 5,
   },
   listContainer: {
@@ -155,7 +160,17 @@ const styles = StyleSheet.create({
   },
   propertyButtonsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   propertyButton: {
+    padding: 0,
+    margin: 0,
+    color: 'black',
+  },
+  propertyButtonSelected: {
+    borderTopWidth: 2,
+    borderColor: 'black',
+    borderRadius: 0,
+    color: 'black',
   }
 })

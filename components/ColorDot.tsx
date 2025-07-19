@@ -62,7 +62,7 @@ export default function ColorDot({
 
 const styles = (colors) => StyleSheet.create({
   dot: {
-    margin: 2,
+    //margin: 2,
   },
   haloContainer: {
     justifyContent: 'center',
