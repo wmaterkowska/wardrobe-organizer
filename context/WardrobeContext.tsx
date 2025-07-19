@@ -49,7 +49,7 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setNumColumns,
         isEditMode,
         setIsEditMode,
-        saveChanges: (fn: () => void) => setSaveCallback(() => fn),
+        saveChanges: (fn: () => void) => setSaveCallback(fn),
         isFilter,
         setIsFilter,
         isSelectMode,

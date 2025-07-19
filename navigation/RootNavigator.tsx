@@ -10,6 +10,7 @@ import { TAB_INDEX_MAP } from './tabRoutes';
 
 import MainTabs from './MainTabs';
 import ItemDetailView from '../views/ItemDetailView';
+import OutfitDetailView from '../views/OutfitDetailView';
 import SummaryDetailView from '../views/SummaryDetailView';
 import UpperAppbar from '../components/UpperAppbar';
 import AboutView from '../views/AboutView';
@@ -19,6 +20,8 @@ export type RootStackParamList = {
   Home: undefined;
   Wardrobe: undefined;
   ItemDetail: {itemId: string};
+  Outfits: undefined;
+  OutfitDetail: {outfitId: string};
   Summary: undefined;
   SummaryDetail: {type: 'category' | 'feel' | 'frequency' | 'appearance'};
   About: undefined;
@@ -75,7 +78,7 @@ export default function RootNavigator() {
       )}
       <Stack.Screen name="ItemDetail" component={ItemDetailView} />
       <Stack.Screen name="SummaryDetail" component={SummaryDetailView} />
-      {/* }<Stack.Screen name="OutfitDetail" component={OutfitDetailView} /> */}
+      <Stack.Screen name="OutfitDetail" component={OutfitDetailView} />
       <Stack.Screen name="About" component={AboutView} />
     </Stack.Navigator>
     </TabNavigationContext.Provider>

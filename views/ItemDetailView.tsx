@@ -337,13 +337,13 @@ export default function ItemDetailView({ route, navigation }: Props) {
       occasions: itemOccasions,
       comfort: itemComfort,
       feel_in: itemFeelIn,
-      like_me: likeMeLevel,
+      like_me: likeMe,
       look_level: lookLevel,
       frequency: frequencyLevel,
       price: priceLevel,
       want: wantDecision,
     })
-  }, []);
+  }, [imageUri, itemName, main, itemCategory, itemColors, itemPatterns, itemFits, itemTextiles, itemOccasions, itemComfort, itemFeelIn, likeMe, lookLevel, frequencyLevel, priceLevel, wantDecision]);
 
   useRegisterSave(saveFn);
 
@@ -398,7 +398,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         />
 
         <NameSection
-          itemName={itemName}
+          name={itemName}
           isEditable={isItemNameEditable}
           onPressEditIcon={toggleNameEdit}
           onChange={setItemName}
@@ -438,47 +438,52 @@ export default function ItemDetailView({ route, navigation }: Props) {
           /> : null }
 
         <PropertySection
+          key={'patterns'+isPatternsEditable.toString()}
           title='patterns'
           properties={(isPatternsEditable && isEditMode) ? sortedPatterns : item.patterns}
           selectedPropertyIds={(isPatternsEditable && isEditMode) ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
-          isEditable={isPatternsEditable}
+          isEditable={isEditMode && isPatternsEditable}
           onPressEditIcon={togglePatternEdit}
         />
 
         <PropertySection
+          key={'fits'+isFitsEditable.toString()}
           title='fits'
           properties={isFitsEditable && isEditMode ? sortedFits : item.fits}
           selectedPropertyIds={isFitsEditable && isEditMode ? itemFits.map((f) => f.id) : []}
           handleSelect={handleFitSelect}
-          isEditable={isFitsEditable}
+          isEditable={isEditMode && isFitsEditable}
           onPressEditIcon={toggleFitEdit}
         />
 
         <PropertySection
+          kay={'cuts'+isCutsEditable.toString()}
           title='cuts'
           properties={(isCutsEditable && isEditMode) ? filteredCuts : item.cuts}
           selectedPropertyIds={(isCutsEditable && isEditMode) ? itemCuts.map((c) => c.id) : []}
           handleSelect={handleCutSelect}
-          isEditable={isCutsEditable}
+          isEditable={isEditMode && isCutsEditable}
           onPressEditIcon={toggleCutEdit}
         />
 
         <PropertySection
+          key={'textiles'+isTextilesEditable.toString()}
           title='textiles'
           properties={(isTextilesEditable && isEditMode) ? sortedTextiles : item.textiles}
           selectedPropertyIds={(isTextilesEditable && isEditMode) ? itemTextiles.map((t) => t.id) : []}
           handleSelect={handleTextileSelect}
-          isEditable={isTextilesEditable}
+          isEditable={isEditMode && isTextilesEditable}
           onPressEditIcon={toggleTextileEdit}
         />
 
         <PropertySection
+          key={'occasions'+isOccasionsEditable.toString()}
           title='occasions'
           properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : item.occasions}
           selectedPropertyIds={(isOccasionsEditable && isEditMode) ? itemOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
-          isEditable={isOccasionsEditable}
+          isEditable={isEditMode && isOccasionsEditable}
           onPressEditIcon={toggleOccasionEdit}
         />
 
@@ -490,6 +495,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
         />
 
         <PropertySection
+          key={'feelIn'+isFeelInEditable.toString()}
           title={'feel_in'}
           properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : item.feel_in}
           selectedPropertyIds={(isFeelInEditable && isEditMode) ? itemFeelIn.map((f) => f.id) : []}

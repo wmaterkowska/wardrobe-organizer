@@ -1,4 +1,5 @@
 import { Item } from '../database/models/Item';
+import { Outfit } from '../database/models/Outfit';
 
 export function getTitle(
   routeName: keyof RootStackParamList,
@@ -10,6 +11,11 @@ export function getTitle(
   if (routeName === 'ItemDetail' && params && 'itemId' in params) {
     const item = realm.objectForPrimaryKey(Item, params.itemId);
     return item?.item_name || 'Item Detail';
+  }
+
+  if (routeName === 'OutfitDetail' && params && 'outfitId' in params) {
+    const outfit = realm.objectForPrimaryKey(Outfit, params.outfitId);
+    return outfit?.outfit_name || 'Outfit Detail';
   }
 
   if (routeName === 'SummaryDetail' && params && 'type' in params) {

@@ -111,7 +111,7 @@ export default function AddOutfitForm({ onDismiss }: Props) {
 
       <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <NameSection itemName={outfitName} isEditable={true} onChange={setOutfitName} />
+      <NameSection name={outfitName} isEditable={true} onChange={setOutfitName} />
 
       { outfitName || imageUri ? (
       <>

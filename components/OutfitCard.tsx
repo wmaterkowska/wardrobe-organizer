@@ -9,45 +9,45 @@ import { Outfit } from '../database/models/Outfit';
 type Props = {
   outfit: Outfit;
   onPress: () => void;
+  zoom: int;
 }
 
-export default function OutfitCard({outfit, onPress}: Props) {
+export default function OutfitCard({outfit, onPress, zoom}: Props) {
 
   const { colors: themeColors } = useTheme();
-
-  const coverUri = outfit.image_uri ? outfit.image_uri : outfit.items[0].image_uri;
 
   const [imageHeight, setImageHeight] = useState(200);
   const [imageWidth, setImageWidth] = useState(200);
   const screenWidth = Dimensions.get('window').width;
 
   useEffect(() => {
+    if (!outfit.image_uri) return;
     Image.getSize(
-      coverUri,
+      outfit.image_uri,
       (width, height) => {
         ratio = height / width;
-        setImageHeight(screenWidth * ratio * 0.6);
+        setImageHeight(screenWidth * ratio * 0.6 / zoom);
         setImageWidth(screenWidth /ratio * 0.4);
       },
       (error) => {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [coverUri]);
+  }, [outfit.image_uri, zoom]);
 
   return (
     <TouchableOpacity
       onPress={onPress}
       style={styles.outfitContainer} >
-    <Card mode='outlined' style={coverUri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
-      {coverUri ? (
+    <Card mode='outlined' style={outfit.image_uri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
+      {outfit.image_uri ? (
       <Card.Cover
-        source={{uri: coverUri}}
+        source={{uri: outfit.image_uri}}
         style={{height: imageHeight}}
         resizeMode="cover"
       /> ) : null }
       {outfit.outfit_name ? (
-        <Card.Title title={outfit.outfit_name} titleStyle={coverUri ? {marginLeft: -16} : {} }/>
+        <Card.Title title={outfit.outfit_name} titleStyle={outfit.image_uri ? {marginLeft: -16} : {} }/>
       ) : null}
     </Card>
     </TouchableOpacity>

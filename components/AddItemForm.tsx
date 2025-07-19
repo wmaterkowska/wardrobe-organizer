@@ -202,7 +202,7 @@ export default function AddItemForm() {
 
       <ImageSection imageUri={imageUri} onAdd={handlePickImage} isEditable={true} />
 
-      <NameSection itemName={itemName} isEditable={true} onChange={setItemName} />
+      <NameSection name={itemName} isEditable={true} onChange={setItemName} />
 
       { itemName || imageUri ? (
         <PropertySection
