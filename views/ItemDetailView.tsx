@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Button, Divider, Text  } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
@@ -388,6 +388,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
         </>) : null }
 
+        {imageUri ? (
         <ImageSection
           imageUri={imageUri}
           imageHeight={imageHeight}
@@ -395,7 +396,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           isEditable={isImageEditable}
           onChange={handlePickImage}
           onPressEditIcon={toggleImageEdit}
-        />
+        /> ) : null}
 
         <NameSection
           name={itemName}
@@ -428,6 +429,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           />
         </View>
 
+        <Divider style={styles.divider}/>
         { item.colors ?
           <ColorSection
             colors={isColorsEditable && isEditMode ? sortedColors : item.colors}
@@ -437,6 +439,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
             onPressEditIcon={toggleColorEdit}
           /> : null }
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'patterns'+isPatternsEditable.toString()}
           title='patterns'
@@ -447,6 +450,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={togglePatternEdit}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'fits'+isFitsEditable.toString()}
           title='fits'
@@ -457,6 +461,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleFitEdit}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           kay={'cuts'+isCutsEditable.toString()}
           title='cuts'
@@ -467,6 +472,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleCutEdit}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'textiles'+isTextilesEditable.toString()}
           title='textiles'
@@ -477,6 +483,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleTextileEdit}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'occasions'+isOccasionsEditable.toString()}
           title='occasions'
@@ -487,6 +494,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleOccasionEdit}
         />
 
+        <Divider style={styles.divider}/>
         <ComfortSection
           comfortLevel={item.comfort}
           isEditable={isComfortEditable}
@@ -494,6 +502,8 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleComfortEdit}
         />
 
+
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'feelIn'+isFeelInEditable.toString()}
           title={'feel_in'}
@@ -504,6 +514,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleFeelInEdit}
         />
 
+        <Divider style={styles.divider}/>
         <QuestionSection
           property={'like_me'}
           value={item.like_me}
@@ -553,6 +564,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
     alignItems: 'center',
+  },
+  divider: {
+    marginTop: 16,
   },
   editCategories: {
     flexDirection: 'column',

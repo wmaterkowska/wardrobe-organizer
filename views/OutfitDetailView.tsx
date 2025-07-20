@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Button, Divider, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
@@ -257,6 +257,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           items={outfit.items}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'occasions'+isOccasionsEditable.toString()}
           title='occasions'
@@ -267,6 +268,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleOccasionEdit}
         />
 
+        <Divider style={styles.divider}/>
         <ComfortSection
           comfortLevel={outfit.comfort}
           isEditable={isComfortEditable}
@@ -274,6 +276,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleComfortEdit}
         />
 
+        <Divider style={styles.divider}/>
         <PropertySection
           key={'feelIn'+isFeelInEditable.toString()}
           title={'feel_in'}
@@ -284,6 +287,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           onPressEditIcon={toggleFeelInEdit}
         />
 
+        <Divider style={styles.divider}/>
         <QuestionSection
           property={'like_me'}
           value={outfit.like_me}
@@ -325,6 +329,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
     alignItems: 'center',
+  },
+  divider: {
+    marginTop: 16,
   },
   editCategories: {
     flexDirection: 'column',
