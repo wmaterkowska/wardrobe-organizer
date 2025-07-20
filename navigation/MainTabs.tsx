@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Realm from 'realm';
 import { useTabNavigation } from '../context/TabNavigationContext';
 import { View, StyleSheet } from 'react-native';
-import { BottomNavigation, FAB } from 'react-native-paper';
+import { BottomNavigation, FAB, useTheme } from 'react-native-paper';
 import { TAB_INDEX_MAP } from './tabRoutes';
 
 import HomeView from '../views/HomeView';
@@ -22,6 +22,8 @@ type Props = {
 };
 
 export default function MainTabs({ index, setIndex, routes }: Props) {
+
+  const theme = useTheme();
 
   const { isSelectMode } = useWardrobeContext();
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -44,7 +46,7 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         onIndexChange={setIndex}
         renderScene={renderScene}
         labeled={true}
-        activeIndicatorStyle={styles.highlight}
+        activeIndicatorStyle={[styles.highlight, {borderColor: theme.colors.onBackground}]}
       />
       <FAB
         icon="plus"

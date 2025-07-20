@@ -3,7 +3,7 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 import { useGroupedItems, ItemKey } from '../hooks/useGroupedItems';
 
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text, Surface, Button, Chip } from 'react-native-paper';;
+import { Text, Surface, Button, Chip, useTheme } from 'react-native-paper';;
 import ItemCard from './ItemCard';
 import PropertyChip from './PropertyChip';
 import HorizontalItemList from './HorizontalItemList';
@@ -24,6 +24,9 @@ type Props = {
 }
 
 export default function WardrobeHorizontalList({items, navigation, onLongPressItem} : Props) {
+
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
 
   const { isFilter, isSelectMode } = useWardrobeContext();
   const mains = useQuery(MainCategory);
@@ -61,19 +64,19 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
   return (
     <View style={{ flex: 1 }}>
       <View>
-      <Surface elevation={0} style={styles.mains}>
+      <Surface elevation={0} style={themedStyles.mains}>
         {mains.map((m, idx) => (
           <Button
-            style={[styles.propertyButton, mainChosen?.name === m?.name ? styles.propertyButtonSelected : null]}
-            textColor='black'
+            style={[themedStyles.propertyButton, mainChosen?.name === m?.name ? themedStyles.propertyButtonSelected : null]}
+            textColor={colors.onBackground}
             rippleColor='transparent'
             key={m?.id || idx}
             onPress={() => handleMainSelect(m.id)}
           >{m?.name}</Button>
         ))}
         <Button
-          style={[styles.propertyButton, mainChosen === null ? styles.propertyButtonSelected : null]}
-          textColor='black'
+          style={[themedStyles.propertyButton, mainChosen === null ? themedStyles.propertyButtonSelected : null]}
+          textColor={colors.onBackground}
           rippleColor='transparent'
           onPress={() => handleAll()}
         >All</Button>
@@ -83,7 +86,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
-          <Surface style={styles.propertyButtonsContainer} elevation={0}>
+          <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
             {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
               <PropertyChip
                 label={k}
@@ -113,8 +116,8 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
         ) : (
         <View>
         {categoriesFiltered.map((cat, index) => (
-          <View style={styles.listContainer} key={index}>
-            <Text variant="titleMedium" style={styles.title}>{cat.name}</Text>
+          <View style={themedStyles.listContainer} key={index}>
+            <Text variant="titleMedium" style={themedStyles.title}>{cat.name}</Text>
             <Surface>
             <ScrollView
               horizontal={true}
@@ -145,7 +148,7 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
   )
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   mains: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -165,12 +168,12 @@ const styles = StyleSheet.create({
   propertyButton: {
     padding: 0,
     margin: 0,
-    color: 'black',
+    color: colors.onBackground,
   },
   propertyButtonSelected: {
     borderTopWidth: 2,
-    borderColor: 'black',
+    borderColor: colors.onBackground,
     borderRadius: 0,
-    color: 'black',
+    color: colors.onBackground,
   }
 })

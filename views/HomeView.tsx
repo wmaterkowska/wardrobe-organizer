@@ -64,9 +64,13 @@ export default function HomeView({ navigation }: Props) {
 
       {items.length > 0 ? (
       <View style={styles.cardContainer}>
-          {randomCards.map((card, idx) => (
-            <View style={[styles.card, {backgroundColor: generateShade(theme.colors.tertiaryContainer, idx, randomCards.length)}]} key={idx}>
-            {card}</View> ))}
+          {randomCards.map((card, idx) => {
+            const color = generateShade(theme.colors.tertiary, idx, randomCards.length);
+            return ( <View style={[styles.card, {backgroundColor: color}]}
+             key={idx} >
+            {card}</View> )
+            })
+          }
       </View>
       ) : null }
 
@@ -83,12 +87,10 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     width: '100%',
-    borderWidth: 0,
     borderRadius: 0,
     borderTopLeftRadius: 30,
-    borderColor: 'transparent',
     overflow: 'hidden',
-    marginTop: -25,
+    marginTop: -30,
   },
   cardContainer: {
     position: 'absolute',

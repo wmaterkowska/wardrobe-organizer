@@ -4,7 +4,7 @@ import { useRealm } from '@realm/react';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Button, Surface } from 'react-native-paper';
+import { Button, Surface, useTheme } from 'react-native-paper';
 import ItemCard from './ItemCard';
 import PropertyChip from './PropertyChip';
 
@@ -23,6 +23,9 @@ type Props = {
 }
 
 export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems}: Props) {
+
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
 
   const { isSelectMode } = useWardrobeContext();
 
@@ -92,11 +95,11 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }} >
-        <Surface style={styles.propertyButtonsContainer} elevation={0}>
+        <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
           {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
             <Button
-              style={[styles.propertyButton, chosenProperty === k ? styles.propertyButtonSelected : null]}
-              textColor='black'
+              style={[themedStyles.propertyButton, chosenProperty === k ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
               rippleColor='transparent'
               key={idx}
               onPress={() => handlePropertyChoose(k)}
@@ -110,7 +113,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
-            <Surface style={styles.propertyButtonsContainer} elevation={0}>
+            <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
               {propertyArray.map((p, idx) => (
                 <PropertyChip
                   label={p.name || p}
@@ -130,9 +133,9 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
-        <View style={styles.wardrobeContainer}>
+        <View style={themedStyles.wardrobeContainer}>
           {Array.from(Array(numColumns)).map((_, colIndex) => (
-            <View style={styles.wardrobeColumn} key={colIndex}>
+            <View style={themedStyles.wardrobeColumn} key={colIndex}>
               {filteredItems.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
                 <ItemCard
                   key={i.id}
@@ -155,7 +158,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   )
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   wardrobeContainer: {
     display: 'flex',
     padding: 10,
@@ -172,12 +175,12 @@ const styles = StyleSheet.create({
   propertyButton: {
     padding: 0,
     margin: 0,
-    color: 'black',
+    color: colors.onBackground,
   },
   propertyButtonSelected: {
     borderTopWidth: 2,
-    borderColor: 'black',
+    borderColor: colors.onBackground,
     borderRadius: 0,
-    color: 'black',
+    color: colors.onBackground,
   }
 });
