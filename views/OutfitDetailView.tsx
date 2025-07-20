@@ -230,7 +230,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1, paddingBottom: 60, padding: 16, backgroundColor: themeColors.background}}
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 80, padding: 16, backgroundColor: themeColors.background}}
       showsVerticalScrollIndicator={false}>
       <View>
         {isEditMode ? ( <>

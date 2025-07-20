@@ -80,7 +80,9 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2 }: Props
              ) : null}
             <Card.Content style={styles.content}>
             {(!item.image_uri && item.colors) ? (
-              <ColorList colors={item.colors} size={45 /zoom}/>) : null}
+              <View style={styles.colorSection}>
+                <ColorList colors={item.colors} size={45 /zoom}/>
+              </View>) : null}
             </Card.Content>
         </Card>
       </TouchableOpacity>
@@ -94,6 +96,9 @@ const styles = StyleSheet.create({
   content: {
     margin: -20,
     padding: 0,
+  },
+  colorSection: {
+    padding: 12,
   },
   itemContainer: {
     width: "100%",

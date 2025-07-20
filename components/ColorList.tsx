@@ -59,7 +59,5 @@ const styles = StyleSheet.create({
   rowList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 16,
-    marginBottom: 16,
   }
 })
