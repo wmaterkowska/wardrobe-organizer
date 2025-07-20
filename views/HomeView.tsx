@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, View, SafeAreaView, StyleSheet } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { Button, Card, Text, useTheme } from 'react-native-paper';
 import InsightCard from '../components/InsightCard';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
@@ -20,10 +20,13 @@ import {
   findTheBestLikeMe,
   findFeelIn,
   findRecentOutfit } from '../utility/insightUtils';
+import { generateShade } from '../utility/colorUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeView({ navigation }: Props) {
+
+  const theme = useTheme();
 
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
@@ -53,17 +56,20 @@ export default function HomeView({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container} >
-    <View style={styles.view}>
+    <View style={styles.innerView}>
 
-      <Text variant="headlineMedium" style={{ textAlign: 'center', marginBottom: 32 }}>
+      <Text variant="headlineMedium" style={styles.titleContainer}>
         {Strings.appName}
       </Text>
 
-      {items.length > 0 ?
+      {items.length > 0 ? (
       <View style={styles.cardContainer}>
-          {randomCards.map((card) => card)}
+          {randomCards.map((card, idx) => (
+            <View style={[styles.card, {backgroundColor: generateShade(theme.colors.tertiaryContainer, idx, randomCards.length)}]} key={idx}>
+            {card}</View> ))}
       </View>
-      : null }
+      ) : null }
+
     </View>
     </SafeAreaView>
   );
@@ -73,23 +79,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  card: {
+    margin: 0,
+    padding: 0,
+    width: '100%',
+    borderWidth: 0,
+    borderRadius: 0,
+    borderTopLeftRadius: 30,
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    marginTop: -25,
+  },
   cardContainer: {
+    position: 'absolute',
+    bottom: -9,
+    padding: 0,
+    margin: 0,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginHorizontal: '5%',
-    marginTop: '5%',
-    gap: '10%',
   },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 16,
-    alignSelf: 'center',
+  titleContainer: {
+    textAlign: 'center',
+    marginVertical: 32,
   },
-  view: {
+  innerView: {
+    position: 'relative',
     flex: 1,
+    height: '100%',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 24,
   },
 });
