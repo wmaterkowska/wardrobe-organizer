@@ -34,7 +34,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   const [propertyArray, setPropertyArray] = useState([]);
   const [filter, setFilter] = useState<string | null>(null);
 
-  const {main, category, color, pattern, fit, cut, textile, occasion, feels} = useAllPropertyManagers();
+  const { main, category, color, pattern, fit, cut, textile, occasion, feels } = useAllPropertyManagers();
   const modelPropertyArrayDictionary = {
     'main_category': main,
     'category': category,
