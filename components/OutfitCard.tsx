@@ -39,7 +39,7 @@ export default function OutfitCard({outfit, onPress, zoom}: Props) {
     <TouchableOpacity
       onPress={onPress}
       style={styles.outfitContainer} >
-    <Card mode='outlined' style={outfit.image_uri ? { borderColor: 'transparent' } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
+    <Card mode='outlined' style={outfit.image_uri ? { borderColor: 'transparent', marginBottom: -20 } : { backgroundColor: themeColors.surfaceVariant, borderColor: 'transparent' } } >
       {outfit.image_uri ? (
       <Card.Cover
         source={{uri: outfit.image_uri}}
@@ -47,7 +47,10 @@ export default function OutfitCard({outfit, onPress, zoom}: Props) {
         resizeMode="cover"
       /> ) : null }
       {outfit.outfit_name ? (
-        <Card.Title title={outfit.outfit_name} titleStyle={outfit.image_uri ? {marginLeft: -16} : {} }/>
+        <Card.Title
+          title={outfit.outfit_name}
+          titleStyle={outfit.image_uri ? {marginLeft: -16, marginTop: -16} : {} }
+          titleVariant="bodyMedium"/>
       ) : null}
     </Card>
     </TouchableOpacity>

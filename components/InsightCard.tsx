@@ -19,15 +19,16 @@ type Props = {
 
 export default function InsightCard({ type, data }: Props) {
 
-  const theme = useTheme();
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
 
   const renderContent = () => {
     switch (type) {
 
       case 'itemsInWardrobe':
         return (
-          <Text style={styles.title}>
-            You have <Text style={styles.highlight}>{data} </Text>
+          <Text style={themedStyles.title} variant="bodyLarge" >
+            You have <Text style={themedStyles.highlight} variant="bodySmall">{data} </Text>
             pieces in your wardrobe.
           </Text>
         )
@@ -35,14 +36,14 @@ export default function InsightCard({ type, data }: Props) {
       case 'mostWornColor':
         return (
           <>
-            <Text style={styles.title}>Most Worn Color</Text>
+            <Text variant="bodyLarge" style={themedStyles.title}>Most Worn Color</Text>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               {data.name ? (
                 <>
-                  <Text style={styles.subtitle}>{data.name}</Text>
+                  <Text style={themedStyles.subtitle} variant="bodySmall">{data.name}</Text>
                   <ColorDot colorCode={data.color_code}/>
                 </>
-                ) : <Text style={styles.subtitle}>?</Text>
+                ) : <Text style={themedStyles.subtitle} variant="bodySmall">?</Text>
               }
             </View>
           </>
@@ -50,82 +51,84 @@ export default function InsightCard({ type, data }: Props) {
 
       case 'recentlyAdded':
         return (
-          <>
-            <Text style={styles.title}>Recently Added</Text>
+          <View style={themedStyles.cardWithImage}>
+            <Text style={themedStyles.title} variant="bodyLarge" >Recently Added</Text>
             {data.image_uri ? (
-              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-              ) : <Text style={styles.subtitle}>{data.item_name}</Text>
+              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
+              ) : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item_name}</Text>
             }
-          </>
+          </View>
         );
 
       case 'declutterPrompt':
         return (
-          <>
-            <Text style={styles.title}>Time to Declutter?</Text>
-            <Text style={styles.caption}>Piece you almost forget about</Text>
+          <View style={themedStyles.cardWithImage}>
+            <View>
+              <Text style={themedStyles.title} variant="bodyLarge">Time to Declutter?</Text>
+              <Text style={themedStyles.subtitle} variant="bodySmall">Piece you almost forget about</Text>
+            </View>
             {data.image_uri ? (
-              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-              ) : <Text style={styles.subtitle}>{data.item_name}</Text>
+              <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
+              ) : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item_name}</Text>
             }
-          </>
+          </View>
         );
 
       case 'favouriteFit':
         return (
           <>
-            <Text style={styles.title}>Your favourite fit is </Text>
+            <Text style={themedStyles.title} variant="bodyLarge">Your favourite fit is </Text>
             {data.name ?
-              <Text style={styles.subtitle}>{data.name}</Text>
-              : <Text style={styles.subtitle}>?</Text>
+              <Text style={themedStyles.highlight} variant="bodySmall">{data.name}</Text>
+              : <Text style={themedStyles.highlight} variant="bodySmall">?</Text>
             }
           </>
         );
 
       case 'theBestFeel':
         return (
-          <>
+          <View style={themedStyles.cardWithImage}>
             {data.image_uri || data.name ? (
               <>
-                <Text style={styles.title}>You feel exactly like you in</Text>
+                <Text style={themedStyles.title} variant="bodyLarge">You feel exactly like you in</Text>
                 {data.image_uri ?
-                  <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-                  : <Text style={styles.subtitle}>{data.item_name}</Text> }
+                  <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
+                  : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item_name}</Text> }
               </>
-              ) : <Text style={styles.title}>You haven't added a piece that truly feels like 'you' yet.</Text>
+              ) : <Text style={themedStyles.title} variant="bodyLarge">You haven't added a piece that truly feels like 'you' yet.</Text>
             }
-          </>
+          </View>
         );
 
       case 'feelIn':
         return (
-          <>
+          <View style={themedStyles.cardWithImage}>
             {data.feelIn && data.item ? (
               <>
-                <Text style={styles.title}>You feel <Text style={styles.subtitle}>{data.feelIn.name}</Text> in</Text>
+                <Text style={themedStyles.title} variant="bodyLarge">You feel <Text style={themedStyles.subtitle} variant="bodySmall">{data.feelIn.name}</Text> in</Text>
                 {data.item.image_uri ?
-                  <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={styles.image} />
-                  : <Text style={styles.subtitle}>{data.item.item_name}</Text>
+                  <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={themedStyles.image} />
+                  : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item.item_name}</Text>
                 }
-              </>) : <Text style={styles.title}>Tag your clothes with how they make you feel!</Text>
+              </>) : <Text style={themedStyles.title} variant="bodyLarge">Tag your clothes with how they make you feel!</Text>
             }
-          </>
+          </View>
         );
 
       case 'recentOutfit':
         return (
-        <>
+        <View style={themedStyles.cardWithImage}>
           {data.image_uri || data.outfit_name ? (
             <>
-              <Text style={styles.title}>Recently Added Outfit</Text>
+              <Text style={themedStyles.title} variant="bodyLarge">Recently Added Outfit</Text>
               {data.image_uri ?
-                <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={styles.image} />
-                : <Text style={styles.subtitle}>{data.outfit_name}</Text>
+                <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
+                : <Text style={themedStyles.subtitle} variant="bodySmall">{data.outfit_name}</Text>
               }
             </>
-            ) : <Text style={styles.title}>Add your first outfit!</Text>
+            ) : <Text style={themedStyles.title} variant="bodyLarge">Add your first outfit!</Text>
           }
-        </>
+        </View>
         );
 
       default:
@@ -134,45 +137,56 @@ export default function InsightCard({ type, data }: Props) {
   };
 
   return (
-    <Card style={[styles.card, {borderLeftColor: theme.colors.tertiary}]}>
-      <Card.Content>
+    <Card style={themedStyles.card} mode='outlined'>
+      <Card.Content style={themedStyles.cardContent}>
         {renderContent()}
       </Card.Content>
     </Card>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   card: {
-    width: '45%',
-    elevation: 1,
-    borderLeftWidth: 4,
+    width: '100%',
+    borderRadius: 0,
+    borderTopLeftRadius: 20,
+    borderWidth: 0,
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
+    margin: 0,
+    padding: 0,
+  },
+  cardContent: {
+    marginBottom: 20,
+    marginLeft: 16,
+    marginTop: 12,
+  },
+  cardWithImage: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   highlight: {
     fontWeight: 'bold',
+    color: colors.onTertiary,
+    marginBottom: 12,
   },
   image: {
     width: 100,
     height: 100,
     borderRadius: 3,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 18,
     fontWeight: '600',
     marginBottom: 6,
+    color: colors.onTertiary,
   },
   subtitle: {
-    fontSize: 16,
     fontWeight: '500',
     marginBottom: 4,
-  },
-  caption: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    color: colors.onTertiary,
   },
   item: {
-    fontSize: 15,
     marginVertical: 2,
   },
 });

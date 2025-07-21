@@ -24,8 +24,8 @@ export default function ColorSection({
   const { isEditMode } = useWardrobeContext();
 
   return (
-    <View style={isEditMode && isEditable ? styles.editColorsView : styles.colorsView}>
-      { (isEditMode && colors.length === 0 ) ? (<Text>colors</Text>) : null }
+    <View style={styles.colorsView}>
+      <Text variant="bodyLarge">colors</Text>
       <ColorList
         colors={colors}
         selectable={isEditable}
@@ -41,9 +41,7 @@ export default function ColorSection({
 
 const styles = StyleSheet.create({
   colorsView : {
-    flexDirection: 'row',
-  },
-  editColorsView: {
     flexDirection: 'column',
+    paddingTop: 10,
   },
 });

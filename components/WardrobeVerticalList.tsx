@@ -4,8 +4,9 @@ import { useRealm } from '@realm/react';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Button, Surface } from 'react-native-paper';
+import { Button, Surface, useTheme } from 'react-native-paper';
 import ItemCard from './ItemCard';
+import PropertyChip from './PropertyChip';
 
 import { isRealmList } from '../hooks/useGroupedItems';
 
@@ -23,10 +24,13 @@ type Props = {
 
 export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems}: Props) {
 
+  const { colors } = useTheme();
+  const themedStyles = styles(colors);
+
   const { isSelectMode } = useWardrobeContext();
 
   const [filteredItems, setFilteredItems ] = useState<Item[]>(items);
-  const [chosenProperty, setChosenProperty] = useState<string | null>(null);
+  const [chosenProperty, setChosenProperty] = useState<string | null>('main_category');
   const [propertyArray, setPropertyArray] = useState([]);
   const [filter, setFilter] = useState<string | null>(null);
 
@@ -91,11 +95,12 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }} >
-        <Surface style={styles.propertyButtonsContainer} elevation={0}>
+        <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
           {Object.keys(ALL_ITEM_PROPERTIES).map((k, idx) => (
             <Button
-              style={styles.propertyButton}
-              mode={chosenProperty === k ? 'contained-tonal' : 'text'}
+              style={[themedStyles.propertyButton, chosenProperty === k ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
+              rippleColor='transparent'
               key={idx}
               onPress={() => handlePropertyChoose(k)}
             >{ALL_ITEM_PROPERTIES[k]}</Button>
@@ -108,15 +113,16 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
-            <Surface style={styles.propertyButtonsContainer} elevation={0}>
+            <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
               {propertyArray.map((p, idx) => (
-                <Button
-                  style={styles.propertyButton}
-                  mode={filter === p || filter === p.name? 'outlined' : 'text'}
-                  compact={true}
-                  key={idx}
+                <PropertyChip
+                  label={p.name || p}
                   onPress={() => handleFilter(p.name || p)}
-                >{p.name || p}</Button>
+                  selected={filter === p || filter === p.name ? true : false}
+                  color={p.color_code ? p.color_code : null}
+                  colorSize={p.color_code ? 16 : null}
+                  key={idx}
+                />
               ))}
             </Surface>
           </ScrollView>
@@ -127,9 +133,9 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} >
-        <View style={styles.wardrobeContainer}>
+        <View style={themedStyles.wardrobeContainer}>
           {Array.from(Array(numColumns)).map((_, colIndex) => (
-            <View style={styles.wardrobeColumn} key={colIndex}>
+            <View style={themedStyles.wardrobeColumn} key={colIndex}>
               {filteredItems.filter((item, idx) => idx % numColumns === colIndex).map((i) => (
                 <ItemCard
                   key={i.id}
@@ -152,7 +158,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   )
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   wardrobeContainer: {
     display: 'flex',
     padding: 10,
@@ -162,12 +168,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   propertyButtonsContainer: {
+    marginHorizontal: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
   },
   propertyButton: {
     padding: 0,
     margin: 0,
+    color: colors.onBackground,
+  },
+  propertyButtonSelected: {
+    borderTopWidth: 2,
+    borderColor: colors.onBackground,
+    borderRadius: 0,
+    color: colors.onBackground,
   }
 });

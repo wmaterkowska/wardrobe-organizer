@@ -73,10 +73,17 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2 }: Props
                 />
               ) : null}
             {item.item_name ? (
-              <Card.Title title={item.item_name} titleStyle={item.image_uri ? {marginLeft: -16} : {} }/>
+              <Card.Title
+                title={item.item_name}
+                titleStyle={item.image_uri ? {marginLeft: -16, marginTop: -16} : {} }
+                titleVariant="bodyMedium"/>
              ) : null}
+            <Card.Content style={styles.content}>
             {(!item.image_uri && item.colors) ? (
-              <ColorList colors={item.colors} size={45 /zoom}/>) : null}
+              <View style={styles.colorSection}>
+                <ColorList colors={item.colors} size={45 /zoom}/>
+              </View>) : null}
+            </Card.Content>
         </Card>
       </TouchableOpacity>
     );
@@ -85,6 +92,13 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2 }: Props
 const styles = StyleSheet.create({
   addOutfit: {
     width: '30%',
+  },
+  content: {
+    margin: -20,
+    padding: 0,
+  },
+  colorSection: {
+    padding: 12,
   },
   itemContainer: {
     width: "100%",

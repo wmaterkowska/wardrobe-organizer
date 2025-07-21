@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Realm from 'realm';
 import { useTabNavigation } from '../context/TabNavigationContext';
 import { View, StyleSheet } from 'react-native';
-import { BottomNavigation, FAB } from 'react-native-paper';
+import { BottomNavigation, FAB, useTheme } from 'react-native-paper';
 import { TAB_INDEX_MAP } from './tabRoutes';
 
 import HomeView from '../views/HomeView';
@@ -17,11 +17,13 @@ import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
   index: number;
-  steIndex: (i: number) => void;
+  setIndex: (i: number) => void;
   routes: { key: TabRouteKey; title: string; focusedIcon: string; unfocusedIcon: string }[];
 };
 
 export default function MainTabs({ index, setIndex, routes }: Props) {
+
+  const theme = useTheme();
 
   const { isSelectMode } = useWardrobeContext();
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -43,7 +45,8 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        shifting={true}
+        labeled={true}
+        activeIndicatorStyle={[styles.highlight, {borderColor: theme.colors.onBackground}]}
       />
       <FAB
         icon="plus"
@@ -68,4 +71,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     zIndex: 999,
   },
+  highlight: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 3,
+    borderRadius: 0,
+    paddingTop: 5,
+    marginTop: -5,
+  }
 });

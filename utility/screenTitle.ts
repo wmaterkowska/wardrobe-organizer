@@ -33,7 +33,7 @@ export function getTitle(
     case 'wardrobe':
       return 'Your Wardrobe';
     case 'summary':
-      return 'Summary';
+      return 'Summaries';
     case 'outfits':
       return 'Outfits';
     default:

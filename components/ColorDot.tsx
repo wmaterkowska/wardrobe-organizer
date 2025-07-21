@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { contrastRatio } from '../utility/contrastUtils';
+import { contrastRatio } from '../utility/colorUtils';
 
 type Props = {
   colorCode: string;
@@ -62,7 +62,7 @@ export default function ColorDot({
 
 const styles = (colors) => StyleSheet.create({
   dot: {
-    margin: 2,
+    //margin: 2,
   },
   haloContainer: {
     justifyContent: 'center',
