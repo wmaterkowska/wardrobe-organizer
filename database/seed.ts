@@ -380,12 +380,16 @@ const cutsToSeed = [
     'Silk',
     'Wool',
     'Cashmere',
+    'Merino',
     'Jeans',
     'Leather',
     'Viscose',
     'Modal',
+    'Lyocell',
+    'Rayon',
     'Polyester',
     'Acrylic',
+    'Elastan',
   ];
 
   const occasionsToSeed = [

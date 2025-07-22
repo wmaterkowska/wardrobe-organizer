@@ -82,7 +82,6 @@ export default function OutfitsView() {
         return o[chosenProperty].map((p) => p.name) ?? []
       } else {
         return LEVELS[chosenProperty];
-        return LEVELS[chosenProperty];
       }
     }).filter((v): v is string => v != undefined);
 
