@@ -81,7 +81,8 @@ export default function OutfitsView() {
       if (isRealmList(o[chosenProperty])) {
         return o[chosenProperty].map((p) => p.name) ?? []
       } else {
-        return LEVELS[chosenProperty] || WANT_ARRAY;
+        return LEVELS[chosenProperty];
+        return LEVELS[chosenProperty];
       }
     }).filter((v): v is string => v != undefined);
 

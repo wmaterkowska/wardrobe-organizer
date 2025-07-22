@@ -99,6 +99,8 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
 
     if (chosenProperty === 'colors') {
       setUniqueUsedProperties(realm.objects(Color).filtered('name IN $0', usedProperties));
+    } else if (chosenProperty === 'main_category') {
+      setUniqueUsedProperties(propertyArray);
     } else {
       setUniqueUsedProperties(Array.from(new Set(usedProperties)));
     }
