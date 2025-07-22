@@ -49,4 +49,5 @@ export const  LEVELS = {
   look_level: ['Terrible', 'Not great', 'Okay', 'Nice', 'Perfect'],
   frequency: ['Forgot I had it', 'Once in a while', 'Now and then', 'Pretty often', 'It\'s a favourite'],
   price: ['Regret it', 'I\'am fine', 'Great value'],
+  comfort: ['1', '2', '3', '4', '5'],
 };

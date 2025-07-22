@@ -10,7 +10,7 @@ import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Outfit } from '../database/models/Outfit';
-import { ALL_OUTFIT_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
+import { ALL_OUTFIT_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY, COMFORT_LEVELS } from '../constants/index';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Surface, Text, useTheme } from 'react-native-paper';
@@ -25,23 +25,24 @@ export default function OutfitsView() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const outfits = useQuery(Outfit);
 
-  const [filteredOutfits, setFilteredOutfits ] = useState<Outfit[]>(outfits);
-  const [chosenProperty, setChosenProperty] = useState<string | null>('occasions');
-  const [propertyArray, setPropertyArray] = useState([]);
-  const [filter, setFilter] = useState<string | null>(null);
-
   const { occasion, feels } = useAllPropertyManagers();
   const modelPropertyArrayDictionary = {
     'occasions': occasion,
     'feel_in': feels,
   };
 
+  const [filteredOutfits, setFilteredOutfits ] = useState<Outfit[]>(outfits);
+  const [chosenProperty, setChosenProperty] = useState<string | null>('occasions');
+  const [propertyArray, setPropertyArray] = useState<string[] | int[] | double[]>(modelPropertyArrayDictionary['occasions'].allProperties);
+  const [filter, setFilter] = useState<string | null>(null);
+  const [uniqueUsedProperties, setUniqueUsedProperties] = useState([]);
+
   useEffect(() => {
     if (!chosenProperty) return;
     if (modelPropertyArrayDictionary[chosenProperty]) {
       setPropertyArray(modelPropertyArrayDictionary[chosenProperty].allProperties);
     } else if (LEVELS[chosenProperty]) {
-      const levelsArray = LEVELS[chosenProperty]
+      const levelsArray = LEVELS[chosenProperty];
       setPropertyArray(levelsArray);
     } else {
       setPropertyArray(WANT_ARRAY)
@@ -54,8 +55,8 @@ export default function OutfitsView() {
       if(!o[chosenProperty]) return;
       if (isRealmList(o[chosenProperty])) {
         return o[chosenProperty].map((p) => p.name).includes(filter);
-      } else if (typeof o[chosenProperty] === 'string') {
-        return o[chosenProperty] === filter;
+      } else if (typeof o[chosenProperty] === 'string' || typeof o[chosenProperty] === 'number') {
+        return o[chosenProperty] === filter || o[chosenProperty] === parseInt(filter);
       } else {
         return o[chosenProperty].name === filter;
       }
@@ -79,6 +80,18 @@ export default function OutfitsView() {
 
   const { numColumns, setNumColumns } = useWardrobeContext();
   const zoom = (numColumns == 1) ? 1 : numColumns-1;
+
+  useEffect(() => {
+    const usedProperties = outfits.flatMap((o) => {
+      if (isRealmList(o[chosenProperty])) {
+        return o[chosenProperty].map((p) => p.name) ?? []
+      } else {
+        return LEVELS[chosenProperty] || WANT_ARRAY;
+      }
+    }).filter((v): v is string => v != undefined);
+
+    setUniqueUsedProperties(Array.from(new Set(usedProperties)));
+  }, [chosenProperty])
 
   if (!outfits.length) {
     return (
@@ -115,7 +128,7 @@ export default function OutfitsView() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
             <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
-              {propertyArray.map((p, idx) => (
+              {uniqueUsedProperties.map((p, idx) => (
                 <PropertyChip
                   label={p.name || p}
                   onPress={() => handleFilter(p.name || p)}

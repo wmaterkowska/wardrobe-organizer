@@ -65,8 +65,8 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
       if(!i[chosenProperty]) return;
       if (isRealmList(i[chosenProperty])) {
         return i[chosenProperty].map((p) => p.name).includes(filter);
-      } else if (typeof i[chosenProperty] === 'string') {
-        return i[chosenProperty] === filter;
+      } else if (typeof i[chosenProperty] === 'string' || typeof i[chosenProperty] === 'number') {
+        return i[chosenProperty] === filter || i[chosenProperty] === parseInt(filter);
       } else {
         return i[chosenProperty].name === filter;
       }
