@@ -65,12 +65,7 @@ export default function OutfitsView() {
   }, [filter, chosenProperty, propertyArray]);
 
   const handlePropertyChoose = (property) => {
-    if (chosenProperty === property) {
-      setFilter(null);
-      setPropertyArray([]);
-      setFilteredOutfits(outfits);
-    };
-    setChosenProperty((prev) => prev === property ? null : property);
+    setChosenProperty(property);
   };
 
   const handleFilter = (prop) => {
@@ -121,7 +116,7 @@ export default function OutfitsView() {
           ))}
         </Surface>
       </ScrollView>
-      {propertyArray.length > 0 && (
+      {uniqueUsedProperties.length > 0 && (
         <View>
           <ScrollView
             horizontal={true}

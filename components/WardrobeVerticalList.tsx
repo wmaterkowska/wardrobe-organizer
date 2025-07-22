@@ -11,6 +11,7 @@ import PropertyChip from './PropertyChip';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Item } from '../database/models/Item';
+import { Color } from '../database/models/Color';
 import { NumColumns, useWardrobeContext } from '../context/WardrobeContext';
 import { ALL_ITEM_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
 
@@ -26,6 +27,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
+  const realm = useRealm();
 
   const { isSelectMode } = useWardrobeContext();
 
@@ -33,6 +35,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   const [chosenProperty, setChosenProperty] = useState<string | null>('main_category');
   const [propertyArray, setPropertyArray] = useState([]);
   const [filter, setFilter] = useState<string | null>(null);
+  const [uniqueUsedProperties, setUniqueUsedProperties] = useState([]);
 
   const { main, category, color, pattern, fit, cut, textile, occasion, feels } = useAllPropertyManagers();
   const modelPropertyArrayDictionary = {
@@ -75,18 +78,41 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   }, [filter, chosenProperty, propertyArray]);
 
   const handlePropertyChoose = (property) => {
-    if (chosenProperty === property) {
-      setFilter(null);
-      setPropertyArray([]);
-      setFilteredItems(items);
-    };
-    setChosenProperty((prev) => prev === property ? null : property);
+    setChosenProperty(property);
   };
 
   const handleFilter = (prop) => {
     if (filter === prop) {setFilteredItems(items)};
     setFilter((prev) => prev === prop ? null : prop);
   };
+
+  useEffect(() => {
+    const usedProperties = items.flatMap((i) => {
+      if (isRealmList(i[chosenProperty])) {
+        return i[chosenProperty].map((p) => p.name) ?? [];
+      } else if (i[chosenProperty] instanceof Realm.Object) {
+        return i[chosenProperty].name;
+      } else {
+        return (LEVELS[chosenProperty]);
+      }
+    }).filter((v): v is string => v != undefined);
+
+    if (chosenProperty === 'colors') {
+      setUniqueUsedProperties(realm.objects(Color).filtered('name IN $0', usedProperties));
+    } else {
+      setUniqueUsedProperties(Array.from(new Set(usedProperties)));
+    }
+  }, [chosenProperty])
+
+console.log(uniqueUsedProperties)
+
+  if (!items.length) {
+    return (
+      <View>
+        <Text>No items found. Add your first item!</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -107,14 +133,14 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
           ))}
         </Surface>
       </ScrollView>
-      {propertyArray.length > 0 && (
+      {uniqueUsedProperties.length > 0 && (
         <View>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
             <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
-              {propertyArray.map((p, idx) => (
+              {uniqueUsedProperties.map((p, idx) => (
                 <PropertyChip
                   label={p.name || p}
                   onPress={() => handleFilter(p.name || p)}

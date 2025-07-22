@@ -50,4 +50,5 @@ export const  LEVELS = {
   frequency: ['Forgot I had it', 'Once in a while', 'Now and then', 'Pretty often', 'It\'s a favourite'],
   price: ['Regret it', 'I\'am fine', 'Great value'],
   comfort: ['1', '2', '3', '4', '5'],
+  want: ['Let go', 'Unsure', 'Keep'],
 };
