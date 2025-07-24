@@ -116,14 +116,14 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {!isSelectMode ?
         <Appbar.Content titleStyle={styles.title} title={title} accessibilityLabel={title}/> : null}
 
-      {currentTabKey === 'wardrobe' && isSelectMode === true ? (
+      {(currentTabKey === 'wardrobe' || currentTabKey === 'outfits') && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
           <Button
             mode="text"
             icon="trash-can"
             onPress={confirmDelete}
           >
-            Delete Items
+            Delete
           </Button>
           <IconButton
             icon="close"
