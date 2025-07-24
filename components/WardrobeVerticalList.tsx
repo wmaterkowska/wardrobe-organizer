@@ -99,14 +99,10 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
 
     if (chosenProperty === 'colors') {
       setUniqueUsedProperties(realm.objects(Color).filtered('name IN $0', usedProperties));
-    } else if (chosenProperty === 'main_category') {
-      setUniqueUsedProperties(propertyArray);
     } else {
       setUniqueUsedProperties(Array.from(new Set(usedProperties)));
     }
   }, [chosenProperty])
-
-console.log(uniqueUsedProperties)
 
   if (!items.length) {
     return (
@@ -135,7 +131,6 @@ console.log(uniqueUsedProperties)
           ))}
         </Surface>
       </ScrollView>
-      {uniqueUsedProperties.length > 0 && (
         <View>
           <ScrollView
             horizontal={true}
@@ -155,7 +150,6 @@ console.log(uniqueUsedProperties)
             </Surface>
           </ScrollView>
         </View>
-      )}
     </View>
     <View style={{ flex: 1 }}>
       <ScrollView
