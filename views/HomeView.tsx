@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     position: 'absolute',
-    bottom: -9,
+    bottom: 0,
     padding: 0,
     margin: 0,
     flexDirection: 'row',

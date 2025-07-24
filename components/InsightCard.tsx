@@ -171,8 +171,8 @@ const styles = (colors) => StyleSheet.create({
     marginBottom: 12,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 3,
     marginBottom: 12,
   },
