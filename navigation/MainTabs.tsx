@@ -52,7 +52,7 @@ export default function MainTabs({ index, setIndex, routes }: Props) {
         icon="plus"
         onPress={handleAddPress}
         style={styles.fab}
-        variant='tertiary'
+        variant={(index === 3 && isSelectMode) ? 'surface' : 'tertiary'}
         mode='flat'
       />
       <AddModal visible={addModalVisible} onClose={() => setAddModalVisible(false)} >
