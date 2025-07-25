@@ -1,7 +1,7 @@
 import Realm from 'realm';
 import { useRealm, useQuery } from '@realm/react';
-import { useEffect, useState } from 'react';
-import { useWardrobeContext }  from '../context/WardrobeContext';
+import { useCallback, useEffect, useState } from 'react';
+import { useWardrobeContext, useRegisterDelete  }  from '../context/WardrobeContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
@@ -22,7 +22,11 @@ export default function OutfitsView() {
   const { colors } = useTheme();
   const themedStyles = styles(colors);
 
+  const { numColumns, setNumColumns, isSelectMode, setIsSelectMode, selectedOutfits, setSelectedOutfits } = useWardrobeContext();
+  const zoom = (numColumns == 1) ? 1 : numColumns-1;
+
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const realm = useRealm();
   const outfits = useQuery(Outfit);
 
   const { occasion, feels } = useAllPropertyManagers();
@@ -73,9 +77,6 @@ export default function OutfitsView() {
     setFilter((prev) => prev === prop ? null : prop);
   };
 
-  const { numColumns, setNumColumns } = useWardrobeContext();
-  const zoom = (numColumns == 1) ? 1 : numColumns-1;
-
   useEffect(() => {
     const usedProperties = outfits.flatMap((o) => {
       if (isRealmList(o[chosenProperty])) {
@@ -87,6 +88,24 @@ export default function OutfitsView() {
 
     setUniqueUsedProperties(Array.from(new Set(usedProperties)));
   }, [chosenProperty])
+
+// card selection and delete outfit functionality ==================================================
+  const onLongPressOutfit = () => {
+    setIsSelectMode(true);
+  };
+
+  const deleteFn = useCallback(() => {
+    realm.write(() => {
+      selectedOutfits.forEach((id) => {
+        const outfitToDelete = realm.objectForPrimaryKey(Outfit, id);
+        if (outfitToDelete) realm.delete(outfitToDelete);
+      });
+     });
+
+    setSelectedOutfits([]);
+  }, [selectedOutfits, realm]);
+
+  useRegisterDelete(deleteFn);
 
   if (!outfits.length) {
     return (
@@ -154,6 +173,7 @@ export default function OutfitsView() {
                 navigation.navigate('OutfitDetail', {
                   outfitId: o.id,
                 })}
+                onLongPress={onLongPressOutfit}
                 zoom={zoom} />
               )
             )}
@@ -190,5 +210,5 @@ const styles = (colors) => StyleSheet.create({
     borderColor: colors.onBackground,
     borderRadius: 0,
     color: colors.onBackground,
-  }
+  },
 });

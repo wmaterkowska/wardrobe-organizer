@@ -8,7 +8,7 @@ import { Text } from 'react-native-paper';
 
 import Realm from 'realm';
 import { useRealm, useQuery } from '@realm/react';
-import  { useWardrobeContext, useRegisterDelete }  from '../context/WardrobeContext';
+import { useWardrobeContext, useRegisterDelete }  from '../context/WardrobeContext';
 
 import { Item } from '../database/models/Item';
 
