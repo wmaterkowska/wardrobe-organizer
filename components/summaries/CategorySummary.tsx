@@ -38,6 +38,12 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
     setItemsLetGoToShow([...filteredLetGo]);
   };
 
+  const handleAll = () => {
+    setChosenCategory(null);
+    setItemsKeepToShow(itemsKeep);
+    setItemsLetGoToShow(itemsLetGo);
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: colors.background}}>
       <ScrollView
@@ -45,8 +51,19 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
         <Surface style={themedStyles.categoryButtonsContainer} elevation={0}>
+            <Button
+              style={[themedStyles.propertyButton, chosenCategory === null ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
+              rippleColor='transparent'
+              onPress={() => handleAll()}
+            >All</Button>
           {categories.map((cat, idx) => (
-            <Button key={idx} onPress={() => handleChooseCategory(cat)}>{cat}</Button>
+            <Button
+              style={[themedStyles.propertyButton, chosenCategory === cat ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
+              rippleColor='transparent'
+              key={idx}
+              onPress={() => handleChooseCategory(cat)}>{cat}</Button>
           ))}
         </Surface>
       </ScrollView>
@@ -55,16 +72,17 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
 
       <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory+'_columns'}>
         <View style={themedStyles.column}>
-          <Text style={themedStyles.columnTitle} variant="titleSmall">Keep</Text>
-          <SummarySectionList key={chosenCategory+'_keep'} items={itemsKeepToShow} />
+          <Text style={themedStyles.columnTitle} variant="titleSmall">Let Go</Text>
+          <SummarySectionList key={chosenCategory+'_letGo'} items={itemsLetGoToShow} />
         </View>
 
         <View style={themedStyles.divider} />
 
         <View style={themedStyles.column}>
-          <Text style={themedStyles.columnTitle} variant="titleSmall">Let Go</Text>
-          <SummarySectionList key={chosenCategory+'_letGo'} items={itemsLetGoToShow} />
+          <Text style={themedStyles.columnTitle} variant="titleSmall">Keep</Text>
+          <SummarySectionList key={chosenCategory+'_keep'} items={itemsKeepToShow} />
         </View>
+
       </View>
     </View>
   )
@@ -93,6 +111,17 @@ const styles = (colors) => StyleSheet.create({
     marginHorizontal: 4,
     marginTop: 30,
     marginBottom: 60,
+  },
+  propertyButton: {
+    padding: 0,
+    margin: 0,
+    color: colors.onBackground,
+  },
+  propertyButtonSelected: {
+    borderTopWidth: 2,
+    borderColor: colors.onBackground,
+    borderRadius: 0,
+    color: colors.onBackground,
   },
   summaryContainer: {
     flex: 1,
