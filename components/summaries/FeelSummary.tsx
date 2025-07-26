@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ScrollView, View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Text, Surface } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
@@ -12,17 +12,33 @@ import { Category } from '../../database/models/Category';
 import { LEVELS, Titles } from '../../constants/index';
 
 export default function FeelSummary() {
-  const allItems = useQuery(Item);
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
 
-  const categories = useQuery(Category).map((cat) => cat.name);
+  const allItems = useQuery(Item);
 
+  const categories = useQuery(Category).map((cat) => cat.name);
   const [chosenCategory, setChosenCategory] = useState(null);
+
+  const feelItemsArrays = useMemo(() => {
+    if (!allItems || allItems.length === 0) return;
+
+    return LEVELS['like_me'].map((level, index) => {
+      if (chosenCategory) {
+        return allItems.filtered('like_me == $0 AND category.name == $1', level, chosenCategory);
+      } else {
+        return allItems.filtered('like_me == $0', level);
+      }
+    });
+  }, [allItems, chosenCategory]);
 
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
+  };
+
+  const handleAll = () => {
+    setChosenCategory(null);
   };
 
   return (
@@ -31,16 +47,24 @@ export default function FeelSummary() {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ flex: 1, paddingBottom: 5 }} >
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 5 }} >
         <Surface style={themedStyles.categoryButtonsContainer} elevation={0}>
+            <Button
+              style={[themedStyles.propertyButton, chosenCategory === null ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
+              rippleColor='transparent'
+              onPress={() => handleAll()}
+            >All</Button>
           {categories.map((cat, idx) => (
-            <Button key={idx} onPress={() => handleChooseCategory(cat)}>{cat}</Button>
+            <Button
+              style={[themedStyles.propertyButton, chosenCategory === cat ? themedStyles.propertyButtonSelected : null]}
+              textColor={colors.onBackground}
+              rippleColor='transparent'
+              key={idx}
+              onPress={() => handleChooseCategory(cat)}>{cat}</Button>
           ))}
         </Surface>
       </ScrollView>
-
-      <Text style={themedStyles.categoryTitle} variant="titleLarge">{chosenCategory}</Text>
-
 
     <Text style={themedStyles.title} variant="titleLarge">{Titles.like_me}</Text>
 
@@ -50,11 +74,10 @@ export default function FeelSummary() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollContainer}
     >
-      {LEVELS['like_me'].map((level, index) => {
-        const filteredItems = allItems.filtered('like_me == $0', level);
+      {feelItemsArrays.map((filteredItems, index) => {
         return (
           <View key={index}>
-          <Text style={themedStyles.heading} variant="titleMedium">{level}</Text>
+          <Text style={themedStyles.heading} variant="titleMedium">{LEVELS.like_me[index]}</Text>
           <View style={themedStyles.card} elevation={0}>
             <SummarySectionList items={filteredItems} />
           </View>
@@ -91,13 +114,23 @@ const styles = (colors) => StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+  propertyButton: {
+    padding: 0,
+    margin: 0,
+    color: colors.onBackground,
+  },
+  propertyButtonSelected: {
+    borderTopWidth: 2,
+    borderColor: colors.onBackground,
+    borderRadius: 0,
+    color: colors.onBackground,
+  },
   scrollContainer: {
     paddingHorizontal: 10,
   },
   title: {
     margin: 16,
     marginVertical: 16,
-    textAlign: 'center',
     color: colors.onSurfaceVariant,
   },
 });

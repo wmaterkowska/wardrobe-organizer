@@ -68,18 +68,16 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
         </Surface>
       </ScrollView>
 
-      <Text style={themedStyles.categoryTitle} variant="titleLarge">{chosenCategory}</Text>
-
       <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory+'_columns'}>
         <View style={themedStyles.column}>
-          <Text style={themedStyles.columnTitle} variant="titleSmall">Let Go</Text>
+          <Text style={themedStyles.columnTitle} variant="titleMedium">Let Go</Text>
           <SummarySectionList key={chosenCategory+'_letGo'} items={itemsLetGoToShow} />
         </View>
 
         <View style={themedStyles.divider} />
 
         <View style={themedStyles.column}>
-          <Text style={themedStyles.columnTitle} variant="titleSmall">Keep</Text>
+          <Text style={themedStyles.columnTitle} variant="titleMedium">Keep</Text>
           <SummarySectionList key={chosenCategory+'_keep'} items={itemsKeepToShow} />
         </View>
 
@@ -101,7 +99,6 @@ const styles = (colors) => StyleSheet.create({
     paddingHorizontal: 8,
   },
   columnTitle: {
-    fontWeight: 'bold',
     marginBottom: 8,
     textAlign: 'center',
   },
