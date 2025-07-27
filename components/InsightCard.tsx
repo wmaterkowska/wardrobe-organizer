@@ -5,12 +5,14 @@ import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorDot from './ColorDot';
 
 type CardType =
+  | 'itemsInWardrobe'
   | 'mostWornColor'
-  | 'unwornItems'
   | 'recentlyAdded'
-  | 'seasonal'
   | 'declutterPrompt'
-  | 'custom';
+  | 'favouriteFit'
+  | 'theBestFeel'
+  | 'feelIn'
+  | 'recentOutfit';
 
 type Props = {
   type: CardType;

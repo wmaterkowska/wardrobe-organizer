@@ -104,6 +104,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     );
   };
 
+  const print = () => {}
+
   return (
     <Appbar.Header
       style={{ height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top }}
@@ -116,6 +118,32 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {!isSelectMode ?
         <Appbar.Content titleStyle={styles.title} title={title} accessibilityLabel={title}/> : null}
 
+      {currentTabKey === 'home' ? (
+      <View ref={menuAnchorRef}>
+      <Menu
+        visible={menuVisible}
+        onDismiss={() => setMenuVisible(false)}
+        anchor={
+          <Appbar.Action
+            icon="dots-vertical"
+            accessibilityLabel="Menu"
+            onPress={() => setMenuVisible(true)}
+          />
+        }
+        anchorPosition="bottom"
+      >
+        <Menu.Item
+          onPress={toggleTheme}
+          title={isDark ? 'Light theme' : 'Dark theme'}
+          leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
+        />
+        <Menu.Item title="polish/english" />
+        <Divider />
+        <Menu.Item onPress={goToHelp} title="Help / Guide" />
+        <Menu.Item onPress={goToAbout} title="About" />
+      </Menu>
+      </View>
+      ) : null }
       {(currentTabKey === 'wardrobe' || currentTabKey === 'outfits') && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
           <Button
@@ -164,39 +192,19 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       ) : null }
       </>
       )}
-
       {route.name === "ItemDetail" || route.name === "OutfitDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}
           onPress={toggleEditMode}
         />
       ) : null }
-      {currentTabKey === 'home' ? (
-      <View ref={menuAnchorRef}>
-      <Menu
-        visible={menuVisible}
-        onDismiss={() => setMenuVisible(false)}
-        anchor={
-          <Appbar.Action
-            icon="dots-vertical"
-            accessibilityLabel="Menu"
-            onPress={() => setMenuVisible(true)}
-          />
-        }
-        anchorPosition="bottom"
-      >
-        <Menu.Item
-          onPress={toggleTheme}
-          title={isDark ? 'Light theme' : 'Dark theme'}
-          leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
+      {route.name === 'SummaryDetail' ? (
+        <Appbar.Action
+          icon='content-copy'
+          onPress={print}
         />
-        <Menu.Item title="polish/english" />
-        <Divider />
-        <Menu.Item onPress={goToHelp} title="Help / Guide" />
-        <Menu.Item onPress={goToAbout} title="About" />
-      </Menu>
-      </View>
-      ) : null }
+      ) : null}
+
     </Appbar.Header>
   )
 }
