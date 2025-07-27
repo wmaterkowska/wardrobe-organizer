@@ -45,6 +45,7 @@ export default function SummarySectionList({items}: Props) {
     'cuts': getSortedCuts(propertiesMap['cuts']),
     'textiles': getSortedTextiles(propertiesMap['textiles']),
     'feel_in': getSortedFeelIns(propertiesMap['feel_in']),
+    'comfort': propertiesMap['comfort'].sort(),
   };
 
   return (

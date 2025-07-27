@@ -7,6 +7,8 @@ import { Button, Surface, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
 
+import { printCategorySummaryToJson } from '../../utility/printUtils';
+
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
 
@@ -43,6 +45,9 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
     setItemsKeepToShow(itemsKeep);
     setItemsLetGoToShow(itemsLetGo);
   };
+
+  const json = printCategorySummaryToJson(itemsKeep, itemsLetGo);
+  console.log('json', json);
 
   return (
     <View style={{flex: 1, backgroundColor: colors.background}}>
