@@ -5,8 +5,9 @@ import PropertyList from './PropertyList';
 import { isRealmList } from '../hooks/useGroupedItems';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
+import { summarizeItems } from '../utility/summaryUtils';
+
 import { Item } from '../database/models/Item';
-import { PROPERTIES_ARRAY_FOR_SUMMARY } from '../constants/index';
 import { Color, Pattern, Fit, Cut, Textile, FeelIn } from '../database/index';
 
 
@@ -69,33 +70,7 @@ export default function SummarySectionList({items}: Props) {
   )
 }
 
-function summarizeItems(items: Item[]) {
-  const summaryMap = PROPERTIES_ARRAY_FOR_SUMMARY.reduce((acc, key) => {
-    acc[key] = [];
-    return acc;
-  }, {} as PropertyMap );
-
-  for (const item of items) {
-    for (const key of PROPERTIES_ARRAY_FOR_SUMMARY) {
-      const value = item[key];
-
-      if (isRealmList(value)) {
-        for (const val of value) {
-          if (!summaryMap[key]?.some((v) => v.id === val.id)) {
-            summaryMap[key]?.push(val);
-          }
-        }
-      } else if (value) {
-        if (!summaryMap[key]?.includes(value)) {
-          summaryMap[key]?.push(value);
-        }
-      }
-    }
-  }
-  return summaryMap;
-}
-
-const styles= StyleSheet.create({
+const styles = StyleSheet.create({
   propertiesContainer: {
     display: 'flex',
     padding: 10,
