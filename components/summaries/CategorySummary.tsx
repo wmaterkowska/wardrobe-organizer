@@ -7,7 +7,7 @@ import { Button, Surface, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
 
-import { printCategorySummaryToJson } from '../../utility/printUtils';
+import { printCategorySummaryToJson, printWholeCategorySummary } from '../../utility/printUtils';
 
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
@@ -28,9 +28,6 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
   const [itemsLetGoToShow, setItemsLetGoToShow] = useState(itemsLetGo);
   const [chosenCategory, setChosenCategory] = useState(null);
 
-  const [keepsFilteredByCategory, setKeepsFilterByCategory] = useState(itemsKeep);
-  const [letGosFilteredByCategory, setLetGosFilteredByCategory] = useState(itemsLetGo);
-
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
 
@@ -46,8 +43,11 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
     setItemsLetGoToShow(itemsLetGo);
   };
 
-  const json = printCategorySummaryToJson(itemsKeep, itemsLetGo);
+  const json = printCategorySummaryToJson(itemsKeepToShow, itemsLetGoToShow);
   console.log('json', json);
+
+  const json2 = printWholeCategorySummary(itemsKeep, itemsLetGo, categories);
+  console.log('json all', json2);
 
   return (
     <View style={{flex: 1, backgroundColor: colors.background}}>
