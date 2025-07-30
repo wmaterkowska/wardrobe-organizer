@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Realm from 'realm';
 import { useQuery } from '@realm/react';
 
+import { useWardrobeContext } from '../../context/WardrobeContext';
+
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
-
-import { printCategorySummaryToJson, printWholeCategorySummary } from '../../utility/printUtils';
 
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
@@ -24,12 +24,15 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
 
   const categories = useQuery(Category).map((cat) => cat.name);
 
+  const { categoryForPrint, setCategoryForPrint } = useWardrobeContext();
+
   const [itemsKeepToShow, setItemsKeepToShow] = useState(itemsKeep);
   const [itemsLetGoToShow, setItemsLetGoToShow] = useState(itemsLetGo);
   const [chosenCategory, setChosenCategory] = useState(null);
 
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
+    setCategoryForPrint(cat);
 
     const filteredKeep = itemsKeep.filtered('category.name == $0', cat);
     const filteredLetGo = itemsLetGo.filtered('category.name == $0', cat);
@@ -39,15 +42,10 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
 
   const handleAll = () => {
     setChosenCategory(null);
+    setCategoryForPrint(null);
     setItemsKeepToShow(itemsKeep);
     setItemsLetGoToShow(itemsLetGo);
   };
-
-  const json = printCategorySummaryToJson(itemsKeepToShow, itemsLetGoToShow);
-  console.log('json', json);
-
-  const json2 = printWholeCategorySummary(itemsKeep, itemsLetGo, categories);
-  console.log('json all', json2);
 
   return (
     <View style={{flex: 1, backgroundColor: colors.background}}>

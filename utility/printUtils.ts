@@ -1,10 +1,14 @@
 import { summarizeItems } from './summaryUtils';
 import { Item } from '../database/models/Item';
+import { Category } from '../database/models/Category';
 
 import { isRealmList } from '../hooks/useGroupedItems';
 
 
-export function printWholeCategorySummary(itemsKeep, itemsLetGo, categories) {
+export function printWholeCategorySummary(items : Item[], categories: string[]) {
+
+  const itemsKeep = items.filtered('want == $0', 'Keep');
+  const itemsLetGo = items.filtered('want == $0', 'Let go');
 
   const categoriesItemsObject = {}
   categories.forEach((cat) => {
@@ -33,7 +37,10 @@ export function printWholeCategorySummary(itemsKeep, itemsLetGo, categories) {
   return safeStringify(result);
 }
 
-export function printCategorySummaryToJson(itemsKeep: Item[], itemsLetGo: Item[]) {
+export function printCategorySummaryToJson(items: Item[], category: string) {
+
+  const itemsKeep = items.filtered('want == $0', 'Keep');
+  const itemsLetGo = items.filtered('want == $0', 'Let go');
 
   const keepPropertiesMap = summarizeItems(itemsKeep);
   const keepPropertiesObject = createPropertiesObject(keepPropertiesMap);
@@ -42,7 +49,7 @@ export function printCategorySummaryToJson(itemsKeep: Item[], itemsLetGo: Item[]
   const letGoPropertiesObject = createPropertiesObject(letGoPropertiesMap);
 
   const result = {
-    'Category': 'All',
+    'Category': category,
     'Let Go': {
       ...letGoPropertiesObject,
     },

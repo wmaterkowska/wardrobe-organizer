@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Realm from 'realm';
-import { useRealm } from '@realm/react';
+import { useRealm, useQuery } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
@@ -11,6 +11,10 @@ import { getHeaderTitle } from '@react-navigation/elements';
 
 import { useThemeToggle } from '../context/ThemeContext';
 import { getTitle } from '../utility/screenTitle';
+import { printCategorySummaryToJson, printWholeCategorySummary } from '../utility/printUtils';
+
+import { Item } from '../database/models/Item';
+import { Category } from '../database/models/Category';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
@@ -35,6 +39,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setSelectedItems,
     deleteItems,
     triggerDelete,
+    categoryForPrint,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
 
@@ -104,7 +109,23 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     );
   };
 
-  const print = () => {}
+// print summaries =================================================================================
+  const items = useQuery(Item);
+  const categories = useQuery(Category).map(cat => cat.name);
+
+  const printAll = () => {
+    if (route.name === 'SummaryDetail' && route.params.type === 'category') {
+      const json2 = printWholeCategorySummary(items, categories);
+      console.log('json all', json2);
+    }
+  }
+
+  const printForCategory = () => {
+    if (route.name === 'SummaryDetail' && route.params.type === 'category') {
+      const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+      const json = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+    }
+  }
 
   return (
     <Appbar.Header
@@ -199,10 +220,29 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         />
       ) : null }
       {route.name === 'SummaryDetail' ? (
-        <Appbar.Action
-          icon='content-copy'
-          onPress={print}
+      <View ref={menuAnchorRef}>
+      <Menu
+        visible={menuVisible}
+        onDismiss={() => setMenuVisible(false)}
+        anchor={
+          <Appbar.Action
+            icon="content-copy"
+            accessibilityLabel="Copy Menu"
+            onPress={() => setMenuVisible(true)}
+          />
+        }
+        anchorPosition="bottom"
+      >
+        <Menu.Item
+          onPress={printAll}
+          title='Copy whole summary'
         />
+        <Menu.Item
+          onPress={categoryForPrint ? printForCategory : printAll}
+          title='Copy current summary'
+        />
+      </Menu>
+      </View>
       ) : null}
 
     </Appbar.Header>
