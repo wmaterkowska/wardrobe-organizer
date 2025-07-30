@@ -16,6 +16,8 @@ import { printCategorySummaryToJson, printWholeCategorySummary } from '../utilit
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
 
+import * as Clipboard from 'expo-clipboard';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
@@ -113,17 +115,28 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const items = useQuery(Item);
   const categories = useQuery(Category).map(cat => cat.name);
 
-  const printAll = () => {
+  const printAll = async () => {
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
-      const json2 = printWholeCategorySummary(items, categories);
-      console.log('json all', json2);
+      const summaryJson = printWholeCategorySummary(items, categories);
+
+      try {
+        await Clipboard.setStringAsync(summaryJson);
+        console.log('✅ JSON copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
     }
   }
 
   const printForCategory = () => {
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
-      const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
-      const json = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+      if (categoryForPrint === 'All') {
+        const json = printCategorySummaryToJson(items, categoryForPrint);
+        console.log(json);
+      } else {
+        const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+        const json = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+      }
     }
   }
 
@@ -238,8 +251,8 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           title='Copy whole summary'
         />
         <Menu.Item
-          onPress={categoryForPrint ? printForCategory : printAll}
-          title='Copy current summary'
+          onPress={printForCategory}
+          title='Copy current screen'
         />
       </Menu>
       </View>

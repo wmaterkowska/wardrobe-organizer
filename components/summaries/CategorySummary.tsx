@@ -42,7 +42,7 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
 
   const handleAll = () => {
     setChosenCategory(null);
-    setCategoryForPrint(null);
+    setCategoryForPrint('All');
     setItemsKeepToShow(itemsKeep);
     setItemsLetGoToShow(itemsLetGo);
   };
