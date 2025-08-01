@@ -9,7 +9,11 @@ import { useQuery } from '@realm/react';
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
 
+import { useWardrobeContext } from '../../context/WardrobeContext';
+
 import { LEVELS, Titles } from '../../constants/index';
+
+import {printQuestionSummaryForCategoryToJson} from '../../utility/printUtils';
 
 export default function FeelSummary() {
 
@@ -20,6 +24,8 @@ export default function FeelSummary() {
 
   const categories = useQuery(Category).map((cat) => cat.name);
   const [chosenCategory, setChosenCategory] = useState(null);
+
+  const { categoryForPrint, setCategoryForPrint } = useWardrobeContext();
 
   const feelItemsArrays = useMemo(() => {
     if (!allItems || allItems.length === 0) return;
@@ -35,11 +41,16 @@ export default function FeelSummary() {
 
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
+    setCategoryForPrint(cat);
   };
 
   const handleAll = () => {
     setChosenCategory(null);
+    setCategoryForPrint('All');
   };
+
+  const jsonLog = printQuestionSummaryForCategoryToJson(allItems, 'like_me', categoryForPrint);
+  console.log(jsonLog)
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>

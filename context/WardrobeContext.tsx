@@ -45,7 +45,7 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
   const [deleteCallback, setDeleteCallback] = useState<() => void>(() => () => {});
 
-  const [categoryForPrint, setCategoryForPrint] = useState(null);
+  const [categoryForPrint, setCategoryForPrint] = useState('All');
 
   return (
     <WardrobeContext.Provider

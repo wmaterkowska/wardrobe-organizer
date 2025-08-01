@@ -4,6 +4,8 @@ import { Category } from '../database/models/Category';
 
 import { isRealmList } from '../hooks/useGroupedItems';
 
+import { LEVELS } from '../constants/categoryArrays';
+
 
 export function printWholeCategorySummary(items : Item[], categories: string[]) {
 
@@ -63,6 +65,30 @@ export function printCategorySummaryToJson(items: Item[], category: string) {
 
 export function generatePromptWrappedJson(jsonData: string) {
   return `This is a summary of my wardrobe decisions. Please help analyze my personal style based on what I want to KEEP and LET GO.\n\n${jsonData}`;
+};
+
+export function printQuestionSummaryForCategoryToJson(items: Item[], summary: string, category: string) {
+
+  const summaryLevels = LEVELS[summary];
+  const levelSummaryArrays = {};
+
+  summaryLevels.forEach((level) => {
+    let itemsForLevel = [];
+    if (category !== 'All') {
+      itemsForLevel = items.filtered(`${summary} == $0 AND category.name == $1`, level, category)
+    } else {
+      itemsForLevel = items.filtered(`${summary} == $0`, level)
+    }
+
+    const levelPropertiesMap = summarizeItems(itemsForLevel);
+    const levelPropertiesObject = createPropertiesObject(levelPropertiesMap);
+    levelSummaryArrays[level] = levelPropertiesObject;
+  })
+
+  const printSummaryObject = {};
+  printSummaryObject[category] = levelSummaryArrays;
+
+  return safeStringify(printSummaryObject);
 };
 
 // help functions ==================================================================================

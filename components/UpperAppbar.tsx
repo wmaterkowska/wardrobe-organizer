@@ -128,14 +128,25 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     }
   }
 
-  const printForCategory = () => {
+  const printForCategory = async () => {
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
       if (categoryForPrint === 'All') {
-        const json = printCategorySummaryToJson(items, categoryForPrint);
-        console.log(json);
+        const summaryJson = printCategorySummaryToJson(items, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
       } else {
         const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
-        const json = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+        const summaryJson = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
       }
     }
   }
