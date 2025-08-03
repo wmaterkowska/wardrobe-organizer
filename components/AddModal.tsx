@@ -9,7 +9,7 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { IconButton, Text, useTheme } from 'react-native-paper';
 import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
@@ -34,18 +34,16 @@ export default function AddModal({ visible, onClose, children }: Props) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={[styles.overlay, {backgroundColor: theme.colors.backdrop}]}>
           <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
+            <IconButton
+              icon="close"
+              accessibilityLabel="Close modal"
+              onPress={onClose}
+              style={styles.closeButton}
+            />
             <View style={styles.header}>
               <Text variant={"displaySmall"} accessibilityRole="header">
                 {isSelectMode ? 'Add New Outfit' : 'Add New Piece'}
               </Text>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Close modal"
-                onPress={onClose}
-                style={styles.closeButton}
-              >
-                <Text style={styles.closeText}>✕</Text>
-              </Pressable>
             </View>
             {children}
           </View>
@@ -56,6 +54,12 @@ export default function AddModal({ visible, onClose, children }: Props) {
 }
 
 const styles = StyleSheet.create({
+  closeButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 10,
+  },
   overlay: {
     flex: 1,
     justifyContent: 'center',
@@ -70,12 +74,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 16,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  closeText: {
-    fontSize: 20,
   },
 });
