@@ -8,6 +8,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
+import ExportSummaryModal from './ExportSummaryModal';
 
 import { useThemeToggle } from '../context/ThemeContext';
 import { getTitle } from '../utility/screenTitle';
@@ -15,7 +16,8 @@ import {
   printCategorySummaryToJson,
   printWholeCategorySummary,
   printQuestionSummaryForCategoryToJson,
-  printWholeQuestionSummary } from '../utility/printUtils';
+  printWholeQuestionSummary,
+  generatePromptWrappedJson } from '../utility/printUtils';
 import { typeQuestionMap } from '../constants/categoryArrays';
 
 
@@ -50,6 +52,9 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     categoryForPrint,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
+
+  const [printModalVisible, setPrintModalVisible] = useState(false);
+  const [printJson, setPrintJson] = useState('');
 
   const handleBack = () => {
     setIsEditMode(false);
@@ -122,8 +127,9 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const categories = useQuery(Category).map(cat => cat.name);
 
   const printAll = async () => {
+    let summaryJson = '';
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
-      const summaryJson = printWholeCategorySummary(items, categories);
+      summaryJson = printWholeCategorySummary(items, categories);
       try {
         await Clipboard.setStringAsync(summaryJson);
         console.log('✅ JSON copied to clipboard');
@@ -132,7 +138,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       }
     } else {
       const summary = typeQuestionMap[route.params.type];
-      const summaryJson = printWholeQuestionSummary(items, summary ,categories);
+      summaryJson = printWholeQuestionSummary(items, summary ,categories);
       try {
         await Clipboard.setStringAsync(summaryJson);
         console.log('✅ JSON copied to clipboard');
@@ -140,12 +146,16 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         console.error('❌ Failed to copy JSON to clipboard:', err);
       }
     }
+
+    setPrintModalVisible(true);
+    setPrintJson(summaryJson);
   }
 
   const printForCategory = async () => {
+    let summaryJson = '';
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
       if (categoryForPrint === 'All') {
-        const summaryJson = printCategorySummaryToJson(items, categoryForPrint);
+        summaryJson = printCategorySummaryToJson(items, categoryForPrint);
         try {
           await Clipboard.setStringAsync(summaryJson);
           console.log('✅ JSON copied to clipboard');
@@ -154,7 +164,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         }
       } else {
         const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
-        const summaryJson = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+        summaryJson = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
         try {
           await Clipboard.setStringAsync(summaryJson);
           console.log('✅ JSON copied to clipboard');
@@ -163,28 +173,41 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         }
       }
     } else {
-        if (categoryForPrint === 'All') {
-          const summary = typeQuestionMap[route.params.type];
-          const summaryJson = printQuestionSummaryForCategoryToJson(items, summary, categoryForPrint);
-          try {
-            await Clipboard.setStringAsync(summaryJson);
-            console.log('✅ JSON copied to clipboard');
-          } catch (err) {
-            console.error('❌ Failed to copy JSON to clipboard:', err);
-          }
-        } else {
-          const summary = typeQuestionMap[route.params.type];
-          const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
-          const summaryJson = printQuestionSummaryForCategoryToJson(itemsForCategory, summary, categoryForPrint);
-          try {
-            await Clipboard.setStringAsync(summaryJson);
-            console.log('✅ JSON copied to clipboard');
-          } catch (err) {
-            console.error('❌ Failed to copy JSON to clipboard:', err);
-          }
+      if (categoryForPrint === 'All') {
+        const summary = typeQuestionMap[route.params.type];
+        summaryJson = printQuestionSummaryForCategoryToJson(items, summary, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
         }
-
+      } else {
+        const summary = typeQuestionMap[route.params.type];
+        const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+        summaryJson = printQuestionSummaryForCategoryToJson(itemsForCategory, summary, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
+      }
     }
+
+    setPrintModalVisible(true);
+    setPrintJson(summaryJson);
+  }
+
+  const printWithPrompt = async () => {
+    const withPrompt = generatePromptWrappedJson(printJson);
+      try {
+        await Clipboard.setStringAsync(withPrompt);
+        console.log('✅ JSON copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
+    setPrintModalVisible(false);
   }
 
   return (
@@ -305,7 +328,17 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       </View>
       ) : null}
 
+      <ExportSummaryModal
+        visible={printModalVisible}
+        onDismiss={() => setPrintModalVisible(false)}
+        jsonString={printJson}
+        onAddPrompt={printWithPrompt}
+        onConfirmJson={() => {
+          setPrintModalVisible(false);
+        }}
+      />
     </Appbar.Header>
+
   )
 }
 
