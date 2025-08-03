@@ -12,15 +12,13 @@ import SummarySectionList from '../SummarySectionList';
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
 
-type Props = {
-  itemsKeep: Item[];
-  itemsLetGo: Item[];
-}
-
-export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
+export default function CategorySummary() {
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
+
+  const itemsKeep = useQuery(Item).filtered('want == $0', 'Keep');
+  const itemsLetGo = useQuery(Item).filtered('want == $0', 'Let go');
 
   const categories = useQuery(Category).map((cat) => cat.name);
 

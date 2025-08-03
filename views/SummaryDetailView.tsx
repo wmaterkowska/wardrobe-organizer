@@ -7,9 +7,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 import { View, Text } from 'react-native';
 import CategorySummary from '../components/summaries/CategorySummary';
-import FeelSummary from '../components/summaries/FeelSummary';
-import FrequencySummary from '../components/summaries/FrequencySummary';
-import AppearanceSummary from '../components/summaries/AppearanceSummary';
+import QuestionSummary from '../components/summaries/QuestionSummary';
 
 import { Item } from './../database/models/Item';
 
@@ -18,30 +16,18 @@ type Props = NativeStackScreenProps<RootStackParamList, 'SummaryDetail'>;
 export default function SummaryDetailView({ route }: Props) {
   const { type } = route.params;
 
-  const itemsKeep = useQuery(Item).filtered('want == $0', 'Keep');
-  const itemsLetGo = useQuery(Item).filtered('want == $0', 'Let go');
-
-  if (!itemsKeep.length && !itemsLetGo) {
-    return (
-      <View>
-        <Text>No items found. Add your first piece!</Text>
-      </View>
-    )
+  const typeQuestionMap = {
+    'feel': 'like_me',
+    'frequency': 'frequency',
+    'appearance': 'look_level'
   }
 
   return (
     <View style={{ flex: 1 }}>
-      {type === 'category' && (
-        <CategorySummary itemsKeep={itemsKeep} itemsLetGo={itemsLetGo} />
-      )}
-      {type === 'feel' && (
-        <FeelSummary />
-      )}
-      {type === 'frequency' && (
-        <FrequencySummary />
-      )}
-      {type === 'appearance' && (
-        <AppearanceSummary />
+      {type === 'category' ? (
+        <CategorySummary />
+      ) : (
+        <QuestionSummary questionType={typeQuestionMap[type]} />
       )}
     </View>
   );

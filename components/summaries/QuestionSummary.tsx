@@ -15,7 +15,11 @@ import { LEVELS, Titles } from '../../constants/index';
 
 import {printQuestionSummaryForCategoryToJson} from '../../utility/printUtils';
 
-export default function QuestionSummary(questionType: string) {
+type Props = {
+  questionType: string;
+}
+
+export default function QuestionSummary({questionType}: Props) {
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
