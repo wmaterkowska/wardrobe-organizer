@@ -4,13 +4,12 @@ import {
   Modal,
   View,
   StyleSheet,
-  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
   ScrollView
 } from 'react-native';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 import { useWardrobeContext } from '../context/WardrobeContext';
 
 type Props = {
@@ -34,38 +33,37 @@ export default function ExportSummaryModal({ visible, onDismiss, jsonString, onA
       accessible={true}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.overlay}>
-          <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
+        <View style={[styles.overlay, {backgroundColor: theme.colors.backdrop} ]} >
+          <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}] }>
 
+            <IconButton
+              icon="close"
+              accessibilityLabel="Close modal"
+              onPress={onDismiss}
+              style={styles.closeButton}
+            />
             <View style={styles.header}>
-              <Text variant={"displaySmall"} accessibilityRole="header">
+              <Text variant='headlineLarge' accessibilityRole="header">
                 Copied to clipboard!
               </Text>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Close modal"
-                onPress={onDismiss}
-                style={styles.closeButton}
-              >
-                <Text style={styles.closeText}>✕</Text>
-              </Pressable>
             </View>
 
             <ScrollView
-              style={styles.printView}
+              style={[styles.printView, {backgroundColor: theme.colors.surfaceDisabled}] }
               contentContainerStyle={{ flexGrow: 1, paddingBottom: 10 }}
               showsVerticalScrollIndicator={false}
             >
               <Text onStartShouldSetResponder={() => true} style={styles.json}>{jsonString}</Text>
             </ScrollView>
 
-            <View>
-              <Text>Would you like to add an AI-friendly prompt to this?</Text>
+            <View style={styles.questionContainer}>
+              <Text variant='titleMedium'>Would you like to add an AI-friendly prompt to this?</Text>
               <View style={styles.buttonsContainer}>
-                <Button onPress={onAddPrompt}>yes</Button>
-                <Button onPress={onConfirmJson}>no</Button>
+                <Button onPress={onAddPrompt} style={styles.button} mode='contained'>Add Prompt</Button>
+                <Button onPress={onConfirmJson} style={styles.button} mode='contained'>Keep as is</Button>
               </View>
             </View>
+
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -74,37 +72,43 @@ export default function ExportSummaryModal({ visible, onDismiss, jsonString, onA
 }
 
 const styles = StyleSheet.create({
+  button: {
+    flex: 1,
+  },
   buttonsContainer: {
     flexDirection: 'row',
+    gap: '5%',
+    marginTop: 16,
   },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'center',
-    padding: 12,
-  },
-  modalContainer: {
-    borderRadius: 16,
-    padding: 16,
-    marginVertical: 32,
+  closeButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 10,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 16,
+    margin: 16,
   },
-  closeButton: {
-    padding: 4,
+  json : {
+    padding: 16,
   },
-  closeText: {
-    fontSize: 20,
+  modalContainer: {
+    borderRadius: 16,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 12,
   },
   printView : {
     height: '20%',
     margin: 16,
+    borderRadius: 8,
   },
-  json : {
-
+  questionContainer: {
+    margin: 16,
   }
 });

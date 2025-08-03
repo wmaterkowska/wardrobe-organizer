@@ -32,7 +32,7 @@ export default function AddModal({ visible, onClose, children }: Props) {
       accessible={true}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.overlay}>
+        <View style={[styles.overlay, {backgroundColor: theme.colors.backdrop}]}>
           <View style={[styles.modalContainer, {backgroundColor: theme.colors.surfaceVariant}]}>
             <View style={styles.header}>
               <Text variant={"displaySmall"} accessibilityRole="header">
@@ -58,7 +58,6 @@ export default function AddModal({ visible, onClose, children }: Props) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     padding: 12,
   },
