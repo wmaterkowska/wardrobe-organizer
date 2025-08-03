@@ -11,7 +11,13 @@ import { getHeaderTitle } from '@react-navigation/elements';
 
 import { useThemeToggle } from '../context/ThemeContext';
 import { getTitle } from '../utility/screenTitle';
-import { printCategorySummaryToJson, printWholeCategorySummary } from '../utility/printUtils';
+import {
+  printCategorySummaryToJson,
+  printWholeCategorySummary,
+  printQuestionSummaryForCategoryToJson,
+  printWholeQuestionSummary } from '../utility/printUtils';
+import { typeQuestionMap } from '../constants/categoryArrays';
+
 
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
@@ -118,7 +124,15 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const printAll = async () => {
     if (route.name === 'SummaryDetail' && route.params.type === 'category') {
       const summaryJson = printWholeCategorySummary(items, categories);
-
+      try {
+        await Clipboard.setStringAsync(summaryJson);
+        console.log('✅ JSON copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
+    } else {
+      const summary = typeQuestionMap[route.params.type];
+      const summaryJson = printWholeQuestionSummary(items, summary ,categories);
       try {
         await Clipboard.setStringAsync(summaryJson);
         console.log('✅ JSON copied to clipboard');
@@ -148,6 +162,28 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           console.error('❌ Failed to copy JSON to clipboard:', err);
         }
       }
+    } else {
+        if (categoryForPrint === 'All') {
+          const summary = typeQuestionMap[route.params.type];
+          const summaryJson = printQuestionSummaryForCategoryToJson(items, summary, categoryForPrint);
+          try {
+            await Clipboard.setStringAsync(summaryJson);
+            console.log('✅ JSON copied to clipboard');
+          } catch (err) {
+            console.error('❌ Failed to copy JSON to clipboard:', err);
+          }
+        } else {
+          const summary = typeQuestionMap[route.params.type];
+          const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+          const summaryJson = printQuestionSummaryForCategoryToJson(itemsForCategory, summary, categoryForPrint);
+          try {
+            await Clipboard.setStringAsync(summaryJson);
+            console.log('✅ JSON copied to clipboard');
+          } catch (err) {
+            console.error('❌ Failed to copy JSON to clipboard:', err);
+          }
+        }
+
     }
   }
 

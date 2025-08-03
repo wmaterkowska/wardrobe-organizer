@@ -9,18 +9,14 @@ import { View, Text } from 'react-native';
 import CategorySummary from '../components/summaries/CategorySummary';
 import QuestionSummary from '../components/summaries/QuestionSummary';
 
+import { typeQuestionMap } from '../constants/categoryArrays';
+
 import { Item } from './../database/models/Item';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SummaryDetail'>;
 
 export default function SummaryDetailView({ route }: Props) {
   const { type } = route.params;
-
-  const typeQuestionMap = {
-    'feel': 'like_me',
-    'frequency': 'frequency',
-    'appearance': 'look_level'
-  }
 
   return (
     <View style={{ flex: 1 }}>

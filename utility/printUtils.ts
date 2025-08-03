@@ -63,8 +63,25 @@ export function printCategorySummaryToJson(items: Item[], category: string) {
   return JSON.stringify(result, null, 2);
 };
 
-export function generatePromptWrappedJson(jsonData: string) {
-  return `This is a summary of my wardrobe decisions. Please help analyze my personal style based on what I want to KEEP and LET GO.\n\n${jsonData}`;
+export function printWholeQuestionSummary(items : Item[], summary: string, categories: string[]) {
+
+  const summaryLevels = LEVELS[summary];
+
+  const categoriesItemsObject = {};
+  categories.forEach((cat) => {
+    const levelSummaryArrays = {};
+    summaryLevels.forEach((level) => {
+      let itemsForLevel = [];
+      itemsForLevel = items.filtered(`category.name == $0 AND ${summary} == $1`, cat, level)
+
+      const levelPropertiesMap = summarizeItems(itemsForLevel);
+      const levelPropertiesObject = createPropertiesObject(levelPropertiesMap);
+      levelSummaryArrays[level] = levelPropertiesObject;
+    });
+    categoriesItemsObject[cat] = levelSummaryArrays;
+  });
+
+  return safeStringify(categoriesItemsObject);
 };
 
 export function printQuestionSummaryForCategoryToJson(items: Item[], summary: string, category: string) {
@@ -89,6 +106,10 @@ export function printQuestionSummaryForCategoryToJson(items: Item[], summary: st
   printSummaryObject[category] = levelSummaryArrays;
 
   return safeStringify(printSummaryObject);
+};
+
+export function generatePromptWrappedJson(jsonData: string) {
+  return `This is a summary of my wardrobe decisions. Please help analyze my personal style based on what I want to KEEP and LET GO.\n\n${jsonData}`;
 };
 
 // help functions ==================================================================================

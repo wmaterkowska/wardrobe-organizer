@@ -52,3 +52,9 @@ export const  LEVELS = {
   comfort: ['1', '2', '3', '4', '5'],
   want: ['Let go', 'Unsure', 'Keep'],
 };
+
+export const typeQuestionMap = {
+  'feel': 'like_me',
+  'frequency': 'frequency',
+  'appearance': 'look_level'
+};
