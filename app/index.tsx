@@ -8,7 +8,7 @@ import { lightTheme, darkTheme, navigationThemes } from '../theme/paperTheme8';
 
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useThemeToggle } from '../context/ThemeContext';
 
 import { seedDatabaseWithItems, seedDatabaseWithProperties } from '../database/seed';
@@ -18,13 +18,6 @@ export default function Index() {
 
   const realm = useRealm();
   const { isDark } = useThemeToggle();
-
-  const scheme = useColorScheme();
-  const paperTheme = isDark ? darkTheme : lightTheme;
-  const navigationTheme =
-    isDark
-      ? navigationThemes.DarkTheme
-      : navigationThemes.LightTheme;
 
   useEffect(()=> {
     const existingItems = realm.objects(Item);
@@ -36,6 +29,11 @@ export default function Index() {
     }
   }, [realm]);
 
+  const paperTheme = isDark ? darkTheme : lightTheme;
+  const navigationTheme =
+    isDark
+      ? navigationThemes.DarkTheme
+      : navigationThemes.LightTheme;
 
   return (
     <PaperProvider theme={paperTheme}>

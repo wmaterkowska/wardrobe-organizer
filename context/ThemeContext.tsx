@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
-import { darkTheme, lightTheme } from '../theme/paperTheme6'
+import { NavigationContainer } from '@react-navigation/native';
+import { darkTheme, lightTheme, navigationThemes } from '../theme/paperTheme8'
 
 const ThemeContext = createContext<{
   isDark: boolean;
@@ -34,13 +35,9 @@ export const CustomThemeProvider = ({ children }: { children: React.ReactNode })
     });
   };
 
-  const theme = isDark ? darkTheme : lightTheme;
-
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <PaperProvider theme={theme}>
         {children}
-      </PaperProvider>
     </ThemeContext.Provider>
   );
 };
