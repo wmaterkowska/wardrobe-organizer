@@ -1,20 +1,19 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
-import { NavigationContainer } from '@react-navigation/native';
-import { darkTheme, lightTheme, navigationThemes } from '../theme/paperTheme8'
+//import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+//import { NavigationContainer } from '@react-navigation/native';
+//import { darkTheme, lightTheme, navigationThemes } from '../theme/paperTheme8'
 
-const ThemeContext = createContext<{
+interface ToggleThemeProps {
   isDark: boolean;
-  toggleTheme: () => void;
-}>({
-  isDark: false,
-  toggleTheme: () => {},
-});
+  toggleTheme: () => {}
+}
+
+const ThemeContext = createContext<ToggleThemeProps | undefined>(undefined);
 
 export const useThemeToggle = () => useContext(ThemeContext);
 
-export const CustomThemeProvider = ({ children }: { children: React.ReactNode }) => {
+export const CustomThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
