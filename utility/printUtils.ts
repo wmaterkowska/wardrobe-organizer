@@ -5,6 +5,7 @@ import { Category } from '../database/models/Category';
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { LEVELS } from '../constants/categoryArrays';
+import { prompts } from '../constants/summaryStrings';
 
 
 export function printWholeCategorySummary(items : Item[], categories: string[]) {
@@ -108,8 +109,8 @@ export function printQuestionSummaryForCategoryToJson(items: Item[], summary: st
   return safeStringify(printSummaryObject);
 };
 
-export function generatePromptWrappedJson(jsonData: string) {
-  return `This is a summary of my wardrobe decisions. Please help analyze my personal style based on what I want to KEEP and LET GO.\n\n${jsonData}`;
+export function generatePromptWrappedJson(jsonData: string, summary: string) {
+  return `${prompts[summary]}\n\n${jsonData}`;
 };
 
 // help functions ==================================================================================

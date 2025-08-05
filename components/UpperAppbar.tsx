@@ -200,10 +200,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   }
 
   const printWithPrompt = async () => {
-    const withPrompt = generatePromptWrappedJson(printJson);
+    const withPrompt = generatePromptWrappedJson(printJson, route.params.type);
       try {
         await Clipboard.setStringAsync(withPrompt);
-        console.log('✅ JSON copied to clipboard');
+        console.log('✅ JSON with prompt copied to clipboard');
       } catch (err) {
         console.error('❌ Failed to copy JSON to clipboard:', err);
       }

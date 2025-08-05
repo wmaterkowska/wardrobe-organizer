@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Linking } from 'react-native';
-import { Text, Title, Divider } from 'react-native-paper';
+import { Text, Title, Divider, useTheme } from 'react-native-paper';
 import { Strings } from '../constants/appStrings';
 
 export default function AboutView() {
+
+  const { colors: themeColors } = useTheme();
+
   return (
-    <SafeAreaView style={{ flex: 1 , paddingBottom: 50 }}>
+    <SafeAreaView style={{ flex: 1 , paddingBottom: 50, backgroundColor: themeColors.background }}>
     <ScrollView contentContainerStyle={styles.container}>
       <Title style={styles.title}>{Strings.appName}</Title>
       <Text style={styles.tagline} variant="titleSmall">{Strings.aboutOneSentence}</Text>
