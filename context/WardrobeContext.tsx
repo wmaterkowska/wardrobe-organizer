@@ -21,6 +21,8 @@ interface WardrobeContextProps {
   setSelectedOutfits: React.Dispatch<React.SetStateAction<string[]>>;
   deleteItems: () => void;
   triggerDelete: () => void;
+  categoryForPrint: string;
+  setCategoryForPrint: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
@@ -43,6 +45,8 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [saveCallback, setSaveCallback] = useState<() => void>(() => () => {});
   const [deleteCallback, setDeleteCallback] = useState<() => void>(() => () => {});
 
+  const [categoryForPrint, setCategoryForPrint] = useState('All');
+
   return (
     <WardrobeContext.Provider
       value={{
@@ -63,6 +67,8 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setSelectedOutfits,
         deleteItems: (fn: () => void) => setDeleteCallback(() => fn),
         triggerDelete: deleteCallback,
+        categoryForPrint,
+        setCategoryForPrint,
       }}
     >
       {children}

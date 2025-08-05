@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Realm from 'realm';
 import { useQuery } from '@realm/react';
 
+import { useWardrobeContext } from '../../context/WardrobeContext';
+
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
@@ -10,27 +12,25 @@ import SummarySectionList from '../SummarySectionList';
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
 
-type Props = {
-  itemsKeep: Item[];
-  itemsLetGo: Item[];
-}
-
-export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
+export default function CategorySummary() {
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
 
+  const itemsKeep = useQuery(Item).filtered('want == $0', 'Keep');
+  const itemsLetGo = useQuery(Item).filtered('want == $0', 'Let go');
+
   const categories = useQuery(Category).map((cat) => cat.name);
+
+  const { categoryForPrint, setCategoryForPrint } = useWardrobeContext();
 
   const [itemsKeepToShow, setItemsKeepToShow] = useState(itemsKeep);
   const [itemsLetGoToShow, setItemsLetGoToShow] = useState(itemsLetGo);
   const [chosenCategory, setChosenCategory] = useState(null);
 
-  const [keepsFilteredByCategory, setKeepsFilterByCategory] = useState(itemsKeep);
-  const [letGosFilteredByCategory, setLetGosFilteredByCategory] = useState(itemsLetGo);
-
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
+    setCategoryForPrint(cat);
 
     const filteredKeep = itemsKeep.filtered('category.name == $0', cat);
     const filteredLetGo = itemsLetGo.filtered('category.name == $0', cat);
@@ -40,6 +40,7 @@ export default function CategorySummary({itemsKeep, itemsLetGo}: Props) {
 
   const handleAll = () => {
     setChosenCategory(null);
+    setCategoryForPrint('All');
     setItemsKeepToShow(itemsKeep);
     setItemsLetGoToShow(itemsLetGo);
   };

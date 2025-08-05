@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { ScrollView, View, StyleSheet, Dimensions } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Text, Surface } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import SummarySectionList from '../SummarySectionList';
 
@@ -9,9 +9,17 @@ import { useQuery } from '@realm/react';
 import { Item } from '../../database/models/Item';
 import { Category } from '../../database/models/Category';
 
+import { useWardrobeContext } from '../../context/WardrobeContext';
+
 import { LEVELS, Titles } from '../../constants/index';
 
-export default function AppearanceSummary() {
+import {printQuestionSummaryForCategoryToJson} from '../../utility/printUtils';
+
+type Props = {
+  questionType: string;
+}
+
+export default function QuestionSummary({questionType}: Props) {
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
@@ -21,24 +29,28 @@ export default function AppearanceSummary() {
   const categories = useQuery(Category).map((cat) => cat.name);
   const [chosenCategory, setChosenCategory] = useState(null);
 
-  const appearanceItemsArrays = useMemo(() => {
+  const { categoryForPrint, setCategoryForPrint } = useWardrobeContext();
+
+  const questionItemsArrays = useMemo(() => {
     if (!allItems || allItems.length === 0) return;
 
-    return LEVELS['look_level'].map((level, index) => {
+    return LEVELS[questionType].map((level, index) => {
       if (chosenCategory) {
-        return allItems.filtered('look_level == $0 AND category.name == $1', level, chosenCategory);
+        return allItems.filtered(`${questionType} == $0 AND category.name == $1`, level, chosenCategory);
       } else {
-        return allItems.filtered('look_level == $0', level);
+        return allItems.filtered(`${questionType} == $0`, level);
       }
     });
   }, [allItems, chosenCategory]);
 
   const handleChooseCategory = (cat: string) => {
     setChosenCategory(cat);
+    setCategoryForPrint(cat);
   };
 
   const handleAll = () => {
     setChosenCategory(null);
+    setCategoryForPrint('All');
   };
 
   return (
@@ -66,7 +78,7 @@ export default function AppearanceSummary() {
         </Surface>
       </ScrollView>
 
-    <Text style={themedStyles.title} variant="titleLarge">{Titles.look_level}</Text>
+    <Text style={themedStyles.title} variant="titleLarge">{Titles.like_me}</Text>
 
     <View style={{ flex: 99 , flexDirection: 'row'}} key={chosenCategory+'_columns'}>
     <ScrollView
@@ -74,10 +86,10 @@ export default function AppearanceSummary() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollContainer}
     >
-      {appearanceItemsArrays.map((filteredItems, index) => {
+      {questionItemsArrays.map((filteredItems, index) => {
         return (
           <View key={index}>
-          <Text style={themedStyles.heading} variant="titleMedium">{LEVELS.look_level[index]}</Text>
+          <Text style={themedStyles.heading} variant="titleMedium">{LEVELS[questionType][index]}</Text>
           <View style={themedStyles.card} elevation={0}>
             <SummarySectionList items={filteredItems} />
           </View>

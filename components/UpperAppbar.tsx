@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Realm from 'realm';
-import { useRealm } from '@realm/react';
+import { useRealm, useQuery } from '@realm/react';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
@@ -8,9 +8,23 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Divider, IconButton, Menu, SegmentedButtons, Switch, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getHeaderTitle } from '@react-navigation/elements';
+import ExportSummaryModal from './ExportSummaryModal';
 
 import { useThemeToggle } from '../context/ThemeContext';
 import { getTitle } from '../utility/screenTitle';
+import {
+  printCategorySummaryToJson,
+  printWholeCategorySummary,
+  printQuestionSummaryForCategoryToJson,
+  printWholeQuestionSummary,
+  generatePromptWrappedJson } from '../utility/printUtils';
+import { typeQuestionMap } from '../constants/categoryArrays';
+
+
+import { Item } from '../database/models/Item';
+import { Category } from '../database/models/Category';
+
+import * as Clipboard from 'expo-clipboard';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
@@ -35,8 +49,12 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setSelectedItems,
     deleteItems,
     triggerDelete,
+    categoryForPrint,
   } = useWardrobeContext();
   const { top } = useSafeAreaInsets();
+
+  const [printModalVisible, setPrintModalVisible] = useState(false);
+  const [printJson, setPrintJson] = useState('');
 
   const handleBack = () => {
     setIsEditMode(false);
@@ -104,6 +122,94 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     );
   };
 
+// print summaries =================================================================================
+  const items = useQuery(Item);
+  const categories = useQuery(Category).map(cat => cat.name);
+
+  const printAll = async () => {
+    let summaryJson = '';
+    if (route.name === 'SummaryDetail' && route.params.type === 'category') {
+      summaryJson = printWholeCategorySummary(items, categories);
+      try {
+        await Clipboard.setStringAsync(summaryJson);
+        console.log('✅ JSON copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
+    } else {
+      const summary = typeQuestionMap[route.params.type];
+      summaryJson = printWholeQuestionSummary(items, summary ,categories);
+      try {
+        await Clipboard.setStringAsync(summaryJson);
+        console.log('✅ JSON copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
+    }
+
+    setPrintModalVisible(true);
+    setPrintJson(summaryJson);
+  }
+
+  const printForCategory = async () => {
+    let summaryJson = '';
+    if (route.name === 'SummaryDetail' && route.params.type === 'category') {
+      if (categoryForPrint === 'All') {
+        summaryJson = printCategorySummaryToJson(items, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
+      } else {
+        const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+        summaryJson = printCategorySummaryToJson(itemsForCategory, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
+      }
+    } else {
+      if (categoryForPrint === 'All') {
+        const summary = typeQuestionMap[route.params.type];
+        summaryJson = printQuestionSummaryForCategoryToJson(items, summary, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
+      } else {
+        const summary = typeQuestionMap[route.params.type];
+        const itemsForCategory = items.filtered('category.name == $0', categoryForPrint)
+        summaryJson = printQuestionSummaryForCategoryToJson(itemsForCategory, summary, categoryForPrint);
+        try {
+          await Clipboard.setStringAsync(summaryJson);
+          console.log('✅ JSON copied to clipboard');
+        } catch (err) {
+          console.error('❌ Failed to copy JSON to clipboard:', err);
+        }
+      }
+    }
+
+    setPrintModalVisible(true);
+    setPrintJson(summaryJson);
+  }
+
+  const printWithPrompt = async () => {
+    const withPrompt = generatePromptWrappedJson(printJson, route.params.type);
+      try {
+        await Clipboard.setStringAsync(withPrompt);
+        console.log('✅ JSON with prompt copied to clipboard');
+      } catch (err) {
+        console.error('❌ Failed to copy JSON to clipboard:', err);
+      }
+    setPrintModalVisible(false);
+  }
+
   return (
     <Appbar.Header
       style={{ height: UPPER_APPBAR_FOR_WARDROBE_HEIGHT + top }}
@@ -116,6 +222,32 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       {!isSelectMode ?
         <Appbar.Content titleStyle={styles.title} title={title} accessibilityLabel={title}/> : null}
 
+      {currentTabKey === 'home' ? (
+      <View ref={menuAnchorRef}>
+      <Menu
+        visible={menuVisible}
+        onDismiss={() => setMenuVisible(false)}
+        anchor={
+          <Appbar.Action
+            icon="dots-vertical"
+            accessibilityLabel="Menu"
+            onPress={() => setMenuVisible(true)}
+          />
+        }
+        anchorPosition="bottom"
+      >
+        <Menu.Item
+          onPress={toggleTheme}
+          title={isDark ? 'Light theme' : 'Dark theme'}
+          leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
+        />
+        <Menu.Item title="polish/english" />
+        <Divider />
+        <Menu.Item onPress={goToHelp} title="Help / Guide" />
+        <Menu.Item onPress={goToAbout} title="About" />
+      </Menu>
+      </View>
+      ) : null }
       {(currentTabKey === 'wardrobe' || currentTabKey === 'outfits') && isSelectMode === true ? (
         <View style={styles.selectModeButtons}>
           <Button
@@ -164,40 +296,49 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       ) : null }
       </>
       )}
-
       {route.name === "ItemDetail" || route.name === "OutfitDetail" ? (
         <Appbar.Action
           icon={isEditMode ? "check" : "pencil"}
           onPress={toggleEditMode}
         />
       ) : null }
-      {currentTabKey === 'home' ? (
+      {route.name === 'SummaryDetail' ? (
       <View ref={menuAnchorRef}>
       <Menu
         visible={menuVisible}
         onDismiss={() => setMenuVisible(false)}
         anchor={
           <Appbar.Action
-            icon="dots-vertical"
-            accessibilityLabel="Menu"
+            icon="content-copy"
+            accessibilityLabel="Copy Menu"
             onPress={() => setMenuVisible(true)}
           />
         }
         anchorPosition="bottom"
       >
         <Menu.Item
-          onPress={toggleTheme}
-          title={isDark ? 'Light theme' : 'Dark theme'}
-          leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
+          onPress={printAll}
+          title='Copy whole summary'
         />
-        <Menu.Item title="polish/english" />
-        <Divider />
-        <Menu.Item onPress={goToHelp} title="Help / Guide" />
-        <Menu.Item onPress={goToAbout} title="About" />
+        <Menu.Item
+          onPress={printForCategory}
+          title='Copy current screen'
+        />
       </Menu>
       </View>
-      ) : null }
+      ) : null}
+
+      <ExportSummaryModal
+        visible={printModalVisible}
+        onDismiss={() => setPrintModalVisible(false)}
+        jsonString={printJson}
+        onAddPrompt={printWithPrompt}
+        onConfirmJson={() => {
+          setPrintModalVisible(false);
+        }}
+      />
     </Appbar.Header>
+
   )
 }
 
