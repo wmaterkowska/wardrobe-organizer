@@ -2,7 +2,6 @@ import React from 'react';
 import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Linking } from 'react-native';
 import { Text, Title, Divider, useTheme } from 'react-native-paper';
-import { Strings } from '../constants/appStrings';
 
 import i18n from '../i18n/i18n';
 

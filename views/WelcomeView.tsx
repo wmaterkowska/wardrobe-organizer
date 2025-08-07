@@ -6,18 +6,25 @@ import { useTheme } from 'react-native-paper';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import RootStackParamList from '../navigation/RootNavigator';
 
+import { useWardrobeContext } from '../context/WardrobeContext';
+
 import AddModal from '../components/AddModal';
 import AddItemForm from '../components/AddItemForm';
 
-import { Strings } from '../constants';
+import { useTranslation } from 'react-i18next';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+export default function HomeView() {
 
-export default function HomeView({ navigation }: Props) {
+  const { t } = useTranslation();
+  const { setShowOnboarding } = useWardrobeContext();
 
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
   const theme = useTheme();
+
+  const onPressForward = () => {
+    setShowOnboarding(false);
+  }
 
   const handleAddButton = () => {
     setAddModalVisible(true);
@@ -25,7 +32,7 @@ export default function HomeView({ navigation }: Props) {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
-    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={() => navigation.navigate('Main')}/>
+    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={setShowOnboarding(false)}/>
       <View style={styles.textContainer}>
         <View>
           <Image
@@ -36,11 +43,11 @@ export default function HomeView({ navigation }: Props) {
         </View>
         {logoFailed ? (
         <Text variant="headlineLarge" style={styles.appName}>
-          {Strings.appName}
+          {t('about_view.appName')}
         </Text>
         ) : null }
         <Text variant="titleLarge" style={styles.welcome}>
-          {Strings.welcome}
+          {t('about_view.welcome')}
         </Text>
       </View>
 
@@ -56,7 +63,7 @@ export default function HomeView({ navigation }: Props) {
       </View>
       <AddModal visible={addModalVisible} onClose={() => {
         setAddModalVisible(false);
-         navigation.replace('Main');
+        navigation.replace('Main');
       }} >
         {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
       </AddModal>

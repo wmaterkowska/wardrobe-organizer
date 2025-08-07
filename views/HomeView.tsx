@@ -9,7 +9,8 @@ import { useTabNavigation } from '../context/TabNavigationContext';
 import Realm from 'realm';
 import { useQuery, useRealm } from '@realm/react';
 import { Item } from '../database/models/Item';
-import { Strings } from '../constants';
+
+import { useTranslation } from 'react-i18next';
 
 import {
   getRandomCards,
@@ -25,6 +26,8 @@ import { generateShade } from '../utility/colorUtils';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeView({ navigation }: Props) {
+
+  const { t } = useTranslation();
 
   const theme = useTheme();
 
@@ -59,7 +62,7 @@ export default function HomeView({ navigation }: Props) {
     <View style={styles.innerView}>
 
       <Text variant="headlineMedium" style={styles.titleContainer}>
-        {Strings.appName}
+        {t('about_view.appName')}
       </Text>
 
       {items.length > 0 ? (

@@ -4,6 +4,8 @@ export type ViewType = 'list' | 'grid';
 export type NumColumns = 1 | 2 | 3 | 4;
 
 interface WardrobeContextProps {
+  showOnboarding: boolean;
+  setShowOnboarding: React.Dispatch<React.SetStateAction<boolean>>;
   viewType: ViewType;
   setViewType: React.Dispatch<React.SetStateAction<ViewType>>;
   numColumns: NumColumns;
@@ -34,6 +36,7 @@ export const useWardrobeContext = () => {
 };
 
 export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [showOnboarding, setShowOnboarding] = useState<boolean>(true);
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [numColumns, setNumColumns] = useState<NumColumns>(2);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -50,6 +53,8 @@ export const WardrobeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   return (
     <WardrobeContext.Provider
       value={{
+        showOnboarding,
+        setShowOnboarding,
         viewType,
         setViewType,
         numColumns,

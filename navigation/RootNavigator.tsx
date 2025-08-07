@@ -5,6 +5,8 @@ import Realm from 'realm';
 import { useQuery } from '@realm/react';
 import { Item } from '../database/models/Item';
 
+import { useWardrobeContext } from '../context/WardrobeContext';
+
 import { TabNavigationContext } from '../context/TabNavigationContext';
 import { TAB_INDEX_MAP } from './tabRoutes';
 
@@ -36,10 +38,10 @@ export default function RootNavigator() {
 
   const [index, setIndex] = useState(0);
   const currentTabKey = tabKeys[index];
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const { showOnboarding, setShowOnboarding } = useWardrobeContext();
 
   useEffect(() => {
-    if (items.length !== 0) {setShowOnboarding(false)}
+    if (items.length !== 0) {setShowOnboarding(true)}
   }, [items])
 
   const setTabByKey = (key: keyof typeof TAB_INDEX_MAP) => {
