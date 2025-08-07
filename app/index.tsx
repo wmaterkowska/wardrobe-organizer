@@ -9,6 +9,8 @@ import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { useEffect } from 'react';
 
+import '../i18n/i18n';
+
 import { seedDatabaseWithItems, seedDatabaseWithProperties } from '../database/seed';
 import { Item } from '../database/models/Item';
 

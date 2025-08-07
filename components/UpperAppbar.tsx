@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Realm from 'realm';
 import { useRealm, useQuery } from '@realm/react';
+import { useTranslation } from 'react-i18next';
 import { useWardrobeContext } from '../context/WardrobeContext';
 import { useTabNavigation } from '../context/TabNavigationContext';
 
@@ -85,6 +86,23 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const menuAnchorRef = useRef(null);
 
+// change language =================================================================================
+  const { i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState('en')
+  const changeLanguage = async (lng: 'en' | 'pl') => {
+    await i18n.changeLanguage(lng);
+  }
+  const onPressSwitchLanguage = () => {
+    if(currentLanguage === 'en') {
+      changeLanguage('pl');
+      setCurrentLanguage('pl');
+    } else {
+      changeLanguage('en');
+      setCurrentLanguage('en');
+    }
+  }
+
+// go to description pages =========================================================================
   const goToAbout = () => {
     navigation.navigate('About');
   };
@@ -97,9 +115,10 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     console.log('Navigate to Licenses');
   };
 
+// toggle themes ===================================================================================
   const { isDark, toggleTheme } = useThemeToggle();
 
-  const handleCreateOutfit = () => {}
+// selection and delete handle =====================================================================
   const cancelSelection = () => {
     setIsSelectMode(false);
     setSelectedItems([]);
@@ -241,7 +260,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
           title={isDark ? 'Light theme' : 'Dark theme'}
           leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
         />
-        <Menu.Item title="polish/english" />
+        <Menu.Item onPress={onPressSwitchLanguage} title="polish/english" />
         <Divider />
         <Menu.Item onPress={goToHelp} title="Help / Guide" />
         <Menu.Item onPress={goToAbout} title="About" />
