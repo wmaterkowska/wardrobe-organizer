@@ -60,9 +60,8 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 // set state for outfit detail and edit outfit detail ==============================================
   const [outfitName, setOutfitName] = useState<string | null>(outfit.outfit_name);
   const [imageUri, setImageUri] = useState<string | null>(outfit.image_uri);
-
   const [outfitOccasions, setOutfitOccasions] = useState<Occasion[]>(outfit.occasions);
-  const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
+
   const [outfitComfort, setOutfitComfort] = useState<int>(outfit.comfort);
   const [isComfortEditable, setIsComfortEditable] = useState(false);
   const [outfitFeelIn, setOutfitFeelIn] = useState<FeelIn[]>(outfit.feel_in);
@@ -93,12 +92,6 @@ export default function OutfitDetailView({ route, navigation }: Props) {
     }
   };
 
-  const toggleOccasionEdit = () => {
-    setIsOccasionsEditable(!isOccasionsEditable);
-    if (isOccasionsEditable) {
-      updateOutfitField(realm, outfit, {occasions: outfitOccasions})
-    };
-  };
   const handleOccasionSelect = (id: string) => {
     const occasionFromId = occasions.find((o) => o.id === id);
     setOutfitOccasions((prev) => {
@@ -162,23 +155,8 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       frequency: frequencyLevel,
       want: wantDecision,
     })
-  }, [imageUri, outfitName, outfitOccasions, outfitComfort, outfitFeelIn, likeMe, lookLevel, frequencyLevel, wantDecision]);
+  }, [imageUri, outfitName, outfitOccasions, outfitComfort, outfitFeelIn, likeMe, lookLevel, frequencyLevel, wantDecision, isEditMode]);
   useRegisterSave(saveFn);
-
-// // toggle edit mode ================================================================================
-//   useEffect(() => {
-//     if (!isEditMode) {
-//       setIsImageEditable(false);
-//       setIsOutfitNameEditable(false);
-//       setIsOccasionsEditable(false);
-//       setIsComfortEditable(false);
-//       setIsFeelInEditable(false);
-//       setIsLikeMeEditable(false);
-//       setIsLookLevelEditable(false);
-//       setIsFrequencyEditable(false);
-//       setIsWantEditable(false);
-//     }
-//   }, [isEditMode, outfitOccasions, outfitFeelIn])
 
 // error when there is no outfit found =============================================================
   if (!outfit) {
@@ -215,13 +193,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'occasions'+isOccasionsEditable.toString()}
+          key={'occasions'+isEditMode.toString()}
           title='occasions'
-          properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : outfit.occasions}
-          selectedPropertyIds={(isOccasionsEditable && isEditMode) ? outfitOccasions.map((o) => o.id) : []}
+          properties={(isEditMode) ? sortedOccasions : outfit.occasions}
+          selectedPropertyIds={(isEditMode) ? outfitOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
-          isEditable={isEditMode && isOccasionsEditable}
-          onPressEditIcon={toggleOccasionEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
@@ -234,13 +211,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'feelIn'+isFeelInEditable.toString()}
+          key={'feelIn'+isEditMode.toString()}
           title={'feel_in'}
-          properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : outfit.feel_in}
-          selectedPropertyIds={(isFeelInEditable && isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
+          properties={(isEditMode) ? sortedFeelIns : outfit.feel_in}
+          selectedPropertyIds={(isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
-          isEditable={isEditMode && isFeelInEditable}
-          onPressEditIcon={toggleFeelInEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
