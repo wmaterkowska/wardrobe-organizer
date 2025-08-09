@@ -64,36 +64,21 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
   const [itemName, setItemName] = useState<string | null>(item.item_name);
   const [main, setMain] = useState< MainCategory | null>(item.main_category);
-  const [isMainEditable, setIsMainEditable] = useState(false);
   const [itemCategory, setItemCategory] = useState<Category | null>(item.category);
-  const [isCategoryEditable, setIsCategoryEditable] = useState(false);
   const [itemColors, setItemColors] = useState<Color[]>(item.colors);
-  const [isColorsEditable, setIsColorsEditable] = useState(false);
   const [itemPatterns, setItemPatterns] = useState<Pattern[]>(item.patterns);
-  const [isPatternsEditable, setIsPatternsEditable] = useState(false);
   const [itemFits, setItemFits] = useState<Fit[]>(item.fits);
-  const [isFitsEditable, setIsFitsEditable] = useState(false);
   const [itemCuts, setItemCuts] = useState<Cut[]>(item.cuts);
   const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
-  const [isCutsEditable, setIsCutsEditable] = useState(false);
   const [itemTextiles, setItemTextiles] = useState<Textile[]>(item.textiles);
-  const [isTextilesEditable, setIsTextilesEditable] = useState(false);
   const [itemOccasions, setItemOccasions] = useState<Occasion[]>(item.occasions);
-  const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
   const [itemComfort, setItemComfort] = useState<int>(item.comfort);
-  const [isComfortEditable, setIsComfortEditable] = useState(false);
   const [itemFeelIn, setItemFeelIn] = useState<FeelIn[]>(item.feel_in);
-  const [isFeelInEditable, setIsFeelInEditable] = useState(false);
   const [likeMe, setLikeMe] =  useState(item.like_me);
-  const [isLikeMeEditable, setIsLikeMeEditable] = useState(false);
   const [lookLevel, setLookLevel] = useState(item.look_level);
-  const [isLookLevelEditable, setIsLookLevelEditable] = useState(false);
   const [frequencyLevel, setFrequencyLevel] = useState(item.frequency);
-  const [isFrequencyEditable, setIsFrequencyEditable] = useState(false);
   const [priceLevel, setPriceLevel] = useState(item.price);
-  const [isPriceEditable, setIsPriceEditable] = useState(false);
   const [wantDecision, setWantDecision] = useState(item.want);
-  const [isWantEditable, setIsWantEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -134,28 +119,16 @@ export default function ItemDetailView({ route, navigation }: Props) {
     }
   };
 
-  const toggleMainEdit = () => {
-    setIsMainEditable(!isMainEditable);
-    if (isMainEditable) { updateItemField(realm, item, {main_category: main})};
-  };
   const handleMainCategorySelect = (id: string) => {
     const mainFromId = mains.find(m => m.id === id);
     setMain(mainFromId);
   };
 
-  const toggleCategoryEdit = () => {
-    setIsCategoryEditable(!isCategoryEditable);
-    if (isCategoryEditable) { updateItemField(realm, item, {category: itemCategory})};
-  };
   const handleCategorySelect = (id: string) => {
     const categoryFromId = categories.find(c => c.id === id);
     setItemCategory(categoryFromId);
   };
 
-  const toggleColorEdit = () => {
-    setIsColorsEditable(!isColorsEditable);
-    if (isColorsEditable) { updateItemField(realm, item, {colors: itemColors})};
-  };
   const handleColorSelect = (id: string) => {
     const colorFromId = colors.find((c) => c.id === id);
     setItemColors((prev) => {
@@ -163,10 +136,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((c) => c.id !== colorFromId.id) : [...prev, colorFromId]; });
   };
 
-  const togglePatternEdit = () => {
-    setIsPatternsEditable(!isPatternsEditable);
-    if (isPatternsEditable) { updateItemField(realm, item, {patterns: itemPatterns})};
-  };
   const handlePatternSelect = (id: string) => {
     const patternFromId = patterns.find((p) => p.id === id);
     setItemPatterns((prev) => {
@@ -174,10 +143,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((p) => p.id !== patternFromId.id) : [...prev, patternFromId]; });
   };
 
-  const toggleFitEdit = () => {
-    setIsFitsEditable(!isFitsEditable);
-    if (isFitsEditable) { updateItemField(realm, item, {fits: itemFits})};
-  };
   const handleFitSelect = (id: string) => {
     const fitFromId = fits.find((f) => f.id === id);
     setItemFits((prev) => {
@@ -185,10 +150,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((f) => f.id !== fitFromId.id) : [...prev, fitFromId]; });
   };
 
-  const toggleCutEdit = () => {
-    setIsCutsEditable(!isCutsEditable);
-    if (isCutsEditable) { updateItemField(realm, item, {cuts: itemCuts})};
-  };
   const handleCutSelect = (id: string) => {
     const cutFromId = cuts.find((c) => c.id === id);
     setItemCuts((prev) => {
@@ -196,10 +157,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((c) => c.id !== cutFromId.id) : [...prev, cutFromId]; });
   };
 
-  const toggleTextileEdit = () => {
-    setIsTextilesEditable(!isTextilesEditable);
-    if (isTextilesEditable) { updateItemField(realm, item, {textiles: itemTextiles})};
-  };
   const handleTextileSelect = (id: string) => {
     const textileFromId = textiles.find((t) => t.id === id);
     setItemTextiles((prev) => {
@@ -207,10 +164,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((t) => t.id !== textileFromId.id) : [...prev, textileFromId]; });
   };
 
-  const toggleOccasionEdit = () => {
-    setIsOccasionsEditable(!isOccasionsEditable);
-    if (isOccasionsEditable) { updateItemField(realm, item, {occasions: itemOccasions})};
-  };
   const handleOccasionSelect = (id: string) => {
     const occasionFromId = occasions.find((o) => o.id === id);
     setItemOccasions((prev) => {
@@ -218,18 +171,10 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((o) => o.id !== occasionFromId.id) : [...prev, occasionFromId]; });
   };
 
-  const toggleComfortEdit = () => {
-    setIsComfortEditable(!isComfortEditable);
-    if (isComfortEditable) { updateItemField(realm, item, {comfort: itemComfort})};
-  };
   const handleComfortSelect = (comfortLevel: int) => {
     setItemComfort(comfortLevel)
   };
 
-  const toggleFeelInEdit = () => {
-    setIsFeelInEditable(!isFeelInEditable);
-    if (isFeelInEditable) { updateItemField(realm, item, {feel_in: itemFeelIn})};
-  };
   const handleFeelInSelect = (id: string) => {
     const feelInFromId = feels.find((f) => f.id === id);
     setItemFeelIn((prev) => {
@@ -237,34 +182,14 @@ export default function ItemDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((f) => f.id !== feelInFromId.id) : [...prev, feelInFromId]; });
   };
 
-  const toggleLikeMeEdit = () => {
-    setIsLikeMeEditable(!isLikeMeEditable);
-    if (isLikeMeEditable) { updateItemField(realm, item, {like_me: likeMe})};
-  };
   const handleLikeMeSelect = (likeMeLevel: string) => { setLikeMe(likeMeLevel) };
 
-  const toggleLookLevelEdit = () => {
-    setIsLookLevelEditable(!isLookLevelEditable);
-    if (isLookLevelEditable) { updateItemField(realm, item, {look_level: lookLevel})};
-  };
   const handleLookLevelSelect = (lookLvl: string) => { setLookLevel(lookLvl) };
 
-  const toggleFrequencyEdit = () => {
-    setIsFrequencyEditable(!isFrequencyEditable);
-    if (isFrequencyEditable) { updateItemField(realm, item, {frequency: frequencyLevel})};
-  };
   const handleFrequencySelect = (freqLvl: string) => { setFrequencyLevel(freqLvl) };
 
-  const togglePriceEdit = () => {
-    setIsPriceEditable(!isPriceEditable);
-    if (isPriceEditable) { updateItemField(realm, item, {price: priceLevel})};
-  };
   const handlePriceSelect = (priceLvl: string) => { setPriceLevel(priceLvl) };
 
-  const toggleWantEdit = () => {
-    setIsWantEditable(!isWantEditable);
-    if (isWantEditable) { updateItemField(realm, item, {want: wantDecision})};
-  };
   const handleWantSelect = (wantDec: string) => { setWantDecision(wantDec) };
 
 // save to database function =======================================================================
@@ -287,38 +212,15 @@ export default function ItemDetailView({ route, navigation }: Props) {
       price: priceLevel,
       want: wantDecision,
     })
-  }, [imageUri, itemName, main, itemCategory, itemColors, itemPatterns, itemFits, itemTextiles, itemOccasions, itemComfort, itemFeelIn, likeMe, lookLevel, frequencyLevel, priceLevel, wantDecision]);
+  }, [imageUri, itemName, main, itemCategory, itemColors, itemPatterns, itemFits, itemTextiles, itemOccasions, itemComfort, itemFeelIn, likeMe, lookLevel, frequencyLevel, priceLevel, wantDecision, isEditMode]);
 
   useRegisterSave(saveFn);
-
-// // toggle edit mode ================================================================================
-//   useEffect(() => {
-//     if (!isEditMode) {
-//       setIsImageEditable(false);
-//       setIsItemNameEditable(false);
-//       setIsMainEditable(false);
-//       setIsCategoryEditable(false);
-//       setIsColorsEditable(false);
-//       setIsPatternsEditable(false);
-//       setIsFitsEditable(false);
-//       setIsCutsEditable(false);
-//       setIsTextilesEditable(false);
-//       setIsOccasionsEditable(false);
-//       setIsComfortEditable(false);
-//       setIsFeelInEditable(false);
-//       setIsLikeMeEditable(false);
-//       setIsLookLevelEditable(false);
-//       setIsFrequencyEditable(false);
-//       setIsPriceEditable(false);
-//       setIsWantEditable(false);
-//     }
-//   }, [isEditMode, isEditAll])
 
 // error when there is no item found ===============================================================
   if (!item) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Item not found.</Text>
+        <Text>Item not found. Add your first item!</Text>
       </View>
     );
   }
@@ -343,7 +245,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
           onChange={setItemName}
         />
 
-        <View style={isEditMode && (isMainEditable || isCategoryEditable) ? styles.editCategories : styles.categories} >
+        <View style={isEditMode ? styles.editCategories : styles.categories} >
           <PropertySection
             title='main category'
             propertyName={main?.name}
@@ -351,8 +253,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
             selectedPropertyIds={[main?.id]}
             handleSelect={handleMainCategorySelect}
             isSingleSelect={true}
-            isEditable={isMainEditable}
-            onPressEditIcon={toggleMainEdit}
+            isEditable={isEditMode}
           />
           {main ? <Text variant="bodyMedium"> > </Text> : null}
           <PropertySection
@@ -362,134 +263,120 @@ export default function ItemDetailView({ route, navigation }: Props) {
             selectedPropertyIds={[itemCategory?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}
-            isEditable={isCategoryEditable}
-            onPressEditIcon={toggleCategoryEdit}
+            isEditable={isEditMode}
           />
         </View>
 
         <Divider style={styles.divider}/>
         { item.colors ?
           <ColorSection
-            colors={isColorsEditable && isEditMode ? sortedColors : item.colors}
+            colors={isEditMode ? sortedColors : item.colors}
             selectedColorIds={isEditMode ? itemColors.map((c) => c.id) : []}
             handleSelect={handleColorSelect}
-            isEditable={isColorsEditable}
-            onPressEditIcon={toggleColorEdit}
+            isEditable={isEditMode}
           /> : null }
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'patterns'+isPatternsEditable.toString()}
+          key={'patterns'+isEditMode.toString()}
           title='patterns'
-          properties={(isPatternsEditable && isEditMode) ? sortedPatterns : item.patterns}
-          selectedPropertyIds={(isPatternsEditable && isEditMode) ? itemPatterns.map((p) => p.id) : []}
+          properties={(isEditMode) ? sortedPatterns : item.patterns}
+          selectedPropertyIds={(isEditMode) ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
-          isEditable={isEditMode && isPatternsEditable}
-          onPressEditIcon={togglePatternEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'fits'+isFitsEditable.toString()}
+          key={'fits'+isEditMode.toString()}
           title='fits'
-          properties={isFitsEditable && isEditMode ? sortedFits : item.fits}
-          selectedPropertyIds={isFitsEditable && isEditMode ? itemFits.map((f) => f.id) : []}
+          properties={isEditMode ? sortedFits : item.fits}
+          selectedPropertyIds={isEditMode ? itemFits.map((f) => f.id) : []}
           handleSelect={handleFitSelect}
-          isEditable={isEditMode && isFitsEditable}
-          onPressEditIcon={toggleFitEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <PropertySection
-          kay={'cuts'+isCutsEditable.toString()}
+          kay={'cuts'+isEditMode.toString()}
           title='cuts'
-          properties={(isCutsEditable && isEditMode) ? filteredCuts : item.cuts}
-          selectedPropertyIds={(isCutsEditable && isEditMode) ? itemCuts.map((c) => c.id) : []}
+          properties={(isEditMode) ? filteredCuts : item.cuts}
+          selectedPropertyIds={(isEditMode) ? itemCuts.map((c) => c.id) : []}
           handleSelect={handleCutSelect}
-          isEditable={isEditMode && isCutsEditable}
-          onPressEditIcon={toggleCutEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'textiles'+isTextilesEditable.toString()}
+          key={'textiles'+isEditMode.toString()}
           title='textiles'
-          properties={(isTextilesEditable && isEditMode) ? sortedTextiles : item.textiles}
-          selectedPropertyIds={(isTextilesEditable && isEditMode) ? itemTextiles.map((t) => t.id) : []}
+          properties={(isEditMode) ? sortedTextiles : item.textiles}
+          selectedPropertyIds={(isEditMode) ? itemTextiles.map((t) => t.id) : []}
           handleSelect={handleTextileSelect}
-          isEditable={isEditMode && isTextilesEditable}
-          onPressEditIcon={toggleTextileEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'occasions'+isOccasionsEditable.toString()}
+          key={'occasions'+isEditMode.toString()}
           title='occasions'
-          properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : item.occasions}
-          selectedPropertyIds={(isOccasionsEditable && isEditMode) ? itemOccasions.map((o) => o.id) : []}
+          properties={(isEditMode) ? sortedOccasions : item.occasions}
+          selectedPropertyIds={(isEditMode) ? itemOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
-          isEditable={isEditMode && isOccasionsEditable}
-          onPressEditIcon={toggleOccasionEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <ComfortSection
           comfortLevel={item.comfort}
-          isEditable={isComfortEditable}
+          isEditable={isEditMode}
           onChange={handleComfortSelect}
-          onPressEditIcon={toggleComfortEdit}
         />
 
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'feelIn'+isFeelInEditable.toString()}
+          key={'feelIn'+isEditMode.toString()}
           title={'feel_in'}
-          properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : item.feel_in}
-          selectedPropertyIds={(isFeelInEditable && isEditMode) ? itemFeelIn.map((f) => f.id) : []}
+          properties={(isEditMode) ? sortedFeelIns : item.feel_in}
+          selectedPropertyIds={(isEditMode) ? itemFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
-          isEditable={isFeelInEditable}
-          onPressEditIcon={toggleFeelInEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <QuestionSection
           property={'like_me'}
           value={item.like_me}
-          isEditable={isLikeMeEditable}
+          isEditable={isEditMode}
           handleSelect={handleLikeMeSelect}
-          onPressEditIcon={toggleLikeMeEdit}
         />
 
         <QuestionSection
           property={'look_level'}
           value={item.look_level}
-          isEditable={isLookLevelEditable}
+          isEditable={isEditMode}
           handleSelect={handleLookLevelSelect}
-          onPressEditIcon={toggleLookLevelEdit}
         />
 
         <QuestionSection
           property={'frequency'}
           value={item.frequency}
-          isEditable={isFrequencyEditable}
+          isEditable={isEditMode}
           handleSelect={handleFrequencySelect}
-          onPressEditIcon={toggleFrequencyEdit}
         />
 
         <QuestionSection
           property={'price'}
           value={item.price}
-          isEditable={isPriceEditable}
+          isEditable={isEditMode}
           handleSelect={handlePriceSelect}
-          onPressEditIcon={togglePriceEdit}
         />
 
         <WantSection
           value={item.want}
-          isEditable={isWantEditable}
+          isEditable={isEditMode}
           handleSelect={handleWantSelect}
-          onPressEditIcon={toggleWantEdit}
         />
 
       </View>
