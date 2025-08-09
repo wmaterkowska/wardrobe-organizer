@@ -3,5 +3,14 @@
   "savePiece": "Save Piece",
   "addNewOutfit": "Add New Outfit",
   "saveOutfit": "Save Outfit",
-  "addPhoto": "Add Photo"
+  "addPhoto": "Add Photo",
+  "delete": "Delete",
+
+  "lightTheme": "Light theme",
+  "darkTheme": "Dark theme",
+  "polishChange": "Change to Polish",
+  "englishChange": "Change to English",
+
+  "copyWholeSummary": "Copy whole summary",
+  "copyCurrentScreen": "Copy current screen"
 }

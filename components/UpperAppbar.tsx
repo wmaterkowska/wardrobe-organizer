@@ -32,7 +32,7 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 export default function UpperAppbar({ navigation, route, options, back }) {
 
   const realm = useRealm();
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { currentTabKey } = useTabNavigation();
   const {
     viewType,
@@ -87,8 +87,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const menuAnchorRef = useRef(null);
 
 // change language =================================================================================
-  const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState('en')
+  const [currentLanguage, setCurrentLanguage] = useState('en');
   const changeLanguage = async (lng: 'en' | 'pl') => {
     await i18n.changeLanguage(lng);
   }
@@ -122,7 +121,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
   const confirmDelete = () => {
     Alert.alert(
       'Delete Items',
-      `Are you sure you want to delete item(s)?`,
+      `Are you sure you want to delete selected?`,
       [
         {
           text: 'Cancel',
@@ -245,7 +244,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
         anchor={
           <Appbar.Action
             icon="dots-vertical"
-            accessibilityLabel="Menu"
+            accessibilityLabel={t('navigation:menu')}
             onPress={() => setMenuVisible(true)}
           />
         }
@@ -253,13 +252,15 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
         <Menu.Item
           onPress={toggleTheme}
-          title={isDark ? 'Light theme' : 'Dark theme'}
+          title={isDark ? t('common:lightTheme') : t('common:darkTheme')}
           leadingIcon={isDark ? 'white-balance-sunny' : 'weather-night'}
         />
-        <Menu.Item onPress={onPressSwitchLanguage} title="polish/english" />
+        <Menu.Item
+          onPress={onPressSwitchLanguage}
+          title={currentLanguage === 'en' ? t('common:polishChange') : t('common:englishChange')} />
         <Divider />
-        <Menu.Item onPress={goToHelp} title="Help / Guide" />
-        <Menu.Item onPress={goToAbout} title="About" />
+        <Menu.Item onPress={goToHelp} title={t('navigation:help')} />
+        <Menu.Item onPress={goToAbout} title={t('navigation:about')} />
       </Menu>
       </View>
       ) : null }
@@ -270,7 +271,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
             icon="trash-can"
             onPress={confirmDelete}
           >
-            Delete
+            {t('common:delete')}
           </Button>
           <IconButton
             icon="close"
@@ -333,11 +334,11 @@ export default function UpperAppbar({ navigation, route, options, back }) {
       >
         <Menu.Item
           onPress={printAll}
-          title='Copy whole summary'
+          title={t('copyWholeSummary')}
         />
         <Menu.Item
           onPress={printForCategory}
-          title='Copy current screen'
+          title={t('copyCurrentScreen')}
         />
       </Menu>
       </View>

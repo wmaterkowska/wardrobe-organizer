@@ -3,5 +3,14 @@
   "savePiece": "Zapisz rzecz",
   "addNewOutfit": "Dodaj nową stylizację",
   "saveOutfit": "Zapisz stylizację",
-  "addPhoto": "Dodaj zdjęcie"
+  "addPhoto": "Dodaj zdjęcie",
+  "delete": "Usuń",
+
+  "lightTheme": "Tryb jasny",
+  "darkTheme": "Tryb ciemny",
+  "polishChange": "Zmień na Polski",
+  "englishChange": "Zmień na Angielski",
+
+  "copyWholeSummary": "Skopiuj całe podsumowanie",
+  "copyCurrentScreen": "Skopiuj bieżący ekran"
 }
