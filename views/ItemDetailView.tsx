@@ -62,9 +62,7 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
 // set state for item detail and edit item detail ==================================================
   const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
-  const [isImageEditable, setIsImageEditable] = useState(false);
   const [itemName, setItemName] = useState<string | null>(item.item_name);
-  const [isItemNameEditable, setIsItemNameEditable] = useState(false);
   const [main, setMain] = useState< MainCategory | null>(item.main_category);
   const [isMainEditable, setIsMainEditable] = useState(false);
   const [itemCategory, setItemCategory] = useState<Category | null>(item.category);
@@ -128,66 +126,12 @@ export default function ItemDetailView({ route, navigation }: Props) {
     }
   }, [itemCategory, categories, cuts, itemCuts]);
 
-// functions to toggle edit all button =============================================================
-  const [isEditAll, setIsEditAll] = useState(false);
-  const toggleEditAll = () => {
-    setIsEditAll(!isEditAll);
-  }
-  useEffect(() => {
-    if (isEditAll) {
-      setIsImageEditable(true);
-      setIsItemNameEditable(true);
-      setIsMainEditable(true);
-      setIsCategoryEditable(true);
-      setIsColorsEditable(true);
-      setIsPatternsEditable(true);
-      setIsFitsEditable(true);
-      setIsCutsEditable(true);
-      setIsTextilesEditable(true);
-      setIsOccasionsEditable(true);
-      setIsComfortEditable(true);
-      setIsFeelInEditable(true);
-      setIsLikeMeEditable(true);
-      setIsLookLevelEditable(true);
-      setIsFrequencyEditable(true);
-      setIsPriceEditable(true);
-      setIsWantEditable(true);
-    } else {
-      setIsImageEditable(false);
-      setIsItemNameEditable(false);
-      setIsMainEditable(false);
-      setIsCategoryEditable(false);
-      setIsColorsEditable(false);
-      setIsPatternsEditable(false);
-      setIsFitsEditable(false);
-      setIsCutsEditable(false);
-      setIsTextilesEditable(false);
-      setIsOccasionsEditable(false);
-      setIsComfortEditable(false);
-      setIsFeelInEditable(false);
-      setIsLikeMeEditable(false);
-      setIsLookLevelEditable(false);
-      setIsFrequencyEditable(false);
-      setIsPriceEditable(false);
-      setIsWantEditable(false);
-    }
-  }, [isEditAll]);
-
 // functions to handle property sections ===========================================================
-  const toggleImageEdit = () => {
-    setIsImageEditable(!isImageEditable);
-    if (isImageEditable) { updateItemField(realm, item, {image_uri: imageUri }) };
-  };
   const handlePickImage = async () => {
     const uri = await pickOrCaptureImage();
     if (uri) {
       setImageUri(uri);
     }
-  };
-
-  const toggleNameEdit = () => {
-    setIsItemNameEditable(!isItemNameEditable);
-    if (isItemNameEditable) { updateItemField(realm, item, {item_name: itemName }) };
   };
 
   const toggleMainEdit = () => {
@@ -347,28 +291,28 @@ export default function ItemDetailView({ route, navigation }: Props) {
 
   useRegisterSave(saveFn);
 
-// toggle edit mode ================================================================================
-  useEffect(() => {
-    if (!isEditMode) {
-      setIsImageEditable(false);
-      setIsItemNameEditable(false);
-      setIsMainEditable(false);
-      setIsCategoryEditable(false);
-      setIsColorsEditable(false);
-      setIsPatternsEditable(false);
-      setIsFitsEditable(false);
-      setIsCutsEditable(false);
-      setIsTextilesEditable(false);
-      setIsOccasionsEditable(false);
-      setIsComfortEditable(false);
-      setIsFeelInEditable(false);
-      setIsLikeMeEditable(false);
-      setIsLookLevelEditable(false);
-      setIsFrequencyEditable(false);
-      setIsPriceEditable(false);
-      setIsWantEditable(false);
-    }
-  }, [isEditMode, isEditAll])
+// // toggle edit mode ================================================================================
+//   useEffect(() => {
+//     if (!isEditMode) {
+//       setIsImageEditable(false);
+//       setIsItemNameEditable(false);
+//       setIsMainEditable(false);
+//       setIsCategoryEditable(false);
+//       setIsColorsEditable(false);
+//       setIsPatternsEditable(false);
+//       setIsFitsEditable(false);
+//       setIsCutsEditable(false);
+//       setIsTextilesEditable(false);
+//       setIsOccasionsEditable(false);
+//       setIsComfortEditable(false);
+//       setIsFeelInEditable(false);
+//       setIsLikeMeEditable(false);
+//       setIsLookLevelEditable(false);
+//       setIsFrequencyEditable(false);
+//       setIsPriceEditable(false);
+//       setIsWantEditable(false);
+//     }
+//   }, [isEditMode, isEditAll])
 
 // error when there is no item found ===============================================================
   if (!item) {
@@ -384,24 +328,18 @@ export default function ItemDetailView({ route, navigation }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 80, padding: 16, backgroundColor: themeColors.background}}
       showsVerticalScrollIndicator={false}>
       <View>
-        {isEditMode ? ( <>
-          <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
-        </>) : null }
 
-        {imageUri ? (
-        <ImageSection
-          imageUri={imageUri}
-          imageHeight={imageHeight}
-          imageWidth={imageWidth}
-          isEditable={isImageEditable}
-          onChange={handlePickImage}
-          onPressEditIcon={toggleImageEdit}
-        /> ) : null}
+      <ImageSection
+        imageUri={imageUri}
+        imageHeight={imageHeight}
+        imageWidth={imageWidth}
+        isEditable={isEditMode}
+        onChange={handlePickImage}
+      />
 
         <NameSection
           name={itemName}
-          isEditable={isItemNameEditable}
-          onPressEditIcon={toggleNameEdit}
+          isEditable={isEditMode}
           onChange={setItemName}
         />
 
