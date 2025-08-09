@@ -32,7 +32,7 @@ export default function HomeView() {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.surface}]}>
-    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={setShowOnboarding(false)}/>
+    <IconButton icon='chevron-right' style={styles.forwardButton} onPress={onPressForward}/>
       <View style={styles.textContainer}>
         <View>
           <Image
@@ -43,11 +43,11 @@ export default function HomeView() {
         </View>
         {logoFailed ? (
         <Text variant="headlineLarge" style={styles.appName}>
-          {t('about_view.appName')}
+          {t('about_app:name')}
         </Text>
         ) : null }
         <Text variant="titleLarge" style={styles.welcome}>
-          {t('about_view.welcome')}
+          {t('about_app:welcome')}
         </Text>
       </View>
 
@@ -58,12 +58,12 @@ export default function HomeView() {
           style={styles.button}
           contentStyle={{ margin: 'auto'}}
         >
-          <Text variant="titleLarge"> Add New Piece </Text>
+          <Text variant="titleLarge">{t('common:addNewPiece')}</Text>
         </Button>
       </View>
       <AddModal visible={addModalVisible} onClose={() => {
         setAddModalVisible(false);
-        navigation.replace('Main');
+        setShowOnboarding(false);
       }} >
         {<AddItemForm onClose={() => setAddModalVisible(false)}/>}
       </AddModal>

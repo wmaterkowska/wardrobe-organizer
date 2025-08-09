@@ -62,7 +62,7 @@ export default function HomeView({ navigation }: Props) {
     <View style={styles.innerView}>
 
       <Text variant="headlineMedium" style={styles.titleContainer}>
-        {t('about_view.appName')}
+        {t('about_app:name')}
       </Text>
 
       {items.length > 0 ? (

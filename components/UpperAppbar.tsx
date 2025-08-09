@@ -111,10 +111,6 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     console.log('Navigate to Help');
   };
 
-  const goToLicenses = () => {
-    console.log('Navigate to Licenses');
-  };
-
 // toggle themes ===================================================================================
   const { isDark, toggleTheme } = useThemeToggle();
 

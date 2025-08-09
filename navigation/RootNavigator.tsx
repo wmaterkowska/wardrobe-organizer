@@ -7,6 +7,8 @@ import { Item } from '../database/models/Item';
 
 import { useWardrobeContext } from '../context/WardrobeContext';
 
+import { useTranslation } from 'react-i18next';
+
 import { TabNavigationContext } from '../context/TabNavigationContext';
 import { TAB_INDEX_MAP } from './tabRoutes';
 
@@ -33,6 +35,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
 
+  const { t } = useTranslation();
+
   const items = useQuery(Item);
   const tabKeys: TabRouteKey[] = ['home', 'wardrobe', '', 'outfits', 'summary']
 
@@ -52,11 +56,11 @@ export default function RootNavigator() {
   };
 
   const mainRoutes = [
-    { key: 'home', title: 'Home', focusedIcon: 'home-outline' },
-    { key: 'wardrobe', title: 'Wardrobe', focusedIcon: 'tshirt-crew-outline' },
+    { key: 'home', title: t('navigation:home'), focusedIcon: 'home-outline' },
+    { key: 'wardrobe', title: t('navigation:wardrobe'), focusedIcon: 'tshirt-crew-outline' },
     { key: 'add', title: '', focusedIcon: 'plus' }, // Placeholder for FAB
-    { key: 'outfits', title: 'Outfits', focusedIcon: 'hanger' },
-    { key: 'summary', title: 'Summary', focusedIcon: 'chart-pie' },
+    { key: 'outfits', title: t('navigation:outfits'), focusedIcon: 'hanger' },
+    { key: 'summary', title: t('navigation:summary'), focusedIcon: 'chart-pie' },
   ];
 
   return (

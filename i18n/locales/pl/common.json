@@ -1,5 +1,7 @@
 {
-  "common": {
-    "add": "dodaj"
-  }
+  "addNewPiece": "Dodaj nową rzecz",
+  "savePiece": "Zapisz rzecz",
+  "addNewOutfit": "Dodaj nową stylizację",
+  "saveOutfit": "Zapisz stylizację",
+  "addPhoto": "Dodaj zdjęcie"
 }
