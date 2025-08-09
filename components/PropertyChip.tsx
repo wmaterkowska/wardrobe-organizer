@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Chip } from 'react-native-paper';
 import ColorDot from './ColorDot';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = {
   label: string;
   selectable?: boolean;
@@ -25,6 +27,10 @@ export default function PropertyChip({
   colorSize,
   }: Props) {
 
+  const { t } = useTranslation();
+
+  label.replace(' ', '')
+
   return (
     <Chip
       icon={icon}
@@ -37,7 +43,7 @@ export default function PropertyChip({
       selected={selected}
       showSelectedCheck={(selectable && selected) ? true : false}
       avatar={color ? (<ColorDot colorCode={color} size={colorSize} />) : null}
-      >{label}</Chip>
+      >{t(`properties:${label.replaceAll(' ', '')}`)}</Chip>
   )
 }
 
