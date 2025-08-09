@@ -61,19 +61,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
   const [outfitName, setOutfitName] = useState<string | null>(outfit.outfit_name);
   const [imageUri, setImageUri] = useState<string | null>(outfit.image_uri);
   const [outfitOccasions, setOutfitOccasions] = useState<Occasion[]>(outfit.occasions);
-
   const [outfitComfort, setOutfitComfort] = useState<int>(outfit.comfort);
-  const [isComfortEditable, setIsComfortEditable] = useState(false);
   const [outfitFeelIn, setOutfitFeelIn] = useState<FeelIn[]>(outfit.feel_in);
-  const [isFeelInEditable, setIsFeelInEditable] = useState(false);
   const [likeMe, setLikeMe] =  useState(outfit.like_me);
-  const [isLikeMeEditable, setIsLikeMeEditable] = useState(false);
   const [lookLevel, setLookLevel] = useState(outfit.look_level);
-  const [isLookLevelEditable, setIsLookLevelEditable] = useState(false);
   const [frequencyLevel, setFrequencyLevel] = useState(outfit.frequency);
-  const [isFrequencyEditable, setIsFrequencyEditable] = useState(false);
   const [wantDecision, setWantDecision] = useState(outfit.want);
-  const [isWantEditable, setIsWantEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -99,18 +92,10 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((o) => o.id !== occasionFromId.id) : [...prev, occasionFromId]; });
   };
 
-  const toggleComfortEdit = () => {
-    setIsComfortEditable(!isComfortEditable);
-    if (isComfortEditable) { updateOutfitField(realm, outfit, {comfort: outfitComfort})};
-  };
   const handleComfortSelect = (comfortLevel: int) => {
     setOutfitComfort(comfortLevel)
   };
 
-  const toggleFeelInEdit = () => {
-    setIsFeelInEditable(!isFeelInEditable);
-    if (isFeelInEditable) { updateOutfitField(realm, outfit, {feel_in: outfitFeelIn})};
-  };
   const handleFeelInSelect = (id: string) => {
     const feelInFromId = feels.find((f) => f.id === id);
     setOutfitFeelIn((prev) => {
@@ -118,28 +103,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((f) => f.id !== feelInFromId.id) : [...prev, feelInFromId]; });
   };
 
-  const toggleLikeMeEdit = () => {
-    setIsLikeMeEditable(!isLikeMeEditable);
-    if (isLikeMeEditable) { updateOutfitField(realm, outfit, {like_me: likeMe})};
-  };
   const handleLikeMeSelect = (likeMeLevel: string) => { setLikeMe(likeMeLevel) };
 
-  const toggleLookLevelEdit = () => {
-    setIsLookLevelEditable(!isLookLevelEditable);
-    if (isLookLevelEditable) { updateOutfitField(realm, outfit, {look_level: lookLevel})};
-  };
   const handleLookLevelSelect = (lookLvl: string) => { setLookLevel(lookLvl) };
 
-  const toggleFrequencyEdit = () => {
-    setIsFrequencyEditable(!isFrequencyEditable);
-    if (isFrequencyEditable) { updateOutfitField(realm, outfit, {frequency: frequencyLevel})};
-  };
   const handleFrequencySelect = (freqLvl: string) => { setFrequencyLevel(freqLvl) };
 
-  const toggleWantEdit = () => {
-    setIsWantEditable(!isWantEditable);
-    if (isWantEditable) { updateOutfitField(realm, outfit, {want: wantDecision})};
-  };
   const handleWantSelect = (wantDec: string) => { setWantDecision(wantDec) };
 
 // save to database function =======================================================================
@@ -204,9 +173,8 @@ export default function OutfitDetailView({ route, navigation }: Props) {
         <Divider style={styles.divider}/>
         <ComfortSection
           comfortLevel={outfit.comfort}
-          isEditable={isComfortEditable}
+          isEditable={isEditMode}
           onChange={handleComfortSelect}
-          onPressEditIcon={toggleComfortEdit}
         />
 
         <Divider style={styles.divider}/>
@@ -223,32 +191,28 @@ export default function OutfitDetailView({ route, navigation }: Props) {
         <QuestionSection
           property={'like_me'}
           value={outfit.like_me}
-          isEditable={isLikeMeEditable}
+          isEditable={isEditMode}
           handleSelect={handleLikeMeSelect}
-          onPressEditIcon={toggleLikeMeEdit}
         />
 
         <QuestionSection
           property={'look_level'}
           value={outfit.look_level}
-          isEditable={isLookLevelEditable}
+          isEditable={isEditMode}
           handleSelect={handleLookLevelSelect}
-          onPressEditIcon={toggleLookLevelEdit}
         />
 
         <QuestionSection
           property={'frequency'}
           value={outfit.frequency}
-          isEditable={isFrequencyEditable}
+          isEditable={isEditMode}
           handleSelect={handleFrequencySelect}
-          onPressEditIcon={toggleFrequencyEdit}
         />
 
         <WantSection
           value={outfit.want}
-          isEditable={isWantEditable}
+          isEditable={isEditMode}
           handleSelect={handleWantSelect}
-          onPressEditIcon={toggleWantEdit}
         />
 
       </View>
