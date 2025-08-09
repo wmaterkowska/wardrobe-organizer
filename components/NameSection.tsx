@@ -7,16 +7,15 @@ type Props = {
   name?: string;
   onChange?: () => void;
   isEditable?: boolean;
-  onPressEditIcon?: () => void;
 }
 
-export default function NameSection({name, onChange, isEditable, onPressEditIcon}: Props) {
+export default function NameSection({name, onChange, isEditable}: Props) {
 
   const { isEditMode, isSelectMode } = useWardrobeContext();
 
   return (
   <View style={styles.nameContainer}>
-    {isEditMode || isEditable ? (
+    {isEditable ? (
       <View style={{width: '100%'}}>
         {!name || !isEditMode ? ( <Text variant="bodyLarge">{isSelectMode ? 'outfit name' : 'item name'}</Text> ) : null }
         { isEditable ? (
@@ -28,9 +27,6 @@ export default function NameSection({name, onChange, isEditable, onPressEditIcon
         /> ) : <Text variant="headlineLarge">{name}</Text> }
       </View>
       ) : <Text variant="headlineLarge">{name}</Text> }
-    { isEditMode ? (
-      <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
-    ) : null }
   </View>
   )
 }

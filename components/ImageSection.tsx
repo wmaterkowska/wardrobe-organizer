@@ -10,7 +10,6 @@ type Props = {
   imageHeight? : int;
   imageWidth?: int;
   isEditable?: boolean;
-  onPressEditIcon?: () => void;
 };
 
 export default function ImageSection({
@@ -19,8 +18,7 @@ export default function ImageSection({
   onChange,
   imageHeight,
   imageWidth,
-  isEditable,
-  onPressEditIcon, }: Props) {
+  isEditable, }: Props) {
 
   const { isEditMode } = useWardrobeContext();
 
@@ -41,9 +39,6 @@ export default function ImageSection({
       <Button onPress={onChange} style={styles.changeButton} >
         {imageUri ? 'Change Photo' : 'Add Photo'}
       </Button> : null }
-    { isEditMode ? (
-      <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
-    ) : null }
   </View>
   );
 }

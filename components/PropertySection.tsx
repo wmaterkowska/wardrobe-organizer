@@ -13,7 +13,6 @@ type Props = {
   handleSelect?: () => void;
   isSingleSelect?: boolean;
   isEditable?: boolean;
-  onPressEditIcon: () => void;
 }
 
 export default function PropertySection({
@@ -23,8 +22,7 @@ export default function PropertySection({
   selectedPropertyIds,
   handleSelect,
   isSingleSelect = false,
-  isEditable,
-  onPressEditIcon, } : Props) {
+  isEditable, } : Props) {
 
   const { isEditMode } = useWardrobeContext();
 
@@ -41,9 +39,6 @@ export default function PropertySection({
           singleSelect={isSingleSelect}
         />
       ) : <Text variant="bodyLarge">{propertyName}</Text> }
-      { isEditMode ? (
-        <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
-      ) : null }
     </View>
   )
 }
