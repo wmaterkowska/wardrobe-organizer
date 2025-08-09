@@ -1,0 +1,7 @@
+{
+  "itemsInWardrobe_one": "Masz <highlight>{{count}}</highlight> przedmiot w swojej szafie.",
+  "itemsInWardrobe_few": "Masz <highlight>{{count}}</highlight> przedmioty w swojej szafie.",
+  "itemsInWardrobe_many": "Masz <highlight>{{count}}</highlight> przedmiotów w swojej szafie.",
+  "itemsInWardrobe_other": "Masz <highlight>{{count}}</highlight> przedmiotów w swojej szafie.",
+  "mostWornColor": ""
+}

@@ -1,0 +1,5 @@
+{
+  "itemsInWardrobe_one": "You have <highlight>{{count}}</highlight> piece in your wardrobe.",
+  "itemsInWardrobe_other": "You have <highlight>{{count}}</highlight> pieces in your wardrobe.",
+  "mostWornColor": ""
+}

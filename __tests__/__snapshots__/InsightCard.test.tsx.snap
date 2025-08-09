@@ -1,0 +1,1641 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`itemsInWardrobe Insight Card renders correctly english with count = 1 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            1
+          </Text>
+           piece in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly english with count = 5 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            5
+          </Text>
+           pieces in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 0 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            5
+          </Text>
+           pieces in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 1 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            1
+          </Text>
+           piece in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 2 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            5
+          </Text>
+           pieces in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 5 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            1
+          </Text>
+           piece in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 22 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            5
+          </Text>
+           pieces in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly polish with count = 25 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            1
+          </Text>
+           piece in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly with count = 1 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            1
+          </Text>
+           piece in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`itemsInWardrobe Insight Card renders correctly with count = 5 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderRadius": 0,
+      "borderTopLeftRadius": 20,
+      "margin": 0,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0,
+      "shadowRadius": 0,
+      "width": "100%",
+    }
+  }
+  testID="card-container-outer-layer"
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "transparent",
+        "borderColor": "transparent",
+        "borderRadius": 0,
+        "borderTopLeftRadius": 20,
+        "borderWidth": 0,
+        "flex": undefined,
+        "padding": 0,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
+      }
+    }
+    testID="card-container"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        [
+          {
+            "borderColor": "transparent",
+          },
+          {
+            "borderWidth": 1,
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+            "zIndex": 2,
+          },
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          },
+        ]
+      }
+      testID="card-outline"
+    />
+    <View
+      style={
+        [
+          {
+            "flexShrink": 1,
+          },
+          undefined,
+        ]
+      }
+      testID="card"
+    >
+      <View
+        borderRadiusStyles={
+          {
+            "borderRadius": 0,
+            "borderTopLeftRadius": 20,
+          }
+        }
+        style={
+          [
+            {
+              "paddingHorizontal": 16,
+            },
+            {
+              "paddingVertical": 16,
+            },
+            {
+              "marginBottom": 20,
+              "marginLeft": 16,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(28, 27, 31, 1)",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontFamily": "System",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "letterSpacing": 0.15,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontWeight": "600",
+                  "marginBottom": 6,
+                },
+              ],
+            ]
+          }
+        >
+          You have 
+          <Text
+            style={
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(28, 27, 31, 1)",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontFamily": "System",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "letterSpacing": 0.4,
+                    "lineHeight": 16,
+                  },
+                  {
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontWeight": "bold",
+                    "marginBottom": 12,
+                  },
+                ],
+              ]
+            }
+          >
+            5
+          </Text>
+           pieces in your wardrobe.
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

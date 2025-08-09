@@ -4,6 +4,8 @@ import { Card, Text, useTheme } from 'react-native-paper';
 import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorDot from './ColorDot';
 
+import { useTranslation, Trans } from 'react-i18next';
+
 type CardType =
   | 'itemsInWardrobe'
   | 'mostWornColor'
@@ -24,14 +26,22 @@ export default function InsightCard({ type, data }: Props) {
   const { colors } = useTheme();
   const themedStyles = styles(colors);
 
+  const { t } = useTranslation();
+
   const renderContent = () => {
     switch (type) {
 
       case 'itemsInWardrobe':
         return (
           <Text style={themedStyles.title} variant="bodyLarge" >
-            You have <Text style={themedStyles.highlight} variant="bodySmall">{data} </Text>
-            pieces in your wardrobe.
+            <Trans
+              ns="insights"
+              i18nKey="itemsInWardrobe"
+              values={{ count: data }}
+              components={{
+                highlight: <Text style={themedStyles.highlight} variant="bodySmall" />
+              }}
+            />
           </Text>
         )
 
