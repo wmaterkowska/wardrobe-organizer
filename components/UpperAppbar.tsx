@@ -21,7 +21,6 @@ import {
   generatePromptWrappedJson } from '../utility/printUtils';
 import { typeQuestionMap } from '../constants/categoryArrays';
 
-
 import { Item } from '../database/models/Item';
 import { Category } from '../database/models/Category';
 
@@ -33,6 +32,7 @@ const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 export default function UpperAppbar({ navigation, route, options, back }) {
 
   const realm = useRealm();
+  const { t } = useTranslation();
   const { currentTabKey } = useTabNavigation();
   const {
     viewType,
@@ -82,7 +82,7 @@ export default function UpperAppbar({ navigation, route, options, back }) {
     setIsFilter(!isFilter);
   }
 
-  const title = getTitle(route.name, route.params, currentTabKey, realm);
+  const title = getTitle(route.name, route.params, currentTabKey, realm, t);
   const [menuVisible, setMenuVisible] = useState(false);
   const menuAnchorRef = useRef(null);
 

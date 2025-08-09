@@ -11,5 +11,8 @@
   "categorySummary": "Category Summary",
   "feelSummary": "Feel Summary",
   "frequencySummary": "Frequency Summary",
-  "AppearanceSummary": "Appearance Summary"
+  "appearanceSummary": "Appearance Summary",
+  "defaultSummary": "Summary",
+  "about": "About",
+  "help": "Help/ Guide"
 }

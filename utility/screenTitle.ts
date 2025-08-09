@@ -5,53 +5,58 @@ export function getTitle(
   routeName: keyof RootStackParamList,
   params: RootStackParamList[keyof RootStackParamList] | undefined,
   currentTabKey: string,
-  realm: Realm
+  realm: Realm,
+  t: undefined,
 ): string {
-  // Stack views
+
   if (routeName === 'ItemDetail' && params && 'itemId' in params) {
     const item = realm.objectForPrimaryKey(Item, params.itemId);
-    return item?.item_name || 'Item Detail';
+    return item?.item_name || t('navigation:itemDetail');
   }
 
   if (routeName === 'OutfitDetail' && params && 'outfitId' in params) {
     const outfit = realm.objectForPrimaryKey(Outfit, params.outfitId);
-    return outfit?.outfit_name || 'Outfit Detail';
+    return outfit?.outfit_name || t('navigation:outfitDetail');
   }
 
   if (routeName === 'SummaryDetail' && params && 'type' in params) {
-    return summaryTypeLabel(params.type);
+    return summaryTypeLabel(params.type, t);
   }
 
   if (routeName === 'About') {
-    return 'About';
+    return t('navigation:about');
+  }
+
+  if (routeName === 'Help') {
+    return t('navigation:help');
   }
 
   // Tab screens
   switch (currentTabKey) {
     case 'home':
-      return 'Welcome';
+      return t('navigation:welcome');
     case 'wardrobe':
-      return 'Your Wardrobe';
+      return t('navigation:yourWardrobe');
     case 'summary':
-      return 'Summaries';
+      return t('navigation:summaries');
     case 'outfits':
-      return 'Outfits';
+      return t('navigation:outfits');
     default:
-      return 'Set{My}Style';
+      return t('about_app:name');
   }
 }
 
-export function summaryTypeLabel(type: string): string {
+export function summaryTypeLabel(type: string, t: undefined): string {
   switch (type) {
     case 'feel':
-      return 'Feel Summary';
+      return t('navigation:feelSummary');
     case 'category':
-      return 'Category Summary';
+      return t('navigation:categorySummary');
     case 'appearance':
-      return 'Appearance Summary';
+      return t('navigation:appearanceSummary');
     case 'frequency':
-      return 'Frequency Summary';
+      return t('navigation:frequencySummary');
     default:
-      return 'Summary';
+      return t('navigation:defaultSummary');
   }
 }

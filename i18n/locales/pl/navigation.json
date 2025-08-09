@@ -6,10 +6,13 @@
   "welcome": "Witaj",
   "yourWardrobe": "Twoja garderoba",
   "summaries": "Podsumowania",
-  "itemDetail": "Szczegóły rzeczy",
+  "itemDetail": "Szczegóły przedmiotu",
   "outfitDetail": "Szczegóły stylizacji",
-  "categorySummary": "Podsumowanie według kategorii",
-  "feelSummary": "Podsumowanie według odczuć",
-  "frequencySummary": "Podsumowanie według częstotliwości",
-  "AppearanceSummary": "Podsumowanie według cdwyglądu"
+  "categorySummary": "Podsumowanie wg kategorii",
+  "feelSummary": "Podsumowanie wg odczuć",
+  "frequencySummary": "Podsumowanie wg częstotliwości",
+  "appearanceSummary": "Podsumowanie wg wyglądu",
+  "defaultSummary": "Podsumowanie",
+  "about": "O aplikacji",
+  "help": "Pomoc/ Przewodnik"
 }
