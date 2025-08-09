@@ -78,7 +78,7 @@ export default function ItemCard({ item, onPress, onLongPress, zoom = 2 }: Props
                 titleStyle={item.image_uri ? {marginLeft: -16, marginTop: -16} : {} }
                 titleVariant="bodyMedium"/>
              ) : null}
-            <Card.Content style={styles.content}>
+            <Card.Content style={item.item_name ? styles.content : {marginTop: -16}}>
             {(!item.image_uri && item.colors) ? (
               <View style={styles.colorSection}>
                 <ColorList colors={item.colors} size={45 /zoom}/>
