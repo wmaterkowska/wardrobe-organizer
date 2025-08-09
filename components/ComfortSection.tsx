@@ -10,10 +10,9 @@ type Props = {
   comfortLevel: int;
   isEditable: boolean;
   onChange?: () => void;
-  onPressEditIcon?: () => void;
 }
 
-export default function ComfortSection({comfortLevel, isEditable, onChange, onPressEditIcon}: Props) {
+export default function ComfortSection({comfortLevel, isEditable, onChange}: Props) {
 
   const { isEditMode } = useWardrobeContext();
 
@@ -25,9 +24,6 @@ export default function ComfortSection({comfortLevel, isEditable, onChange, onPr
       value={comfortLevel}
       isEditable={isEditable}
       onChange={onChange} />
-      { isEditMode ? (
-        <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
-      ) : null }
   </View>
   )
 }

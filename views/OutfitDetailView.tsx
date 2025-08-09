@@ -58,24 +58,15 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
   const { isEditMode, setIsEditMode } = useWardrobeContext();
 // set state for outfit detail and edit outfit detail ==============================================
-  const [imageUri, setImageUri] = useState<string | null>(outfit.image_uri);
-  const [isImageEditable, setIsImageEditable] = useState(false);
   const [outfitName, setOutfitName] = useState<string | null>(outfit.outfit_name);
-  const [isOutfitNameEditable, setIsOutfitNameEditable] = useState(false);
+  const [imageUri, setImageUri] = useState<string | null>(outfit.image_uri);
   const [outfitOccasions, setOutfitOccasions] = useState<Occasion[]>(outfit.occasions);
-  const [isOccasionsEditable, setIsOccasionsEditable] = useState(false);
   const [outfitComfort, setOutfitComfort] = useState<int>(outfit.comfort);
-  const [isComfortEditable, setIsComfortEditable] = useState(false);
   const [outfitFeelIn, setOutfitFeelIn] = useState<FeelIn[]>(outfit.feel_in);
-  const [isFeelInEditable, setIsFeelInEditable] = useState(false);
   const [likeMe, setLikeMe] =  useState(outfit.like_me);
-  const [isLikeMeEditable, setIsLikeMeEditable] = useState(false);
   const [lookLevel, setLookLevel] = useState(outfit.look_level);
-  const [isLookLevelEditable, setIsLookLevelEditable] = useState(false);
   const [frequencyLevel, setFrequencyLevel] = useState(outfit.frequency);
-  const [isFrequencyEditable, setIsFrequencyEditable] = useState(false);
   const [wantDecision, setWantDecision] = useState(outfit.want);
-  const [isWantEditable, setIsWantEditable] = useState(false);
 
 // use hook for sorting and incrementing/adding properties =========================================
   const {
@@ -86,40 +77,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
 
-// functions to toggle edit all button =============================================================
-  const [isEditAll, setIsEditAll] = useState(false);
-  const toggleEditAll = () => {
-    setIsEditAll(!isEditAll);
-  }
-  useEffect(() => {
-    if (isEditAll) {
-      setIsImageEditable(true);
-      setIsOutfitNameEditable(true);
-      setIsOccasionsEditable(true);
-      setIsComfortEditable(true);
-      setIsFeelInEditable(true);
-      setIsLikeMeEditable(true);
-      setIsLookLevelEditable(true);
-      setIsFrequencyEditable(true);
-      setIsWantEditable(true);
-    } else {
-      setIsImageEditable(false);
-      setIsOutfitNameEditable(false);
-      setIsOccasionsEditable(false);
-      setIsComfortEditable(false);
-      setIsFeelInEditable(false);
-      setIsLikeMeEditable(false);
-      setIsLookLevelEditable(false);
-      setIsFrequencyEditable(false);
-      setIsWantEditable(false);
-    }
-  }, [isEditAll]);
-
 // functions to handle property sections ===========================================================
-  const toggleImageEdit = () => {
-    setIsImageEditable(!isImageEditable);
-    if (isImageEditable) { updateOutfitField(realm, outfit, {image_uri: imageUri }) };
-  };
   const handlePickImage = async () => {
     const uri = await pickOrCaptureImage();
     if (uri) {
@@ -127,17 +85,6 @@ export default function OutfitDetailView({ route, navigation }: Props) {
     }
   };
 
-  const toggleNameEdit = () => {
-    setIsOutfitNameEditable(!isOutfitNameEditable);
-    if (isOutfitNameEditable) { updateOutfitField(realm, outfit, {outfit_name: outfitName }) };
-  };
-
-  const toggleOccasionEdit = () => {
-    setIsOccasionsEditable(!isOccasionsEditable);
-    if (isOccasionsEditable) {
-      updateOutfitField(realm, outfit, {occasions: outfitOccasions})
-    };
-  };
   const handleOccasionSelect = (id: string) => {
     const occasionFromId = occasions.find((o) => o.id === id);
     setOutfitOccasions((prev) => {
@@ -145,18 +92,10 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((o) => o.id !== occasionFromId.id) : [...prev, occasionFromId]; });
   };
 
-  const toggleComfortEdit = () => {
-    setIsComfortEditable(!isComfortEditable);
-    if (isComfortEditable) { updateOutfitField(realm, outfit, {comfort: outfitComfort})};
-  };
   const handleComfortSelect = (comfortLevel: int) => {
     setOutfitComfort(comfortLevel)
   };
 
-  const toggleFeelInEdit = () => {
-    setIsFeelInEditable(!isFeelInEditable);
-    if (isFeelInEditable) { updateOutfitField(realm, outfit, {feel_in: outfitFeelIn})};
-  };
   const handleFeelInSelect = (id: string) => {
     const feelInFromId = feels.find((f) => f.id === id);
     setOutfitFeelIn((prev) => {
@@ -164,28 +103,12 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       return isSelected ? prev.filter((f) => f.id !== feelInFromId.id) : [...prev, feelInFromId]; });
   };
 
-  const toggleLikeMeEdit = () => {
-    setIsLikeMeEditable(!isLikeMeEditable);
-    if (isLikeMeEditable) { updateOutfitField(realm, outfit, {like_me: likeMe})};
-  };
   const handleLikeMeSelect = (likeMeLevel: string) => { setLikeMe(likeMeLevel) };
 
-  const toggleLookLevelEdit = () => {
-    setIsLookLevelEditable(!isLookLevelEditable);
-    if (isLookLevelEditable) { updateOutfitField(realm, outfit, {look_level: lookLevel})};
-  };
   const handleLookLevelSelect = (lookLvl: string) => { setLookLevel(lookLvl) };
 
-  const toggleFrequencyEdit = () => {
-    setIsFrequencyEditable(!isFrequencyEditable);
-    if (isFrequencyEditable) { updateOutfitField(realm, outfit, {frequency: frequencyLevel})};
-  };
   const handleFrequencySelect = (freqLvl: string) => { setFrequencyLevel(freqLvl) };
 
-  const toggleWantEdit = () => {
-    setIsWantEditable(!isWantEditable);
-    if (isWantEditable) { updateOutfitField(realm, outfit, {want: wantDecision})};
-  };
   const handleWantSelect = (wantDec: string) => { setWantDecision(wantDec) };
 
 // save to database function =======================================================================
@@ -201,23 +124,8 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       frequency: frequencyLevel,
       want: wantDecision,
     })
-  }, [imageUri, outfitName, outfitOccasions, outfitComfort, outfitFeelIn, likeMe, lookLevel, frequencyLevel, wantDecision]);
+  }, [imageUri, outfitName, outfitOccasions, outfitComfort, outfitFeelIn, likeMe, lookLevel, frequencyLevel, wantDecision, isEditMode]);
   useRegisterSave(saveFn);
-
-// toggle edit mode ================================================================================
-  useEffect(() => {
-    if (!isEditMode) {
-      setIsImageEditable(false);
-      setIsOutfitNameEditable(false);
-      setIsOccasionsEditable(false);
-      setIsComfortEditable(false);
-      setIsFeelInEditable(false);
-      setIsLikeMeEditable(false);
-      setIsLookLevelEditable(false);
-      setIsFrequencyEditable(false);
-      setIsWantEditable(false);
-    }
-  }, [isEditMode, isEditAll, outfitOccasions, outfitFeelIn])
 
 // error when there is no outfit found =============================================================
   if (!outfit) {
@@ -233,14 +141,10 @@ export default function OutfitDetailView({ route, navigation }: Props) {
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 80, padding: 16, backgroundColor: themeColors.background}}
       showsVerticalScrollIndicator={false}>
       <View>
-        {isEditMode ? ( <>
-          <EditAllButtonSection isSwitchOn={isEditAll} onToggleSwitch={toggleEditAll}/>
-        </>) : null }
 
         <NameSection
           name={outfitName}
-          isEditable={isOutfitNameEditable}
-          onPressEditIcon={toggleNameEdit}
+          isEditable={isEditMode}
           onChange={setOutfitName}
         />
 
@@ -248,9 +152,8 @@ export default function OutfitDetailView({ route, navigation }: Props) {
           imageUri={imageUri}
           imageHeight={imageHeight}
           imageWidth={imageWidth}
-          isEditable={isImageEditable}
+          isEditable={isEditMode}
           onChange={handlePickImage}
-          onPressEditIcon={toggleImageEdit}
         />
 
         <ItemList
@@ -259,64 +162,57 @@ export default function OutfitDetailView({ route, navigation }: Props) {
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'occasions'+isOccasionsEditable.toString()}
+          key={'occasions'+isEditMode.toString()}
           title='occasions'
-          properties={(isOccasionsEditable && isEditMode) ? sortedOccasions : outfit.occasions}
-          selectedPropertyIds={(isOccasionsEditable && isEditMode) ? outfitOccasions.map((o) => o.id) : []}
+          properties={(isEditMode) ? sortedOccasions : outfit.occasions}
+          selectedPropertyIds={(isEditMode) ? outfitOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
-          isEditable={isEditMode && isOccasionsEditable}
-          onPressEditIcon={toggleOccasionEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <ComfortSection
           comfortLevel={outfit.comfort}
-          isEditable={isComfortEditable}
+          isEditable={isEditMode}
           onChange={handleComfortSelect}
-          onPressEditIcon={toggleComfortEdit}
         />
 
         <Divider style={styles.divider}/>
         <PropertySection
-          key={'feelIn'+isFeelInEditable.toString()}
+          key={'feelIn'+isEditMode.toString()}
           title={'feel_in'}
-          properties={(isFeelInEditable && isEditMode) ? sortedFeelIns : outfit.feel_in}
-          selectedPropertyIds={(isFeelInEditable && isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
+          properties={(isEditMode) ? sortedFeelIns : outfit.feel_in}
+          selectedPropertyIds={(isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
-          isEditable={isEditMode && isFeelInEditable}
-          onPressEditIcon={toggleFeelInEdit}
+          isEditable={isEditMode}
         />
 
         <Divider style={styles.divider}/>
         <QuestionSection
           property={'like_me'}
           value={outfit.like_me}
-          isEditable={isLikeMeEditable}
+          isEditable={isEditMode}
           handleSelect={handleLikeMeSelect}
-          onPressEditIcon={toggleLikeMeEdit}
         />
 
         <QuestionSection
           property={'look_level'}
           value={outfit.look_level}
-          isEditable={isLookLevelEditable}
+          isEditable={isEditMode}
           handleSelect={handleLookLevelSelect}
-          onPressEditIcon={toggleLookLevelEdit}
         />
 
         <QuestionSection
           property={'frequency'}
           value={outfit.frequency}
-          isEditable={isFrequencyEditable}
+          isEditable={isEditMode}
           handleSelect={handleFrequencySelect}
-          onPressEditIcon={toggleFrequencyEdit}
         />
 
         <WantSection
           value={outfit.want}
-          isEditable={isWantEditable}
+          isEditable={isEditMode}
           handleSelect={handleWantSelect}
-          onPressEditIcon={toggleWantEdit}
         />
 
       </View>

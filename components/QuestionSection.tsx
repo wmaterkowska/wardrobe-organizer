@@ -10,10 +10,9 @@ type Props = {
   value: string;
   isEditable?: boolean;
   handleSelect?: () => void;
-  onPressEditIcon?: () => void;
 }
 
-export default function QuestionSection({property, value, isEditable, handleSelect, onPressEditIcon}: Props) {
+export default function QuestionSection({property, value, isEditable, handleSelect}: Props) {
 
   const { isEditMode } = useWardrobeContext();
 
@@ -33,9 +32,6 @@ export default function QuestionSection({property, value, isEditable, handleSele
         <Button mode='outlined'>{value}</Button>
       </View>
     )}
-    { isEditMode ? (
-      <IconButton icon={isEditable ? "check" : "pencil"} onPress={onPressEditIcon}/>
-    ) : null }
   </View>
   )
 }
