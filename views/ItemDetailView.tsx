@@ -32,7 +32,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 export default function ItemDetailView({ route }: Props) {
 
   const { t } = useTranslation();
-
   const { colors: themeColors } = useTheme();
 
   const realm = useRealm();

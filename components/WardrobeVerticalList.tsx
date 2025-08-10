@@ -3,6 +3,9 @@ import Realm from 'realm';
 import { useRealm } from '@realm/react';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
+
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Button, Surface, useTheme } from 'react-native-paper';
 import ItemCard from './ItemCard';
@@ -19,11 +22,11 @@ type Props = {
   items: Item[];
   numColumns: NumColumns;
   zoom: int;
-  navigation;
+  navigation: NativeStackNavigationProp<RootStackParamList>;
   onLongPressItem?: () => void;
 }
 
-export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem, selectedItems}: Props) {
+export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem}: Props) {
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);

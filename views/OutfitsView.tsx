@@ -170,9 +170,10 @@ export default function OutfitsView() {
                 key={o.id}
                 outfit={o}
                 onPress={() =>
-                navigation.navigate('OutfitDetail', {
-                  outfitId: o.id,
-                })}
+                  navigation.navigate('OutfitDetail', {
+                    outfitId: o.id,
+                  })
+                }
                 onLongPress={onLongPressOutfit}
                 zoom={zoom} />
               )

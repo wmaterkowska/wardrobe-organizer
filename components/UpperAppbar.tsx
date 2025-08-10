@@ -29,7 +29,7 @@ import * as Clipboard from 'expo-clipboard';
 type Props = NativeStackScreenProps<RootStackParamList, 'UpperAppbar'>;
 const UPPER_APPBAR_FOR_WARDROBE_HEIGHT = 60;
 
-export default function UpperAppbar({ navigation, route, options, back }: Props) {
+export default function UpperAppbar({ navigation, route, back }: Props) {
 
   const realm = useRealm();
   const { i18n, t } = useTranslation();
@@ -60,7 +60,7 @@ export default function UpperAppbar({ navigation, route, options, back }: Props)
   const handleBack = () => {
     setIsEditMode(false);
     setIsFilter(false);
-    navigation.goBack();
+    return navigation.goBack();
   };
 
   const cycleZoom = () => {
@@ -231,8 +231,8 @@ export default function UpperAppbar({ navigation, route, options, back }: Props)
       elevated={true}
       statusBarHeight={0}
       >
-      {navigation.canGoBack() ?
-        <Appbar.BackAction onPress={handleBack} /> : null }
+      {back ?
+        <Appbar.BackAction onPress={handleBack} /> : null}
       {!isSelectMode ?
         <Appbar.Content titleStyle={styles.title} title={title} accessibilityLabel={title}/> : null}
 

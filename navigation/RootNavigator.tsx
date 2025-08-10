@@ -55,13 +55,13 @@ export default function RootNavigator() {
     }
   };
 
-  const mainRoutes = [
+  const [mainRoutes] = useState([
     { key: 'home', title: t('navigation:home'), focusedIcon: 'home-outline' },
     { key: 'wardrobe', title: t('navigation:wardrobe'), focusedIcon: 'tshirt-crew-outline' },
     { key: 'add', title: '', focusedIcon: 'plus' }, // Placeholder for FAB
     { key: 'outfits', title: t('navigation:outfits'), focusedIcon: 'hanger' },
     { key: 'summary', title: t('navigation:summary'), focusedIcon: 'chart-pie' },
-  ];
+  ]);
 
   return (
     <TabNavigationContext.Provider value={{ setTabByKey, currentTabKey }}>
@@ -71,7 +71,7 @@ export default function RootNavigator() {
       }}>
       {showOnboarding ? (
         <Stack.Screen name="Onboarding" component={WelcomeView} />
-      ) : (
+      ) : null }
       <Stack.Screen name="Main">
         {() => (
           <MainTabs
@@ -81,7 +81,6 @@ export default function RootNavigator() {
           />
         )}
       </Stack.Screen>
-      )}
       <Stack.Screen name="ItemDetail" component={ItemDetailView} />
       <Stack.Screen name="SummaryDetail" component={SummaryDetailView} />
       <Stack.Screen name="OutfitDetail" component={OutfitDetailView} />

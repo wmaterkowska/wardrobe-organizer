@@ -25,10 +25,13 @@ import WantSection from '../components/WantSection';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'OutfitDetail'>;
 
 export default function OutfitDetailView({ route }: Props) {
 
+  const { t } = useTranslation();
   const { colors: themeColors } = useTheme();
 
   const realm = useRealm();
@@ -163,7 +166,7 @@ export default function OutfitDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'occasions'+isEditMode.toString()}
-          title='occasions'
+          title={t('properties:Occasions')}
           properties={(isEditMode) ? sortedOccasions : outfit.occasions}
           selectedPropertyIds={(isEditMode) ? outfitOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
@@ -180,7 +183,7 @@ export default function OutfitDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'feelIn'+isEditMode.toString()}
-          title={'feel_in'}
+          title={t('properties:FeelIn')}
           properties={(isEditMode) ? sortedFeelIns : outfit.feel_in}
           selectedPropertyIds={(isEditMode) ? outfitFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}
