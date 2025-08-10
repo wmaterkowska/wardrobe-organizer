@@ -55,13 +55,13 @@ export default function RootNavigator() {
     }
   };
 
-  const [mainRoutes] = useState([
+  const mainRoutes =[
     { key: 'home', title: t('navigation:home'), focusedIcon: 'home-outline' },
     { key: 'wardrobe', title: t('navigation:wardrobe'), focusedIcon: 'tshirt-crew-outline' },
     { key: 'add', title: '', focusedIcon: 'plus' }, // Placeholder for FAB
     { key: 'outfits', title: t('navigation:outfits'), focusedIcon: 'hanger' },
     { key: 'summary', title: t('navigation:summary'), focusedIcon: 'chart-pie' },
-  ]);
+  ];
 
   return (
     <TabNavigationContext.Provider value={{ setTabByKey, currentTabKey }}>
