@@ -393,7 +393,7 @@ const cutsToSeed = [
   ];
 
   const occasionsToSeed = [
-    'Everyday/casual',
+    'Everyday/Casual',
     'Casual Lunch/Coffee',
     'School/University',
     'Vacation',
@@ -408,14 +408,27 @@ const cutsToSeed = [
     'Party/Night Out',
     'Wedding',
     'Date',
-    'Holiday gathering',
-    'Special event',
+    'Holiday Gathering',
+    'Special Event',
     'Work/Business',
     'Formal/Event',
     'Spring',
     'Summer',
     'Autumn',
     'Winter',
+    'Hot Weather',
+    'Warm Weather',
+    'Mild Weather',
+    'Cool Weather',
+    'Cold Weather',
+    'Freezing',
+    'Rainy',
+    'Stormy',
+    'Windy',
+    'Snowy',
+    'Humid',
+    'Dry Weather',
+    'Foggy',
    ];
 
   const feelsToSeed = [
@@ -446,7 +459,7 @@ const cutsToSeed = [
     'Tomboy',
     'Fresh',
     'Comfy',
-    'Too much',
+    'Too Much',
     'Uncomfortable',
     'Tight',
   ];
