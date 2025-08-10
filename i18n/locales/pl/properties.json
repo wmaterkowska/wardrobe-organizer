@@ -1,4 +1,15 @@
 {
+  "MainCategory": "główna kategoria",
+  "Category": "kategoria",
+  "Colors": "kolory",
+  "Patterns": "wzory",
+  "Fits": "dopasowanie",
+  "Cuts": "kroje",
+  "Textiles": "tkaniny",
+  "Occasions": "okazje",
+  "Comfort": "komfort",
+  "FeelIn": "odczucia w",
+
   "Clothes": "Ubrania",
   "Accessories": "Akcesoria",
   "Other": "Inne",

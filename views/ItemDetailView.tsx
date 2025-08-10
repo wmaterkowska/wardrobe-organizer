@@ -25,9 +25,13 @@ import ComfortSection from '../components/ComfortSection';
 import QuestionSection from '../components/QuestionSection';
 import WantSection from '../components/WantSection';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
 export default function ItemDetailView({ route }: Props) {
+
+  const { t } = useTranslation();
 
   const { colors: themeColors } = useTheme();
 
@@ -254,7 +258,7 @@ export default function ItemDetailView({ route }: Props) {
 
         <View style={isEditMode ? styles.editCategories : styles.categories} >
           <PropertySection
-            title='main category'
+            title={t('properties:MainCategory')}
             propertyName={main?.name}
             properties={mains}
             selectedPropertyIds={[main?.id]}
@@ -265,7 +269,7 @@ export default function ItemDetailView({ route }: Props) {
           {main ? <Text variant="bodyMedium"> > </Text> : null}
           <PropertySection
             key={'categories'+main.id.toString()+filteredCategories[0].name}
-            title='category'
+            title={t('properties:Category')}
             propertyName={itemCategory?.name}
             properties={filteredCategories}
             selectedPropertyIds={[itemCategory?.id]}
@@ -287,7 +291,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'patterns'+isEditMode.toString()}
-          title='patterns'
+          title={t('properties:Patterns')}
           properties={(isEditMode) ? sortedPatterns : item.patterns}
           selectedPropertyIds={(isEditMode) ? itemPatterns.map((p) => p.id) : []}
           handleSelect={handlePatternSelect}
@@ -297,7 +301,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'fits'+isEditMode.toString()}
-          title='fits'
+          title={t('properties:Fits')}
           properties={isEditMode ? sortedFits : item.fits}
           selectedPropertyIds={isEditMode ? itemFits.map((f) => f.id) : []}
           handleSelect={handleFitSelect}
@@ -307,7 +311,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           kay={'cuts'+isEditMode.toString()}
-          title='cuts'
+          title={t('properties:Cuts')}
           properties={(isEditMode) ? filteredCuts : item.cuts}
           selectedPropertyIds={(isEditMode) ? itemCuts.map((c) => c.id) : []}
           handleSelect={handleCutSelect}
@@ -317,7 +321,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'textiles'+isEditMode.toString()}
-          title='textiles'
+          title={t('properties:Textiles')}
           properties={(isEditMode) ? sortedTextiles : item.textiles}
           selectedPropertyIds={(isEditMode) ? itemTextiles.map((t) => t.id) : []}
           handleSelect={handleTextileSelect}
@@ -327,7 +331,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'occasions'+isEditMode.toString()}
-          title='occasions'
+          title={t('properties:Occasions')}
           properties={(isEditMode) ? sortedOccasions : item.occasions}
           selectedPropertyIds={(isEditMode) ? itemOccasions.map((o) => o.id) : []}
           handleSelect={handleOccasionSelect}
@@ -345,7 +349,7 @@ export default function ItemDetailView({ route }: Props) {
         <Divider style={styles.divider}/>
         <PropertySection
           key={'feelIn'+isEditMode.toString()}
-          title={'feel_in'}
+          title={t('properties:FeelIn')}
           properties={(isEditMode) ? sortedFeelIns : item.feel_in}
           selectedPropertyIds={(isEditMode) ? itemFeelIn.map((f) => f.id) : []}
           handleSelect={handleFeelInSelect}

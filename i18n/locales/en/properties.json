@@ -1,4 +1,15 @@
 {
+  "MainCategory": "main category",
+  "Category": "category",
+  "Colors": "colors",
+  "Patterns": "patterns",
+  "Fits": "fits",
+  "Cuts": "cuts",
+  "Textiles": "textiles",
+  "Occasions": "occasions",
+  "Comfort": "comfort",
+  "FeelIn": "feel in",
+
   "Clothes":  "Clothes",
   "Accessories":  "Accessories",
   "Other": "Other",
