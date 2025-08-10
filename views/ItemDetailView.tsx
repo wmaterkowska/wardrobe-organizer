@@ -27,7 +27,7 @@ import WantSection from '../components/WantSection';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ItemDetail'>;
 
-export default function ItemDetailView({ route, navigation }: Props) {
+export default function ItemDetailView({ route }: Props) {
 
   const { colors: themeColors } = useTheme();
 
@@ -35,8 +35,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
   const { mains, categories, colors, patterns, fits, cuts, textiles, occasions, feels } = useItemFormData();
   const { itemId } = route.params;
   const item = realm.objectForPrimaryKey<Item>('Item', itemId);
-
-  const questions = [];
 
 // Find image width and height =====================================================================
   const [imageHeight, setImageHeight] = useState(200);
@@ -56,20 +54,20 @@ export default function ItemDetailView({ route, navigation }: Props) {
         console.warn('Image.getSize failed:', error);
       }
     );
-  }, [imageUri, main, itemCategory]);
+  }, [imageUri]);
 
   const { isEditMode, setIsEditMode, saveChanges } = useWardrobeContext();
-
 // set state for item detail and edit item detail ==================================================
   const [imageUri, setImageUri] = useState<string | null>(item.image_uri);
   const [itemName, setItemName] = useState<string | null>(item.item_name);
   const [main, setMain] = useState< MainCategory | null>(item.main_category);
   const [itemCategory, setItemCategory] = useState<Category | null>(item.category);
+  const [filteredCategories, setFilteredCategories] = useState<Realm.Results<Category> | Category[] | null>(categories);
   const [itemColors, setItemColors] = useState<Color[]>(item.colors);
   const [itemPatterns, setItemPatterns] = useState<Pattern[]>(item.patterns);
   const [itemFits, setItemFits] = useState<Fit[]>(item.fits);
   const [itemCuts, setItemCuts] = useState<Cut[]>(item.cuts);
-  const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(null);
+  const [filteredCuts, setFilteredCuts] = useState<Realm.Results<Cut> | Cut[] | null>(cuts);
   const [itemTextiles, setItemTextiles] = useState<Textile[]>(item.textiles);
   const [itemOccasions, setItemOccasions] = useState<Occasion[]>(item.occasions);
   const [itemComfort, setItemComfort] = useState<int>(item.comfort);
@@ -92,13 +90,23 @@ export default function ItemDetailView({ route, navigation }: Props) {
     feels: { getSorted: getSortedFeelIns, incrementOrCreate: incrementOrCreateFeelIn },
   } = useAllPropertyManagers();
 
-  const sortedCategories = getSortedCategories(categories.map(c => c.id));
   const sortedColors = getSortedColors(colors.map(c => c.id));
   const sortedPatterns = getSortedPatterns(patterns.map(p => p.id));
   const sortedFits = getSortedFits(fits.map(f => f.id));
   const sortedTextiles = getSortedTextiles(textiles.map(t => t.id));
   const sortedOccasions = getSortedOccasions(occasions.map(o => o.id));
   const sortedFeelIns = getSortedFeelIns(feels.map(f => f.id));
+
+// use Effect to show categories for main ==========================================================
+  useEffect(() => {
+    if (main) {
+      const sortedCategories = getSortedCategories(categories.map(c => c.id));
+      const categoriesForMain = sortedCategories.filter(cat => cat.main_category.id === main.id);
+      setFilteredCategories(categoriesForMain);
+    } else {
+      setFilteredCategories(categories);
+    }
+  }, [main, categories, itemCategory])
 
 // use Effect to show only cuts connected with chosen category =====================================
   useEffect(() => {
@@ -213,7 +221,6 @@ export default function ItemDetailView({ route, navigation }: Props) {
       want: wantDecision,
     })
   }, [imageUri, itemName, main, itemCategory, itemColors, itemPatterns, itemFits, itemTextiles, itemOccasions, itemComfort, itemFeelIn, likeMe, lookLevel, frequencyLevel, priceLevel, wantDecision, isEditMode]);
-
   useRegisterSave(saveFn);
 
 // error when there is no item found ===============================================================
@@ -257,9 +264,10 @@ export default function ItemDetailView({ route, navigation }: Props) {
           />
           {main ? <Text variant="bodyMedium"> > </Text> : null}
           <PropertySection
+            key={'categories'+main.id.toString()+filteredCategories[0].name}
             title='category'
             propertyName={itemCategory?.name}
-            properties={sortedCategories?.filter((c) => c.main_category?.id === main?.id)}
+            properties={filteredCategories}
             selectedPropertyIds={[itemCategory?.id]}
             handleSelect={handleCategorySelect}
             isSingleSelect={true}

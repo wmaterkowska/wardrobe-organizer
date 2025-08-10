@@ -27,7 +27,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'OutfitDetail'>;
 
-export default function OutfitDetailView({ route, navigation }: Props) {
+export default function OutfitDetailView({ route }: Props) {
 
   const { colors: themeColors } = useTheme();
 
@@ -131,7 +131,7 @@ export default function OutfitDetailView({ route, navigation }: Props) {
   if (!outfit) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Outfit not found.</Text>
+        <Text>Outfit not found. Add your first outfit!</Text>
       </View>
     );
   }

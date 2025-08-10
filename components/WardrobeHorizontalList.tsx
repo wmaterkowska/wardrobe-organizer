@@ -20,7 +20,6 @@ type Props = {
   items: Item[];
   navigation;
   onLongPressItem?: () => void;
-
 }
 
 export default function WardrobeHorizontalList({items, navigation, onLongPressItem} : Props) {
@@ -60,6 +59,8 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
     setMainChosen(null);
     setItemsForMain(items);
   };
+
+console.log(navigation.getState())
 
   return (
     <View style={{ flex: 1 }}>
