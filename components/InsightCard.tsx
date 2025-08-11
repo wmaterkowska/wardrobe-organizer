@@ -48,15 +48,10 @@ export default function InsightCard({ type, data }: Props) {
       case 'mostWornColor':
         return (
           <>
-            <Text variant="bodyLarge" style={themedStyles.title}>Most Worn Color</Text>
+            <Text variant="bodyLarge" style={themedStyles.title}>{t('insights:mostWornColor')}</Text>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              {data.name ? (
-                <>
-                  <Text style={themedStyles.subtitle} variant="bodySmall">{data.name}</Text>
-                  <ColorDot colorCode={data.color_code}/>
-                </>
-                ) : <Text style={themedStyles.subtitle} variant="bodySmall">?</Text>
-              }
+              <Text style={themedStyles.subtitle} variant="bodySmall">{t(`properties:${data.name}`)}</Text>
+              <ColorDot colorCode={data.color_code}/>
             </View>
           </>
         );
@@ -64,7 +59,7 @@ export default function InsightCard({ type, data }: Props) {
       case 'recentlyAdded':
         return (
           <View style={themedStyles.cardWithImage}>
-            <Text style={themedStyles.title} variant="bodyLarge" >Recently Added</Text>
+            <Text style={themedStyles.title} variant="bodyLarge" >{t('insights:recentlyAdded')}</Text>
             {data.image_uri ? (
               <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
               ) : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item_name}</Text>
@@ -76,8 +71,8 @@ export default function InsightCard({ type, data }: Props) {
         return (
           <View style={themedStyles.cardWithImage}>
             <View>
-              <Text style={themedStyles.title} variant="bodyLarge">Time to Declutter?</Text>
-              <Text style={themedStyles.subtitle} variant="bodySmall">Piece you almost forget about</Text>
+              <Text style={themedStyles.title} variant="bodyLarge">{t('insights:declutterTitle')}</Text>
+              <Text style={themedStyles.subtitle} variant="bodySmall">{t('insights:declutterSubtitle')}</Text>
             </View>
             {data.image_uri ? (
               <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
@@ -89,9 +84,9 @@ export default function InsightCard({ type, data }: Props) {
       case 'favouriteFit':
         return (
           <>
-            <Text style={themedStyles.title} variant="bodyLarge">Your favourite fit is </Text>
+            <Text style={themedStyles.title} variant="bodyLarge">{t('insights:favouriteFit')}</Text>
             {data.name ?
-              <Text style={themedStyles.highlight} variant="bodySmall">{data.name}</Text>
+              <Text style={themedStyles.highlight} variant="bodySmall">{t(`properties:${data.name}`)}</Text>
               : <Text style={themedStyles.highlight} variant="bodySmall">?</Text>
             }
           </>
@@ -102,12 +97,12 @@ export default function InsightCard({ type, data }: Props) {
           <View style={themedStyles.cardWithImage}>
             {data.image_uri || data.name ? (
               <>
-                <Text style={themedStyles.title} variant="bodyLarge">You feel exactly like you in</Text>
+                <Text style={themedStyles.title} variant="bodyLarge">{t('insights:theBestFeel')}</Text>
                 {data.image_uri ?
                   <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
                   : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item_name}</Text> }
               </>
-              ) : <Text style={themedStyles.title} variant="bodyLarge">You haven't added a piece that truly feels like 'you' yet.</Text>
+              ) : <Text style={themedStyles.title} variant="bodyLarge">{t('insights:theBestFeelNone')}</Text>
             }
           </View>
         );
@@ -117,12 +112,21 @@ export default function InsightCard({ type, data }: Props) {
           <View style={themedStyles.cardWithImage}>
             {data.feelIn && data.item ? (
               <>
-                <Text style={themedStyles.title} variant="bodyLarge">You feel <Text style={themedStyles.subtitle} variant="bodySmall">{data.feelIn.name}</Text> in</Text>
+                <Text style={themedStyles.title} variant="bodyLarge">
+                  <Trans
+                    ns="insights"
+                    i18nKey="feelIn"
+                    values={{ feel: t(`properties:${data.feelIn.name}`) }}
+                    components={{
+                      highlight: <Text style={themedStyles.subtitle} variant="bodySmall" />
+                    }}
+                    />
+                </Text>
                 {data.item.image_uri ?
                   <Image source={data.item.image_uri ? {uri: data.item.image_uri} : ''} style={themedStyles.image} />
                   : <Text style={themedStyles.subtitle} variant="bodySmall">{data.item.item_name}</Text>
                 }
-              </>) : <Text style={themedStyles.title} variant="bodyLarge">Tag your clothes with how they make you feel!</Text>
+              </>) : <Text style={themedStyles.title} variant="bodyLarge">{t('insights:feelInAdd')}</Text>
             }
           </View>
         );
@@ -132,19 +136,19 @@ export default function InsightCard({ type, data }: Props) {
         <View style={themedStyles.cardWithImage}>
           {data.image_uri || data.outfit_name ? (
             <>
-              <Text style={themedStyles.title} variant="bodyLarge">Recently Added Outfit</Text>
+              <Text style={themedStyles.title} variant="bodyLarge">{t('insights:recentOutfit')}</Text>
               {data.image_uri ?
                 <Image source={data.image_uri ? {uri: data.image_uri} : ''} style={themedStyles.image} />
                 : <Text style={themedStyles.subtitle} variant="bodySmall">{data.outfit_name}</Text>
               }
             </>
-            ) : <Text style={themedStyles.title} variant="bodyLarge">Add your first outfit!</Text>
+            ) : <Text style={themedStyles.title} variant="bodyLarge">{t('insights:recentOutfitNone')}</Text>
           }
         </View>
         );
 
       default:
-        return <Text>Unknown card type</Text>;
+        return <Text>{t('insights:unknownCard')}</Text>;
     }
   };
 

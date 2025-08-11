@@ -3,5 +3,16 @@
   "itemsInWardrobe_few": "Masz <highlight>{{count}}</highlight> przedmioty w swojej szafie.",
   "itemsInWardrobe_many": "Masz <highlight>{{count}}</highlight> przedmiotów w swojej szafie.",
   "itemsInWardrobe_other": "Masz <highlight>{{count}}</highlight> przedmiotów w swojej szafie.",
-  "mostWornColor": ""
+  "mostWornColor": "Najpopularniejszy kolor w Twojej szafie:",
+  "recentlyAdded": "Ostatnio dodane:",
+  "declutterTitle": "Czas na porządki?",
+  "declutterSubtitle": "Rzecz, o której prawie zapomniałaś:",
+  "favouriteFit": "Twój ulubiony krój to:",
+  "theBestFeel": "Czujesz się w tym w 100% sobą",
+  "theBestFeelNone": "Nie dodałaś jeszcze rzeczy, w której naprawdę czujesz się sobą.",
+  "feelIn": "Czujesz się <highlight>{{feel}}</highlight> w:",
+  "feelInAdd": "Otaguj swoje ubrania tym, jak się w nich czujesz!",
+  "recentOutfit": "Ostatnio dodana stylizacja:",
+  "recentOutfitNone": "Dodaj swoją pierwszą stylizację!",
+  "unknownCard": "Nieznany typ karty"
 }

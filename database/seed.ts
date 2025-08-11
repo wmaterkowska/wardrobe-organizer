@@ -318,7 +318,7 @@ const patternsToSeed = [
 const fitsToSeed = [
   'Fitted',
   'Regular',
-  'Relaxed',
+  'Relaxed Fit',
   'Loose',
   'Boxy',
   'Oversized',

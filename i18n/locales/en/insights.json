@@ -1,5 +1,16 @@
 {
   "itemsInWardrobe_one": "You have <highlight>{{count}}</highlight> piece in your wardrobe.",
   "itemsInWardrobe_other": "You have <highlight>{{count}}</highlight> pieces in your wardrobe.",
-  "mostWornColor": ""
+  "mostWornColor": "The most popular color in your wardrobe:",
+  "recentlyAdded": "Recently added:",
+  "declutterTitle": "time to declutter?",
+  "declutterSubtitle": "Piece you almost forget about:",
+  "favouriteFit": "Your favourite fit is:",
+  "theBestFeel": "You feel exactly like you in",
+  "theBestFeelNone": "You haven't added a piece that truly feels like 'you' yet.",
+  "feelIn": "You feel <highlight>{{feel}}</highlight> in:",
+  "feelInAdd": "Tag your clothes with how they make you feel!",
+  "recentOutfit": "Recently Added Outfit:",
+  "recentOutfitNone": "Add your first outfit!",
+  "unknownCard": "Unknown card type"
 }
