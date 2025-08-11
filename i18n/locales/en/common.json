@@ -12,5 +12,7 @@
   "englishChange": "Change to English",
 
   "copyWholeSummary": "Copy whole summary",
-  "copyCurrentScreen": "Copy current screen"
+  "copyCurrentScreen": "Copy current screen",
+
+  "noOutfits": "No outfits found. Add your first outfit!"
 }

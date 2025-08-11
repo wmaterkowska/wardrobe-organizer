@@ -31,9 +31,9 @@ export const propertyModelDictionary = {
 export const ALL_OUTFIT_PROPERTIES = {
   occasions: "Occasions",
   comfort: "Comfort",
-  feel_in: "Feels",
-  like_me: "Like Me",
-  look_level: "Look Level",
+  feel_in: "FeelIn",
+  like_me: "LikeMe",
+  look_level: "LookLevel",
   frequency: "Frequency",
   want: "Want",
 }

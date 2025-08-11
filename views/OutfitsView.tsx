@@ -7,6 +7,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 import { useAllPropertyManagers } from '../hooks/useAllPropertyManagers';
 
+import { useTranslation } from 'react-i18next';
+
 import { isRealmList } from '../hooks/useGroupedItems';
 
 import { Outfit } from '../database/models/Outfit';
@@ -18,6 +20,8 @@ import OutfitCard from '../components/OutfitCard';
 import PropertyChip from '../components/PropertyChip';
 
 export default function OutfitsView() {
+
+  const { t } = useTranslation();
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
@@ -110,7 +114,7 @@ export default function OutfitsView() {
   if (!outfits.length) {
     return (
       <View>
-        <Text>No outfits found. Add your first outfit!</Text>
+        <Text>{t('common:noOutfits')}</Text>
       </View>
     )
   }
@@ -131,7 +135,7 @@ export default function OutfitsView() {
               rippleColor='transparent'
               key={idx}
               onPress={() => handlePropertyChoose(k)}
-            >{ALL_OUTFIT_PROPERTIES[k]}</Button>
+            >{t(`properties:${ALL_OUTFIT_PROPERTIES[k]}`)}</Button>
           ))}
         </Surface>
       </ScrollView>
