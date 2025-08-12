@@ -5,6 +5,7 @@ import CustomSegmentedButton from './CustomSegmentedButton';
 import { COMFORT_LEVELS } from '../constants';
 
 import  { useWardrobeContext }  from '../context/WardrobeContext';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   comfortLevel: int;
@@ -14,12 +15,13 @@ type Props = {
 
 export default function ComfortSection({comfortLevel, isEditable, onChange}: Props) {
 
+  const { t } = useTranslation();
   const { isEditMode } = useWardrobeContext();
 
   return (
   <View>
     <CustomSegmentedButton
-      property={'comfort'}
+      property={t('properties:Comfort')}
       levels={COMFORT_LEVELS}
       value={comfortLevel}
       isEditable={isEditable}

@@ -29,8 +29,6 @@ export default function PropertyChip({
 
   const { t } = useTranslation();
 
-  label.replace(' ', '')
-
   return (
     <Chip
       icon={icon}

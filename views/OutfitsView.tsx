@@ -114,7 +114,7 @@ export default function OutfitsView() {
   if (!outfits.length) {
     return (
       <View>
-        <Text>{t('common:noOutfits')}</Text>
+        <Text>{t('common:noOutfitsFind')}</Text>
       </View>
     )
   }

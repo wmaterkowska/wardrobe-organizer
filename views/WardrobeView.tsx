@@ -15,7 +15,11 @@ import { Item } from '../database/models/Item';
 import WardrobeVerticalList from '../components/WardrobeVerticalList';
 import WardrobeHorizontalList from '../components/WardrobeHorizontalList';
 
+import { useTranslation } from 'react-i18next';
+
 export default function WardrobeView() {
+
+  const { t } = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
@@ -46,7 +50,7 @@ export default function WardrobeView() {
   if (!items.length) {
     return (
       <View>
-        <Text>No items found. Add your first piece!</Text>
+        <Text>{t('common:noItemsFind')}</Text>
       </View>
     )
   }

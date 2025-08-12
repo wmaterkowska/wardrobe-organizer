@@ -6,6 +6,8 @@ import ColorList from './ColorList';
 import  { useWardrobeContext }  from '../context/WardrobeContext';
 import { Color } from '../database/index';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = {
   colors?: Color[];
   selectedColorIds?: string[];
@@ -21,11 +23,12 @@ export default function ColorSection({
   isEditable,
   onPressEditIcon, } : Props) {
 
+  const { t } = useTranslation();
   const { isEditMode } = useWardrobeContext();
 
   return (
     <View style={styles.colorsView}>
-      <Text variant="bodyLarge">colors</Text>
+      <Text variant="bodyLarge">{t('properties:Colors')}</Text>
       <ColorList
         colors={colors}
         selectable={isEditable}

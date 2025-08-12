@@ -134,7 +134,7 @@ export default function OutfitDetailView({ route }: Props) {
   if (!outfit) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Outfit not found. Add your first outfit!</Text>
+        <Text>{t('common:noOutfit')}</Text>
       </View>
     );
   }

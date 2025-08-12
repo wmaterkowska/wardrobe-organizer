@@ -18,6 +18,8 @@ import { Color } from '../database/models/Color';
 import { NumColumns, useWardrobeContext } from '../context/WardrobeContext';
 import { ALL_ITEM_PROPERTIES, propertyModelDictionary, LEVELS, WANT_ARRAY } from '../constants/index';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = {
   items: Item[];
   numColumns: NumColumns;
@@ -27,6 +29,8 @@ type Props = {
 }
 
 export default function WardrobeVerticalList({items, numColumns, zoom, navigation, onLongPressItem}: Props) {
+
+  const { t } = useTranslation();
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
@@ -110,7 +114,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
   if (!items.length) {
     return (
       <View>
-        <Text>No items found. Add your first item!</Text>
+        <Text>{t('common:noItemsFind')}</Text>
       </View>
     )
   }
@@ -130,7 +134,7 @@ export default function WardrobeVerticalList({items, numColumns, zoom, navigatio
               rippleColor='transparent'
               key={idx}
               onPress={() => handlePropertyChoose(k)}
-            >{ALL_ITEM_PROPERTIES[k]}</Button>
+            >{t(`properties:${ALL_ITEM_PROPERTIES[k].replaceAll(' ', '')}`)}</Button>
           ))}
         </Surface>
       </ScrollView>

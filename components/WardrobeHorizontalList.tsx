@@ -16,6 +16,8 @@ import { MainCategory } from '../database/models/MainCategory';
 
 import { ALL_ITEM_PROPERTIES } from '../constants/index';
 
+import { useTranslation } from 'react-i18next';
+
 type Props = {
   items: Item[];
   navigation;
@@ -23,6 +25,8 @@ type Props = {
 }
 
 export default function WardrobeHorizontalList({items, navigation, onLongPressItem} : Props) {
+
+  const { t } = useTranslation();
 
   const { colors } = useTheme();
   const themedStyles = styles(colors);
@@ -60,8 +64,6 @@ export default function WardrobeHorizontalList({items, navigation, onLongPressIt
     setItemsForMain(items);
   };
 
-console.log(navigation.getState())
-
   return (
     <View style={{ flex: 1 }}>
       <View>
@@ -73,14 +75,14 @@ console.log(navigation.getState())
             rippleColor='transparent'
             key={m?.id || idx}
             onPress={() => handleMainSelect(m.id)}
-          >{m?.name}</Button>
+          >{t(`properties:${m?.name}`)}</Button>
         ))}
         <Button
           style={[themedStyles.propertyButton, mainChosen === null ? themedStyles.propertyButtonSelected : null]}
           textColor={colors.onBackground}
           rippleColor='transparent'
           onPress={() => handleAll()}
-        >All</Button>
+        >{t('properties:AllMain')}</Button>
       </Surface>
       {isFilter ? (
         <ScrollView
@@ -90,7 +92,7 @@ console.log(navigation.getState())
           <Surface style={themedStyles.propertyButtonsContainer} elevation={0}>
             {Object.keys(ALL_ITEM_PROPERTIES).slice(1).map((k, idx) => (
               <PropertyChip
-                label={k}
+                label={ALL_ITEM_PROPERTIES[k]}
                 onPress={() => setGroupByKey(k)}
                 selected={groupByKey === k ? true : false}
                 key={idx}
@@ -118,7 +120,7 @@ console.log(navigation.getState())
         <View>
         {categoriesFiltered.map((cat, index) => (
           <View style={themedStyles.listContainer} key={index}>
-            <Text variant="titleMedium" style={themedStyles.title}>{cat.name}</Text>
+            <Text variant="titleMedium" style={themedStyles.title}>{t(`properties:${cat.name}`)}</Text>
             <Surface>
             <ScrollView
               horizontal={true}

@@ -14,5 +14,8 @@
   "copyWholeSummary": "Copy whole summary",
   "copyCurrentScreen": "Copy current screen",
 
-  "noOutfits": "No outfits found. Add your first outfit!"
+  "noItemsFind": "No items found. Add your first piece!",
+  "noOutfitsFind": "No outfits found. Add your first outfit!",
+  "noOutfit": "Outfit not found."
+
 }
