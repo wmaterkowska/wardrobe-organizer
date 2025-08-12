@@ -120,15 +120,15 @@ export default function UpperAppbar({ navigation, route, back }: Props) {
   }
   const confirmDelete = () => {
     Alert.alert(
-      'Delete Items',
-      `Are you sure you want to delete selected?`,
+      t('common:delete'),
+      t('common:deleteQuestion'),
       [
         {
-          text: 'Cancel',
+          text: t('common:cancel'),
           style: 'cancel',
         },
         {
-          text: 'Delete',
+          text: t('common:delete'),
           style: 'destructive',
           onPress: triggerDelete,
         },

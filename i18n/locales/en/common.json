@@ -5,6 +5,8 @@
   "saveOutfit": "Save Outfit",
   "addPhoto": "Add Photo",
   "delete": "Delete",
+  "deleteQuestion": "Are you sure you want to delete selected?",
+  "cancel": "Cancel",
 
   "lightTheme": "Light theme",
   "darkTheme": "Dark theme",

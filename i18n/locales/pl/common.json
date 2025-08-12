@@ -5,6 +5,8 @@
   "saveOutfit": "Zapisz stylizację",
   "addPhoto": "Dodaj zdjęcie",
   "delete": "Usuń",
+  "deleteQuestion": "Jesteś pewna, że chcesz usunąć zaznaczone?",
+  "cancel": "Anuluj",
 
   "lightTheme": "Tryb jasny",
   "darkTheme": "Tryb ciemny",
